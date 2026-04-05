@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Sign In" %} — Herbalife{% endblock %}
+
+{% block content %}
+<section style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;">
+  <div style="width:100%;max-width:420px;">
+
+    <div style="text-align:center;margin-bottom:32px;">
+      <img src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha"
+           height="44" alt="Herbalife">
+      <h1 style="font-size:1.6rem;font-weight:300;color:#2d5f5d;margin-top:20px;">
+        {% trans "Sign In" %}
+      </h1>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger" style="border-radius:10px;margin-bottom:20px;">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <form method="post" style="background:#fff;padding:32px;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.08);">
+      {% csrf_token %}
+      {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+      {% endif %}
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:6px;">
+          {% trans "Phone" %}
+        </label>
+        {{ form.phone }}
+        {% if form.phone.errors %}
+          <div style="color:#e8483b;font-size:12px;margin-top:4px;">{{ form.phone.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div style="margin-bottom:24px;">
+        <label style="font-size:13px;font-weight:600;color:#555;display:block;margin-bottom:6px;">
+          {% trans "Password" %}
+        </label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <div style="color:#e8483b;font-size:12px;margin-top:4px;">{{ form.password.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit"
+              style="width:100%;background:#2d5f5d;color:#fff;border:none;padding:14px;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;">
+        {% trans "Sign In" %}
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:20px;font-size:14px;color:#666;">
+      {% trans "Don't have an account?" %}
+      <a href="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}"
+         style="color:#2d5f5d;font-weight:600;">{% trans "Register" %}</a>
+    </p>
+
+  </div>
+</section>
+{% endblock %}

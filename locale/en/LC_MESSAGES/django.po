@@ -1,0 +1,167 @@
+msgid "Home"
+msgstr "Home"
+
+msgid "Products"
+msgstr "Products"
+
+msgid "Cart"
+msgstr "Cart"
+
+msgid "Sign In"
+msgstr "Sign In"
+
+msgid "Sign Out"
+msgstr "Sign Out"
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Search products..."
+msgstr "Search products..."
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Herbalife Logo"
+msgstr "Herbalife Logo"
+
+msgid "Our Products"
+msgstr "Our Products"
+
+msgid "Healthy Weight"
+msgstr "Healthy Weight"
+
+msgid "Fitness"
+msgstr "Fitness"
+
+msgid "Performance"
+msgstr "Performance"
+
+msgid "Daily Nutrition & Health"
+msgstr "Daily Nutrition & Health"
+
+msgid "Skin and Body Care"
+msgstr "Skin and Body Care"
+
+msgid "About Herbalife"
+msgstr "About Herbalife"
+
+msgid "Our Leadership"
+msgstr "Our Leadership"
+
+msgid "Future of Health"
+msgstr "Future of Health"
+
+msgid "Press Room"
+msgstr "Press Room"
+
+msgid "Investor Relations"
+msgstr "Investor Relations"
+
+msgid "Career Opportunities"
+msgstr "Career Opportunities"
+
+msgid "Statement of Typical Distributor Earnings"
+msgstr "Statement of Typical Distributor Earnings"
+
+msgid "Gold Standard Guarantee"
+msgstr "Gold Standard Guarantee"
+
+msgid "Ethics and Compliance"
+msgstr "Ethics and Compliance"
+
+msgid "Get Help"
+msgstr "Get Help"
+
+msgid "Support Center"
+msgstr "Support Center"
+
+msgid "Contact Us"
+msgstr "Contact Us"
+
+msgid "Refund Policy"
+msgstr "Refund Policy"
+
+msgid "Frequently Asked Questions"
+msgstr "Frequently Asked Questions"
+
+msgid "For Distributors"
+msgstr "For Distributors"
+
+msgid "Distributor Login"
+msgstr "Distributor Login"
+
+msgid "Business Opportunity"
+msgstr "Business Opportunity"
+
+msgid "Site Map"
+msgstr "Site Map"
+
+msgid "Terms of Use"
+msgstr "Terms of Use"
+
+msgid "Herbalife Privacy Policy"
+msgstr "Herbalife Privacy Policy"
+
+msgid "Herbalife Consumer Health Data Privacy Policy"
+msgstr "Herbalife Consumer Health Data Privacy Policy"
+
+msgid "Cookie Policy"
+msgstr "Cookie Policy"
+
+msgid "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
+msgstr "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
+
+msgid "United States"
+msgstr "United States"
+
+msgid "Your daily collagen, to go"
+msgstr "Your daily collagen, to go"
+
+msgid "Learn More"
+msgstr "Learn More"
+
+msgid "Cellular health, reimagined."
+msgstr "Cellular health, reimagined."
+
+msgid "Skin & body care you can see"
+msgstr "Skin & body care you can see"
+
+msgid "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
+msgstr "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
+
+msgid "Science & quality"
+msgstr "Science & quality"
+
+msgid "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
+msgstr "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
+
+msgid "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
+msgstr "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
+
+msgid "Real people, real success"
+msgstr "Real people, real success"
+
+msgid "Check out these success stories from our community."
+msgstr "Check out these success stories from our community."
+
+msgid "Articles and recipes"
+msgstr "Articles and recipes"
+
+msgid "A collection of articles, recipes and more to support your journey to wellness."
+msgstr "A collection of articles, recipes and more to support your journey to wellness."
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Confirmed"
+msgstr "Confirmed"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "New"
+msgstr "New"
+
+msgid "Best Seller"
+msgstr "Best Seller"

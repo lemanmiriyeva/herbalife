@@ -1,0 +1,294 @@
+from django.db import models
+from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
+
+
+class Category(models.Model):
+    name       = models.CharField(max_length=200, verbose_name=_('Name'))
+    slug       = models.SlugField(max_length=200, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = _('Category')
+        verbose_name_plural = _('Categories')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
+class Product(models.Model):
+    BADGE_CHOICES = [
+        ('',            _('—')),
+        ('New',         _('New')),
+        ('Best Seller', _('Best Seller')),
+    ]
+
+    category       = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='products', verbose_name=_('Category'))
+    name           = models.CharField(max_length=300, verbose_name=_('Name'))
+    slug           = models.SlugField(max_length=300, unique=True, blank=True)
+    size           = models.CharField(max_length=100, blank=True, verbose_name=_('Size'))
+    flavor_name    = models.CharField(max_length=100, blank=True, verbose_name=_('Flavor'))
+    flavor_color   = models.CharField(max_length=20,  blank=True, verbose_name=_('Flavor color'))
+    badge          = models.CharField(max_length=20, choices=BADGE_CHOICES, blank=True, verbose_name=_('Badge'))
+    description    = models.TextField(blank=True, verbose_name=_('Description'))
+    price          = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Price'))
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name=_('Discount price'))
+    price_note     = models.CharField(max_length=50, blank=True, verbose_name=_('Price note'))
+    is_addable     = models.BooleanField(default=True, verbose_name=_('Add to cart'))
+    image          = models.ImageField(upload_to='products/', blank=True, null=True, verbose_name=_('Image'))
+    stock          = models.PositiveIntegerField(default=100, verbose_name=_('Stock'))
+    is_active      = models.BooleanField(default=True, verbose_name=_('Active'))
+    is_featured    = models.BooleanField(default=False, verbose_name=_('Featured'))
+    created_at     = models.DateTimeField(auto_now_add=True)
+    updated_at     = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name        = _('Product')
+        verbose_name_plural = _('Products')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.name)
+            slug, n = base, 1
+            while Product.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'; n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    @property
+    def final_price(self):
+        return float(self.discount_price) if self.discount_price else float(self.price)
+
+
+class Cart(models.Model):
+    session_key = models.CharField(max_length=40, db_index=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+    updated_at  = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Cart #{self.pk}'
+
+    @property
+    def total_price(self):
+        return sum(i.subtotal for i in self.items.select_related('product').all())
+
+    @property
+    def total_items(self):
+        return sum(i.quantity for i in self.items.all())
+
+
+class CartItem(models.Model):
+    cart     = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product  = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['cart', 'product']
+
+    def __str__(self):
+        return f'{self.product.name} x{self.quantity}'
+
+    @property
+    def subtotal(self):
+        return self.product.final_price * self.quantity
+
+
+class User(AbstractUser):
+    phone       = models.CharField(max_length=20, unique=True, blank=True, verbose_name=_('Phone'))
+    # ── Ünvan məlumatları ──
+    address     = models.CharField(max_length=255, blank=True, verbose_name=_('Address'))
+    city        = models.CharField(max_length=100, blank=True, verbose_name=_('City'))
+    postal_code = models.CharField(max_length=20,  blank=True, verbose_name=_('Postal code'))
+    country     = models.CharField(max_length=10,  blank=True, verbose_name=_('Country'),
+                                   help_text='Store code: AZ, US, CA')
+
+    class Meta:
+        verbose_name        = _('User')
+        verbose_name_plural = _('Users')
+
+    def __str__(self):
+        return self.username
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending',   _('Pending')),
+        ('confirmed', _('Confirmed')),
+        ('cancelled', _('Cancelled')),
+    ]
+
+    user            = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders', verbose_name=_('User'))
+    guest_phone     = models.CharField(max_length=20, blank=True, verbose_name=_('Guest phone'))
+    status          = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name=_('Status'))
+    total_price     = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name=_('Total'))
+    note            = models.TextField(blank=True, verbose_name=_('Note'))
+    # ── Ünvan (snapshot) ──
+    address         = models.CharField(max_length=255, blank=True, verbose_name=_('Address'))
+    city            = models.CharField(max_length=100, blank=True, verbose_name=_('City'))
+    postal_code     = models.CharField(max_length=20,  blank=True, verbose_name=_('Postal code'))
+    country         = models.CharField(max_length=10,  blank=True, verbose_name=_('Country'))
+    # ── Ödəniş ──
+    payment_method  = models.CharField(max_length=20, default='paypal', verbose_name=_('Payment method'))
+    paypal_order_id = models.CharField(max_length=100, blank=True, verbose_name=_('PayPal Order ID'))
+    is_paid         = models.BooleanField(default=False, verbose_name=_('Paid'))
+    paid_at         = models.DateTimeField(null=True, blank=True, verbose_name=_('Paid at'))
+    created_at      = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name        = _('Order')
+        verbose_name_plural = _('Orders')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Order #{self.pk}'
+
+    @property
+    def customer_phone(self):
+        return self.user.phone if self.user else self.guest_phone
+
+
+class OrderItem(models.Model):
+    order    = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product  = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    name     = models.CharField(max_length=300)
+    price    = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name        = _('Order item')
+        verbose_name_plural = _('Order items')
+
+    def __str__(self):
+        return f'{self.name} x{self.quantity}'
+
+    @property
+    def subtotal(self):
+        return float(self.price) * self.quantity
+
+
+class BlogCategory(models.Model):
+    name       = models.CharField(max_length=100, verbose_name=_('Name'))
+    slug       = models.SlugField(max_length=100, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = _('Blog Category')
+        verbose_name_plural = _('Blog Categories')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
+class BlogPost(models.Model):
+    category     = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts', verbose_name=_('Category'))
+    title        = models.CharField(max_length=300, verbose_name=_('Title'))
+    slug         = models.SlugField(max_length=300, unique=True, blank=True)
+    excerpt      = models.TextField(blank=True, verbose_name=_('Excerpt'))
+    body         = models.TextField(verbose_name=_('Body'))
+    cover_image  = models.ImageField(upload_to='blog/', blank=True, null=True, verbose_name=_('Cover image'))
+    cover_emoji  = models.CharField(max_length=10, blank=True, default='📝', verbose_name=_('Cover emoji'))
+    author       = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True, related_name='blog_posts', verbose_name=_('Author'))
+    read_time    = models.PositiveIntegerField(default=5, verbose_name=_('Read time (min)'))
+    is_featured  = models.BooleanField(default=False, verbose_name=_('Featured'))
+    is_published = models.BooleanField(default=True, verbose_name=_('Published'))
+    published_at = models.DateTimeField(null=True, blank=True, verbose_name=_('Published at'))
+    created_at   = models.DateTimeField(auto_now_add=True)
+    updated_at   = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name        = _('Blog Post')
+        verbose_name_plural = _('Blog Posts')
+        ordering = ['-published_at', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title)
+            slug, n = base, 1
+            while BlogPost.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{n}'; n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def get_author_name(self):
+        if self.author:
+            return self.author.get_full_name() or self.author.username
+        return 'Herbalife Nutrition'
+
+
+class Store(models.Model):
+    CURRENCY_CHOICES = [
+        ('AZN', 'AZN (₼)'),
+        ('USD', 'USD ($)'),
+        ('CAD', 'CAD (CA$)'),
+    ]
+
+    code          = models.CharField(max_length=10, unique=True, verbose_name=_('Code'))
+    name          = models.CharField(max_length=100, verbose_name=_('Name'))
+    currency      = models.CharField(max_length=10, choices=CURRENCY_CHOICES, verbose_name=_('Currency'))
+    is_active     = models.BooleanField(default=True, verbose_name=_('Active'))
+    country_codes = models.CharField(max_length=200, blank=True, help_text='Vergüllə ayrılmış ISO ölkə kodları: AZ,US,CA', verbose_name=_('Country codes'))
+
+    class Meta:
+        verbose_name        = _('Store')
+        verbose_name_plural = _('Stores')
+
+    def __str__(self):
+        return f'{self.name} ({self.currency})'
+
+
+class ProductStore(models.Model):
+    product        = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='store_prices')
+    store          = models.ForeignKey(Store, on_delete=models.CASCADE, related_name='product_prices')
+    price          = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Price'))
+    discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name=_('Discount price'))
+    is_active      = models.BooleanField(default=True, verbose_name=_('Active in this store'))
+    stock          = models.PositiveIntegerField(default=100, verbose_name=_('Stock'))
+
+    class Meta:
+        unique_together     = ['product', 'store']
+        verbose_name        = _('Product Store Price')
+        verbose_name_plural = _('Product Store Prices')
+
+    def __str__(self):
+        return f'{self.product.name} — {self.store.code}: {self.price}'
+
+    @property
+    def final_price(self):
+        return float(self.discount_price) if self.discount_price else float(self.price)
+
+
+class Wishlist(models.Model):
+    user     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist_items')
+    product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wishlisted_by')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together     = ['user', 'product']
+        verbose_name        = _('Wishlist Item')
+        verbose_name_plural = _('Wishlist Items')
+        ordering            = ['-added_at']
+
+    def __str__(self):
+        return f'{self.user.username} → {self.product.name}'

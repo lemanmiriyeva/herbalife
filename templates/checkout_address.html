@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ünvan məlumatları — Herbalife{% endblock %}
+
+{% block css %}
+<style>
+  :root {
+    --hl-green:  #009A44;
+    --hl-green2: #007A36;
+    --hl-orange: #F47920;
+    --hl-light:  #F5FAF7;
+    --hl-border: #D6EBE0;
+    --hl-text:   #1A2E1A;
+    --hl-muted:  #6B7B6B;
+  }
+
+  .checkout-page { background: var(--hl-light); min-height: calc(100vh - 160px); padding: 40px 0 60px; }
+
+  /* ── Steps ── */
+  .checkout-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 36px;
+  }
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--hl-muted);
+  }
+  .step-item.active { color: var(--hl-green); }
+  .step-item.done   { color: var(--hl-green2); }
+  .step-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-item.active .step-circle { background: var(--hl-green); color: #fff; border-color: var(--hl-green); }
+  .step-item.done   .step-circle { background: var(--hl-green2); color: #fff; border-color: var(--hl-green2); }
+  .step-connector {
+    width: 60px; height: 2px;
+    background: var(--hl-border);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
+  .step-connector.done { background: var(--hl-green2); }
+
+  /* ── Layout ── */
+  .checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── Card ── */
+  .co-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.05);
+  }
+  .co-card-title {
+    font-size: 17px; font-weight: 700; color: var(--hl-text);
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--hl-light);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .co-card-title i { color: var(--hl-green); }
+
+  /* ── Form fields ── */
+  .hl-field { margin-bottom: 16px; }
+  .hl-label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--hl-text); margin-bottom: 6px;
+  }
+  .hl-input {
+    display: block; width: 100%; box-sizing: border-box;
+    padding: 11px 14px; font-size: 14px; color: var(--hl-text);
+    background: #FAFCFA; border: 1.5px solid var(--hl-border);
+    border-radius: 10px; outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .hl-input:focus {
+    border-color: var(--hl-green);
+    box-shadow: 0 0 0 3px rgba(0,154,68,.12);
+    background: #fff;
+  }
+  .hl-input::placeholder { color: #B0C4B0; }
+  .hl-select {
+    display: block; width: 100%; box-sizing: border-box;
+    padding: 11px 14px; font-size: 14px; color: var(--hl-text);
+    background: #FAFCFA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7B6B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+    border: 1.5px solid var(--hl-border);
+    border-radius: 10px; outline: none;
+    -webkit-appearance: none; appearance: none;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .hl-select:focus {
+    border-color: var(--hl-green);
+    box-shadow: 0 0 0 3px rgba(0,154,68,.12);
+    background-color: #fff;
+  }
+  .hl-textarea {
+    display: block; width: 100%; box-sizing: border-box;
+    padding: 11px 14px; font-size: 14px; color: var(--hl-text);
+    background: #FAFCFA; border: 1.5px solid var(--hl-border);
+    border-radius: 10px; outline: none; resize: vertical; min-height: 80px;
+    transition: border-color .2s, box-shadow .2s; font-family: inherit;
+  }
+  .hl-textarea:focus { border-color: var(--hl-green); box-shadow: 0 0 0 3px rgba(0,154,68,.12); background: #fff; }
+  .hl-textarea::placeholder { color: #B0C4B0; }
+
+  .save-addr-wrap {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: var(--hl-light);
+    border-radius: 10px; cursor: pointer; margin-top: 8px;
+  }
+  .save-addr-wrap input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--hl-green); cursor: pointer; }
+  .save-addr-wrap span { font-size: 13.5px; color: var(--hl-text); font-weight: 500; }
+
+  /* ── Order summary ── */
+  .summary-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--hl-light);
+  }
+  .summary-item:last-of-type { border-bottom: none; }
+  .summary-img {
+    width: 52px; height: 52px; border-radius: 10px;
+    object-fit: cover; background: var(--hl-light); flex-shrink: 0;
+  }
+  .summary-img-ph {
+    width: 52px; height: 52px; border-radius: 10px;
+    background: linear-gradient(135deg,#E8F5EE,#D1ECE0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: var(--hl-green); opacity: .6; flex-shrink: 0;
+  }
+  .summary-name { font-size: 13px; font-weight: 600; color: var(--hl-text); }
+  .summary-qty  { font-size: 12px; color: var(--hl-muted); }
+  .summary-price { font-size: 14px; font-weight: 700; color: var(--hl-green); margin-left: auto; white-space: nowrap; }
+
+  .summary-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0 0; margin-top: 4px;
+    border-top: 2px solid var(--hl-border);
+  }
+  .summary-total-label { font-size: 15px; font-weight: 700; color: var(--hl-text); }
+  .summary-total-val   { font-size: 20px; font-weight: 800; color: var(--hl-green); }
+
+  .paypal-note {
+    display: flex; align-items: center; gap: 8px;
+    background: #F0F7FF; border: 1px solid #C8DFFF;
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12.5px; color: #1A5DB5; margin-top: 16px;
+  }
+
+  .btn-paypal {
+    display: block; width: 100%; padding: 14px;
+    background: #FFC43A; color: #003087;
+    font-size: 15px; font-weight: 800;
+    border: none; border-radius: 10px; cursor: pointer;
+    transition: background .2s, transform .15s;
+    margin-top: 16px; letter-spacing: .3px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-paypal:hover { background: #FFB800; transform: translateY(-1px); }
+  .btn-paypal svg { height: 20px; }
+
+  .secure-note {
+    text-align: center; font-size: 12px; color: var(--hl-muted); margin-top: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+
+  @media(max-width:900px){
+    .checkout-grid { grid-template-columns: 1fr; }
+  }
+  @media(max-width:576px){
+    .co-card { padding: 20px 16px; }
+    .checkout-steps { gap: 0; }
+    .step-connector { width: 30px; }
+    .step-item span { display: none; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+<div class="container">
+
+  <!-- Steps -->
+  <div class="checkout-steps">
+    <div class="step-item done">
+      <div class="step-circle"><i class="fas fa-check" style="font-size:11px"></i></div>
+      <span>Səbət</span>
+    </div>
+    <div class="step-connector done"></div>
+    <div class="step-item active">
+      <div class="step-circle">2</div>
+      <span>Ünvan</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-circle">3</div>
+      <span>PayPal</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-circle">4</div>
+      <span>Təsdiq</span>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <div class="checkout-grid">
+
+      <!-- Sol: Ünvan forması -->
+      <div>
+        <div class="co-card">
+          <div class="co-card-title">
+            <i class="fas fa-map-marker-alt"></i> Çatdırılma ünvanı
+          </div>
+
+          <div class="row g-0" style="gap:0">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="hl-field">
+              <div>
+                <label class="hl-label">Ad *</label>
+                <input type="text" name="first_name" class="hl-input"
+                       value="{{ request.user.first_name }}" placeholder="Adınız" required>
+              </div>
+              <div>
+                <label class="hl-label">Soyad</label>
+                <input type="text" name="last_name" class="hl-input"
+                       value="{{ request.user.last_name }}" placeholder="Soyadınız">
+              </div>
+            </div>
+          </div>
+
+          <div class="hl-field">
+            <label class="hl-label">Ünvan (küçə, ev nömrəsi) *</label>
+            <input type="text" name="address" class="hl-input"
+                   value="{{ initial.address }}" placeholder="Nümunə: Nizami küç. 12, mən. 5" required>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="hl-field">
+            <div>
+              <label class="hl-label">Şəhər *</label>
+              <input type="text" name="city" class="hl-input"
+                     value="{{ initial.city }}" placeholder="Bakı" required>
+            </div>
+            <div>
+              <label class="hl-label">Poçt kodu</label>
+              <input type="text" name="postal_code" class="hl-input"
+                     value="{{ initial.postal_code }}" placeholder="AZ1000">
+            </div>
+          </div>
+
+          <div class="hl-field">
+            <label class="hl-label">Ölkə / Mağaza *</label>
+            <select name="country" class="hl-select" required>
+              <option value="">— Seçin —</option>
+              {% for s in stores %}
+              <option value="{{ s.code }}"
+                {% if initial.country == s.code %}selected{% endif %}>
+                {{ s.name }} ({{ s.currency }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="hl-field">
+            <label class="hl-label">Qeyd (isteğe bağlı)</label>
+            <textarea name="note" class="hl-textarea"
+                      placeholder="Xüsusi istəklər, çatdırılma təlimatları..."></textarea>
+          </div>
+
+          <label class="save-addr-wrap">
+            <input type="checkbox" name="save_address" value="1"
+                   {% if request.user.address %}checked{% endif %}>
+            <span>Bu ünvanı profilimə saxla</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Sağ: Sifariş xülasəsi -->
+      <div>
+        <div class="co-card">
+          <div class="co-card-title">
+            <i class="fas fa-receipt"></i> Sifariş xülasəsi
+          </div>
+
+          {% for item in items %}
+          <div class="summary-item">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="summary-img">
+            {% else %}
+              <div class="summary-img-ph"><i class="fas fa-leaf"></i></div>
+            {% endif %}
+            <div style="flex:1;min-width:0">
+              <div class="summary-name">{{ item.product.name }}</div>
+              <div class="summary-qty">× {{ item.quantity }}</div>
+            </div>
+            <div class="summary-price">
+              {{ item.subtotal|floatformat:2 }} {{ currency }}
+            </div>
+          </div>
+          {% endfor %}
+
+          <div class="summary-total-row">
+            <span class="summary-total-label">Cəmi</span>
+            <span class="summary-total-val">{{ cart.total_price|floatformat:2 }} {{ currency }}</span>
+          </div>
+
+          <div class="paypal-note">
+            <i class="fas fa-info-circle"></i>
+            PayPal-a keçid etdikdən sonra ödənişi tamamlayın. AZN ödənişlər USD-ə çevrilir.
+          </div>
+
+          <button type="submit" class="btn-paypal">
+            <svg viewBox="0 0 101 32" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#003087" d="M12.237 2.8L6.437 23.8h3.6l1.5-6h3.4c3.9 0 6.3-2 7-5.9.3-1.7.1-3.1-.7-4-1-1-2.6-1.5-4.8-1.5h-4.2zm1.4 3h2.4c1.3 0 2.1.3 2.5.8.4.5.4 1.3.2 2.3-.5 2.3-1.8 3.5-4 3.5h-2.3l1.2-6.6z"/>
+              <path fill="#009cde" d="M36.437 8.8c-.5 3.1-3 5-6.2 5h-1.6l-1.2 7h-3.5l3.4-19.2h6.7c2.4 0 4 1 4.1 3.3 0 1.4-.5 2.7-1.7 3.9z"/>
+              <path fill="#003087" d="M49.237 8.6h-3.5c-.3 0-.6.2-.7.5l-4.3 12.5-.3-1.1-1.1-9.9c-.1-.5-.5-.9-1-.9h-3.4c-.4 0-.7.3-.6.7l3.3 18.5c.1.4.4.6.8.6h3.1l6.4-20.3c.1-.5-.2-1-.7-1z"/>
+            </svg>
+            PayPal ilə ödə
+          </button>
+
+          <div class="secure-note">
+            <i class="fas fa-lock" style="font-size:11px"></i>
+            256-bit SSL şifrələmə ilə qorunur
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+</div>
+{% endblock %}

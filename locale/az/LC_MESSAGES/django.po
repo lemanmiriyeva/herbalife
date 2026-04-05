@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Herbalife Website 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-25 00:00+0000\n"
+"PO-Revision-Date: 2026-03-25 00:00+0000\n"
+"Last-Translator: Laman <youremail@example.com>\n"
+"Language-Team: Azerbaijani\n"
+"Language: az\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Home"
+msgstr "Ana səhifə"
+
+msgid "Products"
+msgstr "Məhsullar"
+
+msgid "Cart"
+msgstr "Səbət"
+
+msgid "Sign In"
+msgstr "Daxil ol"
+
+msgid "Sign Out"
+msgstr "Çıxış et"
+
+msgid "Register"
+msgstr "Qeydiyyat"
+
+msgid "Search products..."
+msgstr "Məhsul axtar..."
+
+msgid "Search"
+msgstr "Axtar"
+
+msgid "Herbalife Logo"
+msgstr "Herbalife Loqo"
+
+msgid "Our Products"
+msgstr "Məhsullarımız"
+
+msgid "Healthy Weight"
+msgstr "Sağlam Çəki"
+
+msgid "Fitness"
+msgstr "Fitness"
+
+msgid "Performance"
+msgstr "Performans"
+
+msgid "Daily Nutrition & Health"
+msgstr "Gündəlik Qidalanma və Sağlamlıq"
+
+msgid "Skin and Body Care"
+msgstr "Dəri və Bədən Baxımı"
+
+msgid "About Herbalife"
+msgstr "Herbalife Haqqında"
+
+msgid "Our Leadership"
+msgstr "Rəhbərliyimiz"
+
+msgid "Future of Health"
+msgstr "Sağlamlığın Gələcəyi"
+
+msgid "Press Room"
+msgstr "Mətbuat Otağı"
+
+msgid "Investor Relations"
+msgstr "İnvestor Əlaqələri"
+
+msgid "Career Opportunities"
+msgstr "Karyera Fürsətləri"
+
+msgid "Statement of Typical Distributor Earnings"
+msgstr "Tipik Distribyutor Gəlirləri Bəyannaməsi"
+
+msgid "Gold Standard Guarantee"
+msgstr "Qızıl Standart Zəmanəti"
+
+msgid "Ethics and Compliance"
+msgstr "Etika və Uyğunluq"
+
+msgid "Get Help"
+msgstr "Kömək Alın"
+
+msgid "Support Center"
+msgstr "Dəstək Mərkəzi"
+
+msgid "Contact Us"
+msgstr "Bizimlə Əlaqə"
+
+msgid "Refund Policy"
+msgstr "Geri Ödəmə Siyasəti"
+
+msgid "Frequently Asked Questions"
+msgstr "Tez-tez Soruşulan Suallar"
+
+msgid "For Distributors"
+msgstr "Distribyutorlar Üçün"
+
+msgid "Distributor Login"
+msgstr "Distribyutor Girişi"
+
+msgid "Business Opportunity"
+msgstr "Biznes Fürsəti"
+
+msgid "Site Map"
+msgstr "Sayt Xəritəsi"
+
+msgid "Terms of Use"
+msgstr "İstifadə Şərtləri"
+
+msgid "Herbalife Privacy Policy"
+msgstr "Herbalife Məxfilik Siyasəti"
+
+msgid "Herbalife Consumer Health Data Privacy Policy"
+msgstr "Herbalife İstehlakçı Sağlamlıq Məlumatları Məxfilik Siyasəti"
+
+msgid "Cookie Policy"
+msgstr "Cookie Siyasəti"
+
+msgid "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
+msgstr "Şəxsi Məlumatlarımı Satmayın və ya Paylaşmayın / Hədəflənmiş Reklamdan İmtina"
+
+msgid "United States"
+msgstr "Amerika Birləşmiş Ştatları"
+
+msgid "Your daily collagen, to go"
+msgstr "Gündəlik kollageniniz, yanınızda"
+
+msgid "Learn More"
+msgstr "Ətraflı oxu"
+
+msgid "Cellular health, reimagined."
+msgstr "Hüceyrə sağlamlığı, yenidən nəzərdən keçirilmişdir."
+
+msgid "Skin & body care you can see"
+msgstr "Görə biləcəyiniz dəri və bədən baxımı"
+
+msgid "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
+msgstr "Bədəninizə yalnız ən yaxşısını verin – aloe və bitki ekstraktlı dəri və bədən məhsullarımızla."
+
+msgid "Science & quality"
+msgstr "Elm və keyfiyyət"
+
+msgid "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
+msgstr "40 ildən artıq sağlamlıq və qidalanma sahəsində lider olaraq, məhsullarımızın keyfiyyətini, faydalarını və təhlükəsizliyini təmin etmək üçün ciddi testlər aparırıq."
+
+msgid "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
+msgstr "Hər Herbalife tərkibi yüksək keyfiyyət standartlarına uyğun saxlanılır, 'Seed to Feed'. Hər tərkibi çoxsəviyyəli keyfiyyətə nəzarət sistemi ilə elmi şəkildə yoxlayır və test edirik ki, siz ən yaxşı qidalanmanı alasınız."
+
+msgid "Real people, real success"
+msgstr "Həqiqi insanlar, həqiqi uğur"
+
+msgid "Check out these success stories from our community."
+msgstr "İcma üzvlərimizin uğur hekayələrini yoxlayın."
+
+msgid "Articles and recipes"
+msgstr "Məqalələr və reseptlər"
+
+msgid "A collection of articles, recipes and more to support your journey to wellness."
+msgstr "Sizin sağlamlıq yolculuğunuzu dəstəkləmək üçün məqalələr, reseptlər və digər məlumatların toplusu."
+
+msgid "Pending"
+msgstr "Gözləyir"
+
+msgid "Confirmed"
+msgstr "Təsdiqləndi"
+
+msgid "Cancelled"
+msgstr "Ləğv edildi"
+
+msgid "New"
+msgstr "Yeni"
+
+msgid "Best Seller"
+msgstr "Çox satılan"

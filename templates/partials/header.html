@@ -1,0 +1,140 @@
+{% load static i18n %}
+
+<div class="top-bar">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-end gap-3">
+            <i class="fas fa-globe me-1"></i>
+
+            <form action="{% url 'set_language' %}" method="post" id="langForm" style="display:flex;gap:4px;">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" name="language" value="az"
+                        class="lang-btn {% if request.LANGUAGE_CODE == 'az' %}active{% endif %}">
+                    AZ
+                </button>
+                <button type="submit" name="language" value="en"
+                        class="lang-btn {% if request.LANGUAGE_CODE == 'en' %}active{% endif %}">
+                    EN
+                </button>
+            </form>
+        </div>
+        <div class="store-switcher" id="storeSwitcher">
+    <button class="store-btn" id="storeBtn">
+        <span id="storeFlag"><i class="fa-solid fa-location-dot"></i></span>
+        <span id="storeCurrency">...</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" id="storeChevron">
+            <path d="M2 4l4 4 4-4"/>
+        </svg>
+    </button>
+    <div class="store-dropdown" id="storeDropdown">
+        <div class="store-dropdown-header">{% trans "Select your region" %}</div>
+        <div id="storeList">
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img width="167" height="44"
+                 src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha"
+                 alt="Herbalife">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home' %}">
+                        {% trans "Home" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'products' %}">
+                        {% trans "Products" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        {% trans "Cart" %}
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Auth nav -->
+            <ul class="navbar-nav ms-auto me-3">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
+                       data-bs-toggle="dropdown" style="color:#2d5f5d;font-weight:500;">
+                        <i class="fas fa-user-circle me-1"></i>
+                        {{ user.get_full_name|default:user.username|default:user.phone }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                {% trans "Sign Out" %}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}" style="color:#2d5f5d;font-weight:500;">
+                        <i class="fas fa-user me-1"></i>
+                        {% trans "Sign In" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}"
+                       style="background:#2d5f5d;color:#fff !important;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;">
+                        {% trans "Register" %}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="navbar-icons">
+                <div style="position:relative;">
+                    <button onclick="toggleSearchBox()" style="background:none;border:none;cursor:pointer;padding:2px;">
+                        <img width="25" height="25" src="{% static 'images/search.png' %}" alt="{% trans 'Search' %}">
+                    </button>
+
+                    <div id="headerSearchBox"
+                         style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:10px;width:300px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:1000;">
+
+                        <div style="display:flex;align-items:center;gap:6px;background:#f4f4f4;border-radius:8px;padding:7px 12px;">
+                            <img src="{% static 'images/search.png' %}" width="16" style="opacity:.5;flex-shrink:0;">
+                            
+                            <input id="headerSearchInput"
+                                   type="text"
+                                   placeholder="{% trans 'Search products...' %}"
+                                   autocomplete="off"
+                                   style="border:none;background:transparent;outline:none;font-size:14px;width:100%;">
+                        </div>
+
+                        <ul id="headerSearchDropdown"
+                            style="display:none;list-style:none;margin:6px 0 0;padding:0;border-top:1px solid #f0f0f0;">
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
+                    <img width="25" height="25" src="{% static 'images/basket.png' %}" alt="{% trans 'Cart' %}">
+                    <span class="cart-badge"
+                          style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">
+                        0
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

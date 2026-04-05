@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Daxil ol — Herbalife{% endblock %}
+
+{% block css %}
+<style>
+  :root {
+    --hl-green:  #009A44;
+    --hl-green2: #007A36;
+    --hl-light:  #F5FAF7;
+    --hl-border: #D6EBE0;
+    --hl-text:   #1A2E1A;
+    --hl-muted:  #6B7B6B;
+  }
+  .auth-wrapper {
+    min-height: calc(100vh - 160px);
+    background: var(--hl-light);
+    display: flex; align-items: center; padding: 60px 0;
+  }
+  .auth-card {
+    background: #fff; border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,154,68,.12);
+    max-width: 900px; width: 100%; margin: 0 auto;
+    display: flex; min-height: 500px;
+  }
+  .auth-side {
+    width: 360px; flex-shrink: 0;
+    background: linear-gradient(160deg, var(--hl-green) 0%, var(--hl-green2) 100%);
+    border-radius: 20px 0 0 20px;
+    padding: 48px 40px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .auth-side-title { font-size:24px; font-weight:700; color:#fff; line-height:1.35; margin-bottom:10px; }
+  .auth-side-sub   { color:rgba(255,255,255,.8); font-size:13.5px; line-height:1.6; }
+  .auth-side-perks { list-style:none; padding:0; margin:0; }
+  .auth-side-perks li {
+    color:rgba(255,255,255,.9); font-size:13.5px;
+    margin-bottom:10px; padding-left:26px; position:relative;
+  }
+  .auth-side-perks li::before {
+    content:'✓'; position:absolute; left:0; top:1px;
+    width:18px; height:18px; background:rgba(255,255,255,.25);
+    border-radius:50%; display:inline-flex; align-items:center;
+    justify-content:center; font-size:10px;
+  }
+  .auth-form-wrap {
+    flex:1; padding:48px 44px;
+    border-radius:0 20px 20px 0; background:#fff;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .auth-form-title { font-size:22px; font-weight:700; color:var(--hl-text); margin-bottom:4px; }
+  .auth-form-sub   { color:var(--hl-muted); font-size:13.5px; margin-bottom:28px; }
+  .auth-form-sub a { color:var(--hl-green); font-weight:600; text-decoration:none; }
+
+  .hl-field { margin-bottom:18px; }
+  .hl-label { display:block; font-size:13px; font-weight:600; color:var(--hl-text); margin-bottom:6px; }
+  .hl-label-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .hl-label-row span { font-size:13px; font-weight:600; color:var(--hl-text); }
+  .hl-label-row a   { font-size:12px; color:var(--hl-green); font-weight:500; text-decoration:none; }
+
+  .hl-input {
+    display:block; width:100%; box-sizing:border-box;
+    padding:12px 14px; font-size:14.5px; color:var(--hl-text);
+    background:#FAFCFA; border:1.5px solid var(--hl-border);
+    border-radius:10px; outline:none;
+    transition:border-color .2s, box-shadow .2s;
+    -webkit-appearance:none; appearance:none;
+  }
+  .hl-input:focus {
+    border-color:var(--hl-green);
+    box-shadow:0 0 0 3px rgba(0,154,68,.12); background:#fff;
+  }
+  .hl-input::placeholder { color:#B0C4B0; }
+
+  /* identifier field — 3 tab seçici */
+  .id-tabs {
+    display:flex; gap:4px; margin-bottom:8px;
+    background:var(--hl-light); border-radius:10px; padding:4px;
+  }
+  .id-tab {
+    flex:1; padding:7px 8px; border:none; border-radius:7px;
+    background:none; font-size:12.5px; font-weight:600;
+    color:var(--hl-muted); cursor:pointer; transition:all .2s;
+  }
+  .id-tab.active { background:#fff; color:var(--hl-green); box-shadow:0 1px 6px rgba(0,0,0,.08); }
+
+  .hl-pw-wrap {
+    display:flex; align-items:stretch;
+    border:1.5px solid var(--hl-border); border-radius:10px;
+    background:#FAFCFA; transition:border-color .2s, box-shadow .2s; overflow:hidden;
+  }
+  .hl-pw-wrap:focus-within {
+    border-color:var(--hl-green);
+    box-shadow:0 0 0 3px rgba(0,154,68,.12); background:#fff;
+  }
+  .hl-pw-wrap input {
+    flex:1; min-width:0; border:none !important; outline:none !important;
+    box-shadow:none !important; background:transparent;
+    padding:12px 14px; font-size:14.5px; color:var(--hl-text);
+    -webkit-appearance:none; appearance:none;
+  }
+  .hl-pw-wrap input::placeholder { color:#B0C4B0; }
+  .hl-pw-toggle {
+    flex-shrink:0; padding:0 14px; background:none; border:none; outline:none;
+    color:var(--hl-muted); cursor:pointer; font-size:15px;
+    display:flex; align-items:center;
+  }
+  .hl-pw-toggle:hover { color:var(--hl-green); }
+
+  .btn-hl-submit {
+    display:block; width:100%; padding:13px;
+    background:var(--hl-green); color:#fff;
+    font-size:15px; font-weight:600; border:none;
+    border-radius:10px; cursor:pointer;
+    transition:background .2s, transform .15s; margin-top:8px;
+  }
+  .btn-hl-submit:hover { background:var(--hl-green2); transform:translateY(-1px); }
+
+  .alert-hl {
+    background:#FFF3F0; border:1px solid #FDDDD4;
+    border-radius:10px; color:#C0392B;
+    font-size:13.5px; padding:12px 16px; margin-bottom:18px;
+  }
+
+  @media(max-width:768px){
+    .auth-card      { flex-direction:column; }
+    .auth-side      { width:100%; border-radius:20px 20px 0 0; padding:32px 24px; }
+    .auth-form-wrap { border-radius:0 0 20px 20px; padding:32px 24px; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="auth-card">
+
+      <div class="auth-side">
+        <div>
+          <div style="color:#fff;font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:32px">🌿 Herbalife</div>
+          <div class="auth-side-title">Xoş gəldiniz!</div>
+          <p class="auth-side-sub">Hesabınıza daxil olun.</p>
+          <ul class="auth-side-perks mt-3">
+            <li>Sifariş tarixçənizi izləyin</li>
+            <li>Sevimlilər siyahısı yaradın</li>
+            <li>Sürətli checkout prosesi</li>
+            <li>Ekskluziv kampaniyalar</li>
+          </ul>
+        </div>
+        <div style="color:rgba(255,255,255,.4);font-size:11px">© 2025 Herbalife Nutrition</div>
+      </div>
+
+      <div class="auth-form-wrap">
+        <h1 class="auth-form-title">Daxil ol</h1>
+        <p class="auth-form-sub">
+          Hesabınız yoxdur?
+          <a href="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Qeydiyyatdan keçin</a>
+        </p>
+
+        {% if error %}
+        <div class="alert-hl">⚠ {{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+          {% csrf_token %}
+
+          <div class="hl-field">
+            <label class="hl-label">Kimlik</label>
+            <!-- Tab seçici -->
+            <div class="id-tabs">
+              <button type="button" class="id-tab active" onclick="setIdType('phone', this)">📱 Telefon</button>
+              <button type="button" class="id-tab" onclick="setIdType('email', this)">✉️ E-poçt</button>
+              <button type="button" class="id-tab" onclick="setIdType('username', this)">👤 İstifadəçi adı</button>
+            </div>
+            <input type="text" name="identifier" id="identifierInput" class="hl-input"
+                   placeholder="+994 50 000 00 00"
+                   value="{{ identifier|default:'' }}" required autofocus>
+          </div>
+
+          <div class="hl-field">
+            <div class="hl-label-row">
+              <span>Şifrə</span>
+              <a href="#">Unutdum?</a>
+            </div>
+            <div class="hl-pw-wrap">
+              <input type="password" name="password" id="loginPw" placeholder="••••••••" required>
+              <button type="button" class="hl-pw-toggle" onclick="togglePw('loginPw',this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-hl-submit">Daxil ol</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+var placeholders = {
+  phone:    '+994 50 000 00 00',
+  email:    'example@mail.com',
+  username: 'istifadeci_adi',
+};
+var inputTypes = {
+  phone: 'tel', email: 'email', username: 'text',
+};
+
+function setIdType(type, btn) {
+  document.querySelectorAll('.id-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  var inp = document.getElementById('identifierInput');
+  inp.placeholder = placeholders[type];
+  inp.type        = inputTypes[type];
+  inp.focus();
+}
+
+function togglePw(id, btn) {
+  var inp  = document.getElementById(id);
+  var icon = btn.querySelector('i');
+  inp.type       = inp.type === 'password' ? 'text' : 'password';
+  icon.className = inp.type === 'text' ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+
+// Daxil edilmiş dəyərə görə aktiv tab seç
+var val = document.getElementById('identifierInput').value;
+if (val) {
+  if (val.includes('@')) setIdType('email', document.querySelectorAll('.id-tab')[1]);
+  else if (!val.startsWith('+') && isNaN(val.replace(/\s/g,''))) setIdType('username', document.querySelectorAll('.id-tab')[2]);
+}
+</script>
+{% endblock %}

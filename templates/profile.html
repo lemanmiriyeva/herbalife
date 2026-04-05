@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profilim — Herbalife{% endblock %}
+
+{% block css %}
+<style>
+  :root {
+    --hl-green:  #009A44;
+    --hl-green2: #007A36;
+    --hl-orange: #F47920;
+    --hl-light:  #F5FAF7;
+    --hl-border: #D6EBE0;
+    --hl-text:   #1A2E1A;
+    --hl-muted:  #6B7B6B;
+    --hl-card:   #fff;
+  }
+
+  .profile-page { background: var(--hl-light); min-height: calc(100vh - 160px); padding: 40px 0 60px; }
+
+  /* ── Hero bar ── */
+  .profile-hero {
+    background: linear-gradient(135deg, var(--hl-green) 0%, var(--hl-green2) 100%);
+    border-radius: 20px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .profile-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: #fff; font-weight: 700;
+    flex-shrink: 0;
+    border: 3px solid rgba(255,255,255,.5);
+    text-transform: uppercase;
+  }
+  .profile-hero-info h2 { color:#fff; font-size:20px; font-weight:700; margin-bottom:2px; }
+  .profile-hero-info p  { color:rgba(255,255,255,.8); font-size:13.5px; margin:0; }
+  .profile-hero-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,.18);
+    border-radius: 20px;
+    padding: 6px 16px;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,.3);
+  }
+
+  /* ── Nav tabs ── */
+  .profile-tabs {
+    display: flex;
+    gap: 4px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    margin-bottom: 24px;
+  }
+  .profile-tab {
+    flex: 1;
+    padding: 11px 16px;
+    border-radius: 10px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--hl-muted);
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .profile-tab:hover  { background: var(--hl-light); color: var(--hl-text); }
+  .profile-tab.active { background: var(--hl-green); color: #fff; font-weight: 600; }
+  .profile-tab .badge-count {
+    background: rgba(255,255,255,.3);
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 11px;
+  }
+  .profile-tab:not(.active) .badge-count {
+    background: var(--hl-border);
+    color: var(--hl-muted);
+  }
+
+  /* ── Panel card ── */
+  .panel-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.05);
+    display: none;
+  }
+  .panel-card.active { display: block; }
+  .panel-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--hl-text);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--hl-light);
+  }
+
+  /* ── Orders ── */
+  .order-card {
+    border: 1.5px solid var(--hl-border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    transition: border-color .2s;
+  }
+  .order-card:hover { border-color: var(--hl-green); }
+  .order-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .order-num { font-weight:700; color:var(--hl-text); font-size:15px; }
+  .order-date { color:var(--hl-muted); font-size:12.5px; }
+  .order-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .status-pending   { background:#FFF8E7; color:#B8860B; }
+  .status-confirmed { background:#E8F8EF; color:#009A44; }
+  .status-cancelled { background:#FEF0F0; color:#C0392B; }
+  .order-items-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .order-item-chip {
+    background: var(--hl-light);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12.5px;
+    color: var(--hl-text);
+  }
+  .order-total { color:var(--hl-green); font-weight:700; font-size:15px; }
+
+  .empty-state {
+    text-align:center; padding: 48px 20px;
+    color: var(--hl-muted);
+  }
+  .empty-state i { font-size:40px; margin-bottom:12px; opacity:.4; color:var(--hl-green); display:block; }
+  .empty-state p { margin:0; font-size:14px; }
+
+  /* ── Wishlist ── */
+  .wishlist-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:16px; }
+  .wishlist-item-card {
+    border: 1.5px solid var(--hl-border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow .2s, transform .2s;
+    position: relative;
+  }
+  .wishlist-item-card:hover { box-shadow:0 6px 20px rgba(0,154,68,.12); transform:translateY(-3px); }
+  .wishlist-img { width:100%; aspect-ratio:1; object-fit:cover; background:var(--hl-light); }
+  .wishlist-img-placeholder {
+    width:100%; aspect-ratio:1;
+    background: linear-gradient(135deg,#E8F5EE,#D1ECE0);
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px; color:var(--hl-green); opacity:.5;
+  }
+  .wishlist-info { padding:12px; }
+  .wishlist-name { font-size:13px; font-weight:600; color:var(--hl-text); margin-bottom:4px; line-height:1.4; }
+  .wishlist-price { font-size:14px; font-weight:700; color:var(--hl-green); }
+  .wishlist-remove {
+    position:absolute; top:8px; right:8px;
+    width:28px; height:28px; border-radius:50%;
+    background:rgba(255,255,255,.92);
+    border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    color:#e74c3c; font-size:13px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    transition:background .2s;
+  }
+  .wishlist-remove:hover { background:#e74c3c; color:#fff; }
+
+  /* ── Settings form ── */
+  .settings-section { margin-bottom:32px; }
+  .settings-section-title {
+    font-size:13.5px; font-weight:700; color:var(--hl-green);
+    text-transform:uppercase; letter-spacing:.8px;
+    margin-bottom:16px;
+  }
+  .form-label { font-size:13px; font-weight:600; color:var(--hl-text); margin-bottom:5px; }
+  .form-control {
+    border:1.5px solid var(--hl-border);
+    border-radius:10px;
+    padding:11px 16px;
+    font-size:14px;
+    color:var(--hl-text);
+    transition:border-color .2s, box-shadow .2s;
+    background:#FAFCFA;
+  }
+  .form-control:focus {
+    border-color:var(--hl-green);
+    box-shadow:0 0 0 3px rgba(0,154,68,.12);
+    background:#fff;
+    outline:none;
+  }
+  .btn-hl {
+    background:var(--hl-green); color:#fff;
+    border:none; border-radius:10px;
+    padding:11px 28px; font-size:14px; font-weight:600;
+    transition:background .2s, transform .15s; cursor:pointer;
+  }
+  .btn-hl:hover { background:var(--hl-green2); transform:translateY(-1px); }
+  .btn-hl-outline {
+    background:transparent; color:var(--hl-green);
+    border:1.5px solid var(--hl-green); border-radius:10px;
+    padding:10px 24px; font-size:14px; font-weight:600;
+    transition:all .2s; cursor:pointer;
+  }
+  .btn-hl-outline:hover { background:var(--hl-green); color:#fff; }
+
+  .input-icon-wrap { position:relative; }
+  .input-icon-wrap .form-control { padding-left:42px; }
+  .input-icon-wrap .inp-icon {
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    color:var(--hl-muted); font-size:15px;
+  }
+  .pw-toggle {
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer;
+    color:var(--hl-muted); font-size:15px; padding:0;
+  }
+
+  /* Django messages */
+  .msg-success { background:#E8F8EF; border:1px solid #A8DFC0; border-radius:10px; color:#1A7A44; padding:12px 16px; font-size:13.5px; margin-bottom:20px; }
+  .msg-error   { background:#FEF0F0; border:1px solid #FDDDD4; border-radius:10px; color:#C0392B; padding:12px 16px; font-size:13.5px; margin-bottom:20px; }
+
+  @media(max-width:768px){
+    .profile-hero { flex-direction:column; text-align:center; padding:24px 20px; }
+    .profile-hero-badge { margin-left:0; }
+    .profile-tabs { flex-wrap:wrap; }
+    .profile-tab { flex:none; width:calc(50% - 4px); }
+    .panel-card { padding:20px 16px; }
+    .wishlist-grid { grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+<div class="container">
+
+  {% with messages=messages %}
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="{% if msg.tags == 'error' %}msg-error{% else %}msg-success{% endif %} mb-3">
+        <i class="fas fa-{% if msg.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %} me-2"></i>{{ msg }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <!-- Hero -->
+  <div class="profile-hero">
+    <div class="profile-avatar">
+      {{ user.first_name|first|default:user.username|first }}
+    </div>
+    <div class="profile-hero-info">
+      <h2>{{ user.get_full_name|default:user.username }}</h2>
+      <p><i class="fas fa-phone me-1" style="opacity:.7"></i>{{ user.phone }}</p>
+    </div>
+    <div class="profile-hero-badge">
+      <i class="fas fa-leaf me-1"></i>Üzv
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="profile-tabs">
+    <button class="profile-tab active" data-tab="orders">
+      <i class="fas fa-box-open"></i> Sifarişlər
+      <span class="badge-count">{{ orders|length }}</span>
+    </button>
+    <button class="profile-tab" data-tab="wishlist">
+      <i class="fas fa-heart"></i> Sevimlilər
+      <span class="badge-count">{{ wishlist|length }}</span>
+    </button>
+    <button class="profile-tab" data-tab="settings">
+      <i class="fas fa-cog"></i> Parametrlər
+    </button>
+    <button class="profile-tab" data-tab="password">
+      <i class="fas fa-lock"></i> Şifrə
+    </button>
+  </div>
+
+  <!-- Orders panel -->
+  <div class="panel-card active" id="tab-orders">
+    <div class="panel-title"><i class="fas fa-box-open me-2" style="color:var(--hl-green)"></i>Sifariş tarixçəsi</div>
+
+    {% if orders %}
+      {% for order in orders %}
+      <div class="order-card">
+        <div class="order-header">
+          <div>
+            <div class="order-num">#{{ order.id }}</div>
+            <div class="order-date"><i class="fas fa-calendar-alt me-1"></i>{{ order.created_at|date:"d M Y, H:i" }}</div>
+          </div>
+          <span class="order-status status-{{ order.status }}">
+            {{ order.get_status_display }}
+          </span>
+        </div>
+        <div class="order-items-list">
+          {% for item in order.items.all %}
+          <span class="order-item-chip">{{ item.name }} × {{ item.quantity }}</span>
+          {% endfor %}
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="order-total">{{ order.total_price }} ₼</span>
+          {% if order.note %}
+          <small class="text-muted"><i class="fas fa-comment me-1"></i>{{ order.note|truncatechars:40 }}</small>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-shopping-bag"></i>
+        <p>Hələ sifarişiniz yoxdur.<br>
+          <a href="{% url 'products' %}" style="color:var(--hl-green);font-weight:600">Məhsullara baxın →</a>
+        </p>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Wishlist panel -->
+  <div class="panel-card" id="tab-wishlist">
+    <div class="panel-title"><i class="fas fa-heart me-2" style="color:var(--hl-orange)"></i>Sevilmiş məhsullar</div>
+
+    {% if wishlist %}
+      <div class="wishlist-grid">
+        {% for item in wishlist %}
+        <div class="wishlist-item-card" id="wl-card-{{ item.product.pk }}">
+          {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="wishlist-img">
+          {% else %}
+            <div class="wishlist-img-placeholder"><i class="fas fa-leaf"></i></div>
+          {% endif %}
+          <div class="wishlist-info">
+            <div class="wishlist-name">{{ item.product.name }}</div>
+            <div class="wishlist-price">{{ item.product.final_price }} ₼</div>
+            <a href="{% url 'product_detail' item.product.slug %}"
+               style="font-size:12px;color:var(--hl-green);font-weight:600;text-decoration:none;display:block;margin-top:6px">
+              Baxın →
+            </a>
+          </div>
+          <button class="wishlist-remove" onclick="removeWishlist({{ item.product.pk }}, this)"
+                  title="Siyahıdan sil">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-heart"></i>
+        <p>Sevilmiş məhsulunuz yoxdur.<br>
+          <a href="{% url 'products' %}" style="color:var(--hl-green);font-weight:600">Məhsullara baxın →</a>
+        </p>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Settings panel -->
+  <div class="panel-card" id="tab-settings">
+    <div class="panel-title"><i class="fas fa-user-edit me-2" style="color:var(--hl-green)"></i>Şəxsi məlumatlar</div>
+    <form method="post" action="{% url 'profile' %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="update_info">
+      <div class="settings-section">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Ad</label>
+            <input type="text" name="first_name" class="form-control"
+                   value="{{ user.first_name }}" placeholder="Adınız">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Soyad</label>
+            <input type="text" name="last_name" class="form-control"
+                   value="{{ user.last_name }}" placeholder="Soyadınız">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefon nömrəsi</label>
+            <div class="input-icon-wrap">
+              <i class="fas fa-phone inp-icon"></i>
+              <input type="tel" name="phone" class="form-control"
+                     value="{{ user.phone }}" placeholder="+994 50 000 00 00">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn-hl">
+        <i class="fas fa-save me-2"></i>Yadda saxla
+      </button>
+    </form>
+  </div>
+
+  <!-- Password panel -->
+  <div class="panel-card" id="tab-password">
+    <div class="panel-title"><i class="fas fa-shield-alt me-2" style="color:var(--hl-green)"></i>Şifrə dəyiş</div>
+    <form method="post" action="{% url 'profile' %}" style="max-width:460px">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="change_password">
+      <div class="mb-3">
+        <label class="form-label">Köhnə şifrə</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock inp-icon"></i>
+          <input type="password" name="old_password" id="oldPw" class="form-control"
+                 placeholder="Mövcud şifrəniz" required>
+          <button type="button" class="pw-toggle" onclick="togglePw('oldPw',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Yeni şifrə</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock inp-icon"></i>
+          <input type="password" name="new_password" id="newPw" class="form-control"
+                 placeholder="Minimum 6 simvol" required>
+          <button type="button" class="pw-toggle" onclick="togglePw('newPw',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Yeni şifrəni təsdiq edin</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock inp-icon"></i>
+          <input type="password" name="new_password2" id="newPw2" class="form-control"
+                 placeholder="Yenidən daxil edin" required>
+          <button type="button" class="pw-toggle" onclick="togglePw('newPw2',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn-hl">
+        <i class="fas fa-key me-2"></i>Şifrəni dəyiş
+      </button>
+    </form>
+  </div>
+
+</div><!-- /container -->
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+// ── Tab switcher ──────────────────────────────────────
+document.querySelectorAll('.profile-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.profile-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel-card').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    // URL hash-ə yaz
+    history.replaceState(null, '', '#' + btn.dataset.tab);
+  });
+});
+
+// Hash-dən aktiv tab
+const hash = location.hash.replace('#','');
+if (hash) {
+  const btn = document.querySelector(`[data-tab="${hash}"]`);
+  if (btn) btn.click();
+}
+
+// ── Wishlist remove ───────────────────────────────────
+function removeWishlist(productId, btn) {
+  fetch('/wishlist/toggle/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({ product_id: productId }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (!data.in_wishlist) {
+      const card = document.getElementById('wl-card-' + productId);
+      card.style.transition = 'opacity .3s, transform .3s';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(.9)';
+      setTimeout(() => card.remove(), 300);
+
+      // Badge-i yenilə
+      const wlBadge = document.querySelector('[data-tab="wishlist"] .badge-count');
+      if (wlBadge) wlBadge.textContent = data.count;
+    }
+  });
+}
+
+// ── Password toggle ───────────────────────────────────
+function togglePw(id, btn) {
+  const inp  = document.getElementById(id);
+  const icon = btn.querySelector('i');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.classList.replace('fa-eye','fa-eye-slash');
+  } else {
+    inp.type = 'password';
+    icon.classList.replace('fa-eye-slash','fa-eye');
+  }
+}
+
+// ── CSRF helper ───────────────────────────────────────
+function getCookie(name) {
+  const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return v ? v.pop() : '';
+}
+</script>
+{% endblock %}

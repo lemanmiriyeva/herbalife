@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Qeydiyyat — Herbalife{% endblock %}
+
+{% block css %}
+<style>
+  :root {
+    --hl-green:  #009A44;
+    --hl-green2: #007A36;
+    --hl-orange: #F47920;
+    --hl-light:  #F5FAF7;
+    --hl-border: #D6EBE0;
+    --hl-text:   #1A2E1A;
+    --hl-muted:  #6B7B6B;
+  }
+  .auth-wrapper {
+    min-height: calc(100vh - 160px);
+    background: var(--hl-light);
+    display:flex; align-items:center; padding:60px 0;
+  }
+  .auth-card {
+    background:#fff; border-radius:20px;
+    box-shadow:0 8px 40px rgba(0,154,68,.12);
+    max-width:980px; width:100%; margin:0 auto;
+    display:flex; min-height:580px;
+  }
+  .auth-side {
+    width:320px; flex-shrink:0;
+    background:linear-gradient(160deg, var(--hl-orange) 0%, #C85A10 100%);
+    border-radius:20px 0 0 20px;
+    padding:48px 36px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .auth-side-title { font-size:22px; font-weight:700; color:#fff; line-height:1.35; margin-bottom:10px; }
+  .auth-side-sub   { color:rgba(255,255,255,.85); font-size:13px; line-height:1.6; }
+  .step-list { list-style:none; padding:0; margin:0; }
+  .step-list li { color:rgba(255,255,255,.9); font-size:13px; margin-bottom:14px; display:flex; align-items:center; gap:12px; }
+  .step-num { width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,.22); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; flex-shrink:0; }
+
+  .auth-form-wrap {
+    flex:1; padding:40px 44px;
+    border-radius:0 20px 20px 0; background:#fff;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .auth-form-title { font-size:22px; font-weight:700; color:var(--hl-text); margin-bottom:4px; }
+  .auth-form-sub   { color:var(--hl-muted); font-size:13.5px; margin-bottom:22px; }
+  .auth-form-sub a { color:var(--hl-green); font-weight:600; text-decoration:none; }
+
+  .hl-field { margin-bottom:13px; }
+  .hl-label { display:block; font-size:12.5px; font-weight:600; color:var(--hl-text); margin-bottom:5px; }
+
+  .hl-input {
+    display:block; width:100%; box-sizing:border-box;
+    padding:11px 14px; font-size:14px; color:var(--hl-text);
+    background:#FAFCFA; border:1.5px solid var(--hl-border);
+    border-radius:10px; outline:none;
+    transition:border-color .2s, box-shadow .2s;
+    -webkit-appearance:none; appearance:none;
+  }
+  .hl-input:focus { border-color:var(--hl-green); box-shadow:0 0 0 3px rgba(0,154,68,.12); background:#fff; }
+  .hl-input::placeholder { color:#B0C4B0; }
+  .hl-input.is-err { border-color:#e74c3c; }
+  .hl-err { font-size:12px; color:#e74c3c; margin-top:4px; display:block; }
+
+  .hl-pw-wrap {
+    display:flex; align-items:stretch;
+    border:1.5px solid var(--hl-border); border-radius:10px;
+    background:#FAFCFA; transition:border-color .2s, box-shadow .2s; overflow:hidden;
+  }
+  .hl-pw-wrap:focus-within { border-color:var(--hl-green); box-shadow:0 0 0 3px rgba(0,154,68,.12); background:#fff; }
+  .hl-pw-wrap.is-err { border-color:#e74c3c; }
+  .hl-pw-wrap input {
+    flex:1; min-width:0; border:none !important; outline:none !important;
+    box-shadow:none !important; background:transparent;
+    padding:11px 14px; font-size:14px; color:var(--hl-text);
+    -webkit-appearance:none; appearance:none;
+  }
+  .hl-pw-wrap input::placeholder { color:#B0C4B0; }
+  .hl-pw-toggle { flex-shrink:0; padding:0 12px; background:none; border:none; outline:none; color:var(--hl-muted); cursor:pointer; font-size:14px; display:flex; align-items:center; }
+  .hl-pw-toggle:hover { color:var(--hl-green); }
+
+  .pw-strength-wrap { height:3px; border-radius:2px; background:#E0EDE6; margin-top:5px; overflow:hidden; }
+  .pw-strength-bar  { height:100%; width:0; border-radius:2px; transition:width .3s, background .3s; }
+
+  .btn-hl-orange {
+    display:block; width:100%; padding:13px;
+    background:var(--hl-orange); color:#fff;
+    font-size:15px; font-weight:600; border:none;
+    border-radius:10px; cursor:pointer;
+    transition:background .2s, transform .15s; margin-top:6px;
+  }
+  .btn-hl-orange:hover { background:#C85A10; transform:translateY(-1px); }
+
+  .terms-note { font-size:12px; color:var(--hl-muted); text-align:center; margin-top:10px; }
+  .terms-note a { color:var(--hl-green); text-decoration:none; }
+
+  @media(max-width:768px){
+    .auth-card      { flex-direction:column; }
+    .auth-side      { width:100%; border-radius:20px 20px 0 0; padding:28px 24px; }
+    .auth-form-wrap { border-radius:0 0 20px 20px; padding:28px 24px; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="auth-card">
+
+      <div class="auth-side">
+        <div>
+          <div style="color:#fff;font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:28px">🌿 Herbalife</div>
+          <div class="auth-side-title">Sağlam həyatınıza başlayın</div>
+          <p class="auth-side-sub mb-4">Pulsuz hesab açın, sağlamlıq dünyasına qoşulun.</p>
+          <ul class="step-list">
+            <li><span class="step-num">1</span> Məlumatlarınızı daxil edin</li>
+            <li><span class="step-num">2</span> Hesabınızı aktivləşdirin</li>
+            <li><span class="step-num">3</span> Premium məhsullara çatın</li>
+          </ul>
+        </div>
+        <div style="color:rgba(255,255,255,.4);font-size:11px">© 2025 Herbalife Nutrition</div>
+      </div>
+
+      <div class="auth-form-wrap">
+        <h1 class="auth-form-title">Hesab yarat</h1>
+        <p class="auth-form-sub">
+          Artıq hesabınız var?
+          <a href="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Daxil olun</a>
+        </p>
+
+        <form method="post" action="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" novalidate>
+          {% csrf_token %}
+
+          <!-- Ad / Soyad -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" class="hl-field">
+            <div>
+              <label class="hl-label">Ad *</label>
+              <input type="text" name="first_name"
+                     class="hl-input {% if errors.first_name %}is-err{% endif %}"
+                     placeholder="Adınız"
+                     value="{{ form_data.first_name|default:'' }}" required>
+              {% if errors.first_name %}<span class="hl-err">{{ errors.first_name }}</span>{% endif %}
+            </div>
+            <div>
+              <label class="hl-label">Soyad</label>
+              <input type="text" name="last_name" class="hl-input"
+                     placeholder="Soyadınız"
+                     value="{{ form_data.last_name|default:'' }}">
+            </div>
+          </div>
+
+          <!-- E-poçt -->
+          <div class="hl-field">
+            <label class="hl-label">E-poçt ünvanı *</label>
+            <input type="email" name="email"
+                   class="hl-input {% if errors.email %}is-err{% endif %}"
+                   placeholder="example@mail.com"
+                   value="{{ form_data.email|default:'' }}" required>
+            {% if errors.email %}<span class="hl-err">{{ errors.email }}</span>{% endif %}
+          </div>
+
+          <!-- Telefon -->
+          <div class="hl-field">
+            <label class="hl-label">Telefon nömrəsi *</label>
+            <input type="tel" name="phone"
+                   class="hl-input {% if errors.phone %}is-err{% endif %}"
+                   placeholder="+994 50 000 00 00"
+                   value="{{ form_data.phone|default:'' }}" required>
+            {% if errors.phone %}<span class="hl-err">{{ errors.phone }}</span>{% endif %}
+          </div>
+
+          <!-- Şifrə -->
+          <div class="hl-field">
+            <label class="hl-label">Şifrə *</label>
+            <div class="hl-pw-wrap {% if errors.password %}is-err{% endif %}">
+              <input type="password" name="password" id="regPw"
+                     placeholder="Minimum 6 simvol" required
+                     oninput="checkStrength(this.value)">
+              <button type="button" class="hl-pw-toggle" onclick="togglePw('regPw',this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            {% if errors.password %}<span class="hl-err">{{ errors.password }}</span>{% endif %}
+            <div class="pw-strength-wrap"><div class="pw-strength-bar" id="pwBar"></div></div>
+          </div>
+
+          <!-- Şifrə təsdiq -->
+          <div class="hl-field">
+            <label class="hl-label">Şifrəni təsdiq edin *</label>
+            <div class="hl-pw-wrap {% if errors.password2 %}is-err{% endif %}">
+              <input type="password" name="password2" id="regPw2"
+                     placeholder="Yenidən daxil edin" required>
+              <button type="button" class="hl-pw-toggle" onclick="togglePw('regPw2',this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            {% if errors.password2 %}<span class="hl-err">{{ errors.password2 }}</span>{% endif %}
+          </div>
+
+          <button type="submit" class="btn-hl-orange">Qeydiyyatdan keç</button>
+          <p class="terms-note">
+            Qeydiyyatdan keçməklə <a href="#">İstifadə şərtlərini</a> qəbul etmiş olursunuz.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+function togglePw(id, btn) {
+  var inp  = document.getElementById(id);
+  var icon = btn.querySelector('i');
+  inp.type       = inp.type === 'password' ? 'text' : 'password';
+  icon.className = inp.type === 'text' ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+
+function checkStrength(pw) {
+  var bar   = document.getElementById('pwBar');
+  var score = 0;
+  if (pw.length >= 6)          score++;
+  if (pw.length >= 10)         score++;
+  if (/[A-Z]/.test(pw))        score++;
+  if (/[0-9]/.test(pw))        score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  var colors = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#009A44'];
+  var widths  = [20, 40, 60, 80, 100];
+  bar.style.width      = (score ? widths[score-1] : 0) + '%';
+  bar.style.background = score ? colors[score-1] : 'transparent';
+}
+</script>
+{% endblock %}

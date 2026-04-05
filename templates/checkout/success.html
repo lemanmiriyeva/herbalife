@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Order Confirmed" %} — Herbalife{% endblock %}
+
+{% block content %}
+<section style="min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;">
+  <div style="width:100%;max-width:560px;text-align:center;">
+
+    <!-- Uğur ikonu -->
+    <div style="width:80px;height:80px;background:#d1fae5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+        <path d="M5 13l4 4L19 7" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1 style="font-size:1.8rem;font-weight:600;color:#2d5f5d;margin-bottom:8px;">
+      {% trans "Order Confirmed!" %}
+    </h1>
+    <p style="color:#6c757d;margin-bottom:8px;">
+      {% trans "Order" %} #{{ order.pk }}
+    </p>
+    <p style="color:#6c757d;margin-bottom:32px;font-size:14px;">
+      {% trans "Send your order via WhatsApp to complete the purchase." %}
+    </p>
+
+    <!-- Sifariş xülasəsi -->
+    <div style="background:#f8f9fa;border-radius:12px;padding:20px;margin-bottom:32px;text-align:left;">
+      <h3 style="font-size:14px;font-weight:600;color:#444;margin-bottom:12px;">
+        {% trans "Order summary" %}
+      </h3>
+      {% for item in order.items.all %}
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:#555;padding:4px 0;border-bottom:1px solid #eee;">
+          <span>{{ item.name }} × {{ item.quantity }}</span>
+          <span style="font-weight:600;">${{ item.subtotal }}</span>
+        </div>
+      {% endfor %}
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#2d5f5d;margin-top:12px;">
+        <span>{% trans "Total" %}</span>
+        <span>${{ order.total_price }}</span>
+      </div>
+    </div>
+
+    <!-- WhatsApp düymələri -->
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:380px;margin:0 auto;">
+
+      {% if wa_admin %}
+        <a href="{{ wa_admin }}" target="_blank"
+           style="display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;text-decoration:none;padding:14px 28px;border-radius:30px;font-size:1rem;font-weight:600;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.28 7.037L.787 23.438a.75.75 0 0 0 .922.922l4.401-1.493A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 0 1-4.953-1.358l-.355-.213-3.683 1.249 1.25-3.683-.213-.355A9.713 9.713 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+          </svg>
+          {% trans "Send to store (Admin)" %}
+        </a>
+      {% endif %}
+
+      {% if wa_customer %}
+        <a href="{{ wa_customer }}" target="_blank"
+           style="display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#25D366;border:2px solid #25D366;text-decoration:none;padding:13px 28px;border-radius:30px;font-size:1rem;font-weight:600;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.28 7.037L.787 23.438a.75.75 0 0 0 .922.922l4.401-1.493A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.713 9.713 0 0 1-4.953-1.358l-.355-.213-3.683 1.249 1.25-3.683-.213-.355A9.713 9.713 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+          </svg>
+          {% trans "Send from my number" %}
+        </a>
+      {% endif %}
+
+    </div>
+
+    <a href="{% url 'home' %}"
+       style="display:inline-block;margin-top:28px;color:#6c757d;font-size:14px;text-decoration:none;">
+      ← {% trans "Return to home" %}
+    </a>
+
+  </div>
+</section>
+{% endblock %}
