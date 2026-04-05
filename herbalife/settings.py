@@ -57,7 +57,7 @@ DATABASES = {
         'NAME':     os.environ.get('DB_NAME',     'herbalife_db'),
         'USER':     os.environ.get('DB_USER',     'herbalife_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'herbalife_pass'),
-        'HOST':     os.environ.get('DB_HOST',     'localhost'),   # docker-compose service adı
+        'HOST':     os.environ.get('DB_HOST',     'db'),   # docker-compose service adı
         'PORT':     os.environ.get('DB_PORT',     '5432'),
     }
 }
