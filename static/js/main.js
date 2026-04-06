@@ -669,20 +669,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function detectAndSetLocation() {
     try {
-        // Əgər artıq seçilib, dəyişmə
         const stored = sessionStorage.getItem('store_selected');
         if (stored) return;
 
-        const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
-        const countryCode = geo.country_code; // "AZ", "US", "RU" və s.
+        // ipapi.co-ya birbaşa yox, öz backend-inə sorğu
+        const geo = await fetch('/api/location/').then(r => r.json());
+        const countryCode = geo.country_code;
 
-        // Sənin store code-larına uyğunlaşdır
         const countryToStore = {
             'AZ': 'AZ',
             'US': 'US',
             'RU': 'RU',
             'TR': 'TR',
-            // Digər ölkələri əlavə et
         };
 
         const storeCode = countryToStore[countryCode];

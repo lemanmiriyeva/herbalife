@@ -43,4 +43,5 @@ urlpatterns = [
     path('api/blog/categories/',        api.api_blog_categories,       name='api_blog_categories'),
     path('api/store/',                  api.store_info,                name='api_store_info'),
     path('api/store/switch/',           csrf_exempt(api.store_switch), name='api_store_switch'),
+    path('api/location/', api.detect_location),
 ]

@@ -378,3 +378,23 @@ def api_blog_categories(request):
     cats = list(BlogCategory.objects.all().values('id', 'name', 'slug'))
     return JsonResponse(cats, safe=False)
 
+def detect_location(request):
+    """GET /api/location/ — IP-dən ölkəni tap"""
+    import requests as req
+    
+    # Real IP-ni al (proxy arxasındasa)
+    x_forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded:
+        ip = x_forwarded.split(',')[0].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    
+    try:
+        # Server-dən server-ə sorğu — CORS yoxdur
+        response = req.get(f'https://ipapi.co/{ip}/json/', timeout=3)
+        data = response.json()
+        country_code = data.get('country_code', 'AZ')
+    except Exception:
+        country_code = 'AZ'  # default
+    
+    return JsonResponse({'country_code': country_code})
