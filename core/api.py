@@ -385,9 +385,9 @@ def detect_location(request):
     # Real IP-ni al (proxy arxasındasa)
     x_forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded:
-        ip = x_forwarded.split(',')[0].strip()
+        ip = '8.8.8.8'
     else:
-        ip = request.META.get('REMOTE_ADDR')
+        ip = '8.8.8.8'
     
     try:
         # Server-dən server-ə sorğu — CORS yoxdur
