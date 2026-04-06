@@ -667,31 +667,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (path === '/cart' || path === '/cart/') initCartPage();
 });
 
-async function detectAndSetLocation() {
-    try {
-        const stored = sessionStorage.getItem('store_selected');
-        if (stored) return;
-
-        // ipapi.co-ya birbaşa yox, öz backend-inə sorğu
-        const geo = await fetch('/api/location/').then(r => r.json());
-        const countryCode = geo.country_code;
-
-        const countryToStore = {
-            'AZ': 'AZ',
-            'US': 'US',
-            'RU': 'RU',
-            'TR': 'TR',
-        };
-
-        const storeCode = countryToStore[countryCode];
-        if (storeCode && storeCode !== activeStoreCode) {
-            await window.switchStore(storeCode);
-            sessionStorage.setItem('store_selected', '1');
-        }
-    } catch (e) {
-        console.log('Location detect failed:', e);
-    }
-}
 function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
 (function () {
@@ -700,6 +675,30 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
     const API_STORE_SWITCH = window.API_URLS.storeSwitch;
 
     let activeStoreCode = null;
+    async function detectAndSetLocation() {
+        try {
+            const stored = sessionStorage.getItem('store_selected');
+            if (stored) return;
+
+            const geo = await fetch('/api/location/').then(r => r.json());
+            const countryCode = geo.country_code;
+
+            const countryToStore = {
+                'AZ': 'AZ',
+                'US': 'US',
+                'RU': 'RU',
+                'TR': 'TR',
+            };
+
+            const storeCode = countryToStore[countryCode];
+            if (storeCode && storeCode !== activeStoreCode) {
+                await window.switchStore(storeCode);
+                sessionStorage.setItem('store_selected', '1');
+            }
+        } catch (e) {
+            console.log('Location detect failed:', e);
+        }
+    }
 
     async function initStoreSwitcher() {
         try {
@@ -737,7 +736,6 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
             document.getElementById('storeList').innerHTML =
                 '<div style="padding:16px;color:#aaa;font-size:.85rem">{% trans "Failed to load stores." %}</div>';
         }
-        await detectAndSetLocation();
     }
 
     window.toggleStoreDropdown = function () {
