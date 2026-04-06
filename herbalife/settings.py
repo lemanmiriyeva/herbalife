@@ -51,23 +51,17 @@ TEMPLATES = [{
 WSGI_APPLICATION = 'herbalife.wsgi.application'
 
 # ─── DATABASE (PostgreSQL) ───────────────────────────────────────────────────
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME':     os.environ.get('DB_NAME',     'herbalife_db'),
-#         'USER':     os.environ.get('DB_USER',     'herbalife_user'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', 'herbalife_pass'),
-#         'HOST':     os.environ.get('DB_HOST',     'db'),   # docker-compose service adı
-#         'PORT':     os.environ.get('DB_PORT',     '5432'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3', # Full path to the database file
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':     os.environ.get('DB_NAME',     'herbalife_db'),
+        'USER':     os.environ.get('DB_USER',     'herbalife_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'herbalife_pass'),
+        'HOST':     os.environ.get('DB_HOST',     'db'),   # docker-compose service adı
+        'PORT':     os.environ.get('DB_PORT',     '5432'),
     }
 }
+
 # ─── LOCALISATION ────────────────────────────────────────────────────────────
 LANGUAGE_CODE = 'az'
 TIME_ZONE = 'UTC'
