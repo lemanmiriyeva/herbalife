@@ -379,10 +379,8 @@ def api_blog_categories(request):
     return JsonResponse(cats, safe=False)
 
 def detect_location(request):
-    """GET /api/location/ — IP-dən ölkəni tap"""
     import requests as req
     
-    # Real IP-ni al (proxy arxasındasa)
     x_forwarded = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded:
         ip = '8.8.8.8'
@@ -390,11 +388,11 @@ def detect_location(request):
         ip = '8.8.8.8'
     
     try:
-        # Server-dən server-ə sorğu — CORS yoxdur
-        response = req.get(f'https://ipapi.co/{ip}/json/', timeout=3)
+        # ipapi.co yox, ip-api.com işlət
+        response = req.get(f'http://ip-api.com/json/{ip}?fields=countryCode', timeout=3)
         data = response.json()
-        country_code = data.get('country_code', 'AZ')
+        country_code = data.get('countryCode', 'AZ')
     except Exception:
-        country_code = 'AZ'  # default
+        country_code = 'AZ'
     
     return JsonResponse({'country_code': country_code})
