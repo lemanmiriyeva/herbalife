@@ -386,3 +386,34 @@ footer {
 .breadcrumb-item.active {
     color: #6c757d;
 }
+
+.lang-switcher {
+    display: flex;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.lang-btn.active {
+    background: #fff;
+    color: #2d5f5d;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.lang-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.2);
+}

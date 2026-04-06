@@ -667,6 +667,33 @@ document.addEventListener('DOMContentLoaded', function () {
     if (path === '/cart' || path === '/cart/') initCartPage();
 });
 
+async function detectAndSetLocation() {
+    try {
+        // Əgər artıq seçilib, dəyişmə
+        const stored = sessionStorage.getItem('store_selected');
+        if (stored) return;
+
+        const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+        const countryCode = geo.country_code; // "AZ", "US", "RU" və s.
+
+        // Sənin store code-larına uyğunlaşdır
+        const countryToStore = {
+            'AZ': 'AZ',
+            'US': 'US',
+            'RU': 'RU',
+            'TR': 'TR',
+            // Digər ölkələri əlavə et
+        };
+
+        const storeCode = countryToStore[countryCode];
+        if (storeCode && storeCode !== activeStoreCode) {
+            await window.switchStore(storeCode);
+            sessionStorage.setItem('store_selected', '1');
+        }
+    } catch (e) {
+        console.log('Location detect failed:', e);
+    }
+}
 function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
 (function () {
@@ -712,6 +739,7 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
             document.getElementById('storeList').innerHTML =
                 '<div style="padding:16px;color:#aaa;font-size:.85rem">{% trans "Failed to load stores." %}</div>';
         }
+        await detectAndSetLocation();
     }
 
     window.toggleStoreDropdown = function () {
