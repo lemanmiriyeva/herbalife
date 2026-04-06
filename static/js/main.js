@@ -681,7 +681,7 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
             if (stored) return;
 
             const geo = await fetch('/api/location/').then(r => r.json());
-            const countryCode = geo.countryCode;
+            const countryCode = geo.country_code;
             console.log(countryCode)
 
             const countryToStore = {
