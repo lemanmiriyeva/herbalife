@@ -2,37 +2,48 @@
 
 <div class="top-bar">
     <div class="container">
-        <div class="d-flex align-items-center justify-content-end gap-3">
-            <i class="fas fa-globe me-1"></i>
-
-            <form action="{% url 'set_language' %}" method="post" id="langForm">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <div class="lang-switcher">
-                    <button type="submit" name="language" value="az"
-                        class="lang-btn {% if request.LANGUAGE_CODE == 'az' %}active{% endif %}">
-                        AZ
-                    </button>
-                    <button type="submit" name="language" value="en"
-                        class="lang-btn {% if request.LANGUAGE_CODE == 'en' %}active{% endif %}">
-                        EN
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="store-switcher" id="storeSwitcher">
-            <button class="store-btn" id="storeBtn">
-                <span id="storeFlag"><i class="fa-solid fa-location-dot"></i></span>
-                <span id="storeCurrency">...</span>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" id="storeChevron">
-                    <path d="M2 4l4 4 4-4" />
-                </svg>
-            </button>
-            <div class="store-dropdown" id="storeDropdown">
-                <div class="store-dropdown-header">{% trans "Select your region" %}</div>
-                <div id="storeList">
+        <div class="top-bar-inner">
+            
+            <!-- Dil seçimi - modern dropdown -->
+            <div class="lang-dropdown-wrapper">
+                <button class="lang-dropdown-btn" id="langDropdownBtn">
+                    <i class="fas fa-globe"></i>
+                    <span id="langLabel">{{ request.LANGUAGE_CODE|upper }}</span>
+                    <i class="fas fa-chevron-down lang-chevron" id="langChevron"></i>
+                </button>
+                <div class="lang-dropdown-menu" id="langDropdownMenu">
+                    <form action="{% url 'set_language' %}" method="post" id="langForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button type="submit" name="language" value="az"
+                            class="lang-option {% if request.LANGUAGE_CODE == 'az' %}active{% endif %}">
+                            <span>🇦🇿</span> Azərbaycan
+                            {% if request.LANGUAGE_CODE == 'az' %}<i class="fas fa-check"></i>{% endif %}
+                        </button>
+                        <button type="submit" name="language" value="en"
+                            class="lang-option {% if request.LANGUAGE_CODE == 'en' %}active{% endif %}">
+                            <span>🇺🇸</span> English
+                            {% if request.LANGUAGE_CODE == 'en' %}<i class="fas fa-check"></i>{% endif %}
+                        </button>
+                    </form>
                 </div>
             </div>
+
+            <!-- Store switcher -->
+            <div class="store-switcher" id="storeSwitcher">
+                <button class="store-btn" id="storeBtn">
+                    <span id="storeFlag"><i class="fa-solid fa-location-dot"></i></span>
+                    <span id="storeCurrency">...</span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" id="storeChevron">
+                        <path d="M2 4l4 4 4-4" />
+                    </svg>
+                </button>
+                <div class="store-dropdown" id="storeDropdown">
+                    <div class="store-dropdown-header">{% trans "Select your region" %}</div>
+                    <div id="storeList"></div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -52,94 +63,211 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'home' %}">
-                        {% trans "Home" %}
-                    </a>
+                    <a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products' %}">
-                        {% trans "Products" %}
-                    </a>
+                    <a class="nav-link" href="{% url 'products' %}">{% trans "Products" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'blog' %}">
-                        {% trans "Blogs" %}
-                    </a>
+                    <a class="nav-link" href="{% url 'blog' %}">{% trans "Blog" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cart' %}">
-                        {% trans "Cart" %}
-                    </a>
+                    <a class="nav-link" href="{% url 'cart' %}">{% trans "Cart" %}</a>
                 </li>
             </ul>
 
-            <!-- Auth nav -->
-            <ul class="navbar-nav ms-auto me-3">
+            <ul class="navbar-nav align-items-center gap-2">
+
+                <!-- Auth dropdown -->
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown"
-                        style="color:#2d5f5d;font-weight:500;">
+                    <a class="nav-link auth-dropdown-btn" href="#" id="userDropdown" data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle me-1"></i>
                         {{ user.get_full_name|default:user.username|default:user.phone }}
                     </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item" href="{% url 'logout' %}">
-                                <i class="fas fa-sign-out-alt me-2"></i>
-                                {% trans "Sign Out" %}
+                                <i class="fas fa-sign-out-alt me-2"></i>{% trans "Sign Out" %}
                             </a>
                         </li>
                     </ul>
                 </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}" style="color:#2d5f5d;font-weight:500;">
-                        <i class="fas fa-user me-1"></i>
-                        {% trans "Sign In" %}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}"
-                        style="background:#2d5f5d;color:#fff !important;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;">
-                        {% trans "Register" %}
-                    </a>
+                <li class="nav-item dropdown">
+                    <button class="auth-dropdown-btn" id="authDropdownBtn">
+                        <i class="fas fa-user"></i>
+                        <span>{% trans "Account" %}</span>
+                        <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                    </button>
+                    <div class="auth-dropdown-menu" id="authDropdownMenu">
+                        <div class="auth-dropdown-header">{% trans "Welcome!" %}</div>
+                        <a href="{% url 'login' %}" class="auth-dropdown-item">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <div>
+                                <strong>{% trans "Sign In" %}</strong>
+                                <span>{% trans "Access your account" %}</span>
+                            </div>
+                        </a>
+                        <a href="{% url 'register' %}" class="auth-dropdown-item">
+                            <i class="fas fa-user-plus"></i>
+                            <div>
+                                <strong>{% trans "Register" %}</strong>
+                                <span>{% trans "Create new account" %}</span>
+                            </div>
+                        </a>
+                    </div>
                 </li>
                 {% endif %}
-            </ul>
 
-            <div class="navbar-icons">
-                <div style="position:relative;">
-                    <button onclick="toggleSearchBox()" style="background:none;border:none;cursor:pointer;padding:2px;">
-                        <img width="25" height="25" src="{% static 'images/search.png' %}" alt="{% trans 'Search' %}">
+                <!-- Search -->
+                <li class="nav-item">
+                    <button class="icon-nav-btn" onclick="openSearchModal()">
+                        <img width="22" height="22" src="{% static 'images/search.png' %}" alt="Search">
                     </button>
+                </li>
 
-                    <div id="headerSearchBox"
-                        style="display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:10px;width:300px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:1000;">
+                <!-- Cart -->
+                <li class="nav-item">
+                    <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
+                        <img width="22" height="22" src="{% static 'images/basket.png' %}" alt="Cart">
+                        <span class="cart-badge"
+                            style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">
+                            0
+                        </span>
+                    </a>
+                </li>
 
-                        <div
-                            style="display:flex;align-items:center;gap:6px;background:#f4f4f4;border-radius:8px;padding:7px 12px;">
-                            <img src="{% static 'images/search.png' %}" width="16" style="opacity:.5;flex-shrink:0;">
-
-                            <input id="headerSearchInput" type="text" placeholder="{% trans 'Search products...' %}"
-                                autocomplete="off"
-                                style="border:none;background:transparent;outline:none;font-size:14px;width:100%;">
-                        </div>
-
-                        <ul id="headerSearchDropdown"
-                            style="display:none;list-style:none;margin:6px 0 0;padding:0;border-top:1px solid #f0f0f0;">
-                        </ul>
-                    </div>
-                </div>
-
-                <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
-                    <img width="25" height="25" src="{% static 'images/basket.png' %}" alt="{% trans 'Cart' %}">
-                    <span class="cart-badge"
-                        style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">
-                        0
-                    </span>
-                </a>
-            </div>
+            </ul>
         </div>
     </div>
 </nav>
+
+<!-- Full Page Search Modal -->
+<div class="search-modal" id="searchModal">
+    <div class="search-modal-inner">
+        <button class="search-modal-close" onclick="closeSearchModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="search-modal-content">
+            <p class="search-modal-label">{% trans "Search products..." %}</p>
+            <div class="search-modal-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="modalSearchInput" 
+                       placeholder="{% trans 'Type to search...' %}"
+                       autocomplete="off">
+            </div>
+            <ul id="modalSearchResults" class="search-modal-results"></ul>
+        </div>
+    </div>
+</div>
+
+<!-- Dropdownları bağlamaq üçün overlay -->
+<div class="nav-overlay" id="navOverlay" onclick="closeAllDropdowns()"></div>
+
+<script>
+// Lang dropdown
+const langBtn = document.getElementById('langDropdownBtn');
+const langMenu = document.getElementById('langDropdownMenu');
+const langChevron = document.getElementById('langChevron');
+
+langBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langMenu.classList.toggle('open');
+    langChevron.classList.toggle('rotated', isOpen);
+    closeAuthDropdown();
+});
+
+// Auth dropdown
+const authBtn = document.getElementById('authDropdownBtn');
+const authMenu = document.getElementById('authDropdownMenu');
+
+if (authBtn) {
+    authBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = authMenu.classList.toggle('open');
+        closeLangDropdown();
+    });
+}
+
+function closeLangDropdown() {
+    langMenu?.classList.remove('open');
+    langChevron?.classList.remove('rotated');
+}
+
+function closeAuthDropdown() {
+    authMenu?.classList.remove('open');
+}
+
+function closeAllDropdowns() {
+    closeLangDropdown();
+    closeAuthDropdown();
+}
+
+document.addEventListener('click', closeAllDropdowns);
+
+// Search Modal
+function openSearchModal() {
+    document.getElementById('searchModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('modalSearchInput').focus(), 300);
+}
+
+function closeSearchModal() {
+    document.getElementById('searchModal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('modalSearchResults').innerHTML = '';
+    document.getElementById('modalSearchInput').value = '';
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSearchModal();
+});
+
+// Modal search input
+const modalInput = document.getElementById('modalSearchInput');
+if (modalInput) {
+    let timer;
+    modalInput.addEventListener('input', function() {
+        clearTimeout(timer);
+        const q = this.value.trim();
+        const results = document.getElementById('modalSearchResults');
+        if (q.length < 2) { results.innerHTML = ''; return; }
+        timer = setTimeout(() => {
+            fetch(`/api/search/suggest/?q=${encodeURIComponent(q)}`, { credentials: 'same-origin' })
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.results.length) {
+                        results.innerHTML = `<li class="search-no-result">Nəticə tapılmadı</li>`;
+                        return;
+                    }
+                    results.innerHTML = data.results.map(p => `
+                        <li>
+                            <a href="/products/${p.slug}/" class="search-result-item" onclick="closeSearchModal()">
+                                ${p.image
+                                    ? `<img src="${p.image}" alt="${p.name}">`
+                                    : `<div class="search-result-placeholder">${p.name[0]}</div>`}
+                                <div class="search-result-info">
+                                    <span class="search-result-name">${p.name}</span>
+                                    <span class="search-result-price">$${p.final_price}</span>
+                                </div>
+                            </a>
+                        </li>
+                    `).join('') + `
+                        <li class="search-see-all">
+                            <a href="/products?search=${encodeURIComponent(q)}" onclick="closeSearchModal()">
+                                Hamısına bax →
+                            </a>
+                        </li>`;
+                });
+        }, 300);
+    });
+
+    modalInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            const q = modalInput.value.trim();
+            if (q) { closeSearchModal(); location.href = `/products?search=${encodeURIComponent(q)}`; }
+        }
+    });
+}
+</script>

@@ -194,16 +194,20 @@ function productCard(p, linkPrefix = '/products/') {
         : `<img src="https://www.herbalife.com/dmassets/market-reusable-assets/amer/united-states/images/canister/pc-64z1-us.png:pdp-w875h783?fmt=webp-alpha" alt="${p.name}" class="product-image">`;
     const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
     const flavor = p.flavor_name ? `<div class="product-flavor">
-        ${p.flavor_color ? `<span class="flavor-dot" style="background-color:${p.flavor_color};"></span>` : ''}
-        <span class="flavor-name">${p.flavor_name}</span></div>` : '';
+        ${p.flavor_color ? `<span class="flavor-dot" style="background-color:${p.flavor_color};" title="${p.flavor_color}"></span>` : ''}
+        <span class="flavor-name">${p.flavor_name}</span>
+    </div>` : '';
     const size = p.size ? `<div class="product-size">${p.size}</div>` : '';
     const priceNote = p.price_note ? `<span class="product-price-small">${p.price_note}</span>` : '';
-    const addBtn = p.is_addable
-        ? `<button class="add-btn" onclick="cartAdd(${p.id}, event)">${t('add_btn')}</button><button class="wishlist-btn"
-           data-wishlist-btn="${p.id}"
-           title="Sevimlilərə əlavə et">
-     <i class="far fa-heart"></i>
-   </button>` : '';
+    const addBtn = p.is_addable ? `
+        <div class="product-actions">
+            <button class="add-btn" onclick="cartAdd(${p.id}, event)">
+                <i class="fas fa-shopping-bag"></i> ${t('add_btn')}
+            </button>
+            <button class="wishlist-btn" data-wishlist-btn="${p.id}" title="Sevimlilərə əlavə et">
+                <i class="far fa-heart"></i>
+            </button>
+        </div>` : '';
     return `
     <div class="product-card" data-product-id="${p.id}">
         ${badge}
@@ -215,7 +219,7 @@ function productCard(p, linkPrefix = '/products/') {
             </div>
             ${size}
             <div class="product-footer">
-                <div class="product-price">$${p.final_price}${priceNote}</div>
+                <div class="product-price">${p.final_price}${priceNote}</div>
                 ${addBtn}
             </div>
         </div>
@@ -415,15 +419,20 @@ function initProductsPage() {
 
     let cachedProducts = [];
 
-    function renderProducts(data) {
-        cachedProducts = data;
-        if (countEl) { countEl.textContent = `${data.length} ${t('products_count') || 'Products'}`; countEl.dataset.count = data.length; }
-        if (!data.length) {
-            grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${t('no_products')}</div>`;
-            return;
-        }
-        grid.innerHTML = data.map(p => productCard(p)).join('');
+   function renderProducts(data) {
+    cachedProducts = data;
+    if (countEl) {
+        countEl.textContent = `${data.length} ${t('products_count') || 'Products'}`;
+        countEl.dataset.count = data.length;
     }
+    if (!data.length) {
+        grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${t('no_products')}</div>`;
+        return;
+    }
+    grid.innerHTML = data.map(p => productCard(p)).join('');
+    // ← Kartlar render olandan SONRA wishlist-i tətbiq et
+    applyWishlistState();
+}
 
     function loadProducts() {
         grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;">${t('loading')}</div>`;
@@ -712,7 +721,7 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
             if (active) {
                 document.getElementById('storeFlag').innerHTML = '<i class="fa-solid fa-location-dot"></i>';
-                document.getElementById('storeCurrency').textContent = active.currency;
+                document.getElementById('storeCurrency').textContent = active.name;
             }
 
             // Dropdown siyahısını doldur
@@ -771,7 +780,7 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
                 // Navbar-ı güncəllə
                 window.location.reload();
                 document.getElementById('storeFlag').innerHTML = '<i class="fa-solid fa-location-dot"></i>';
-                document.getElementById('storeCurrency').textContent = data.store.currency;
+                document.getElementById('storeCurrency').textContent = data.store.name;
                 activeStoreCode = code;
 
                 // Active class-ları güncəllə

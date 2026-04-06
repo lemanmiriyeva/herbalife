@@ -192,15 +192,19 @@ def profile_view(request):
 
 # ── Wishlist ──────────────────────────────────────────────────────
 
-@login_required(login_url='/login/')
+# @login_required decorator-u SİL, manual yoxla
 def wishlist_toggle(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'login_required', 'login_url': '/login/'}, status=401)
+    
     if request.method != 'POST':
         return JsonResponse({'error': 'POST required'}, status=405)
     try:
-        body       = json.loads(request.body)
+        body = json.loads(request.body)
         product_id = body.get('product_id')
     except Exception:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
     product = get_object_or_404(Product, pk=product_id, is_active=True)
     obj, created = Wishlist.objects.get_or_create(user=request.user, product=product)
     if not created:
@@ -210,12 +214,11 @@ def wishlist_toggle(request):
         in_wishlist = True
     return JsonResponse({'in_wishlist': in_wishlist, 'count': request.user.wishlist_items.count()})
 
-
-@login_required(login_url='/login/')
 def wishlist_status(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'wishlist_ids': [], 'count': 0})
     ids = list(request.user.wishlist_items.values_list('product_id', flat=True))
     return JsonResponse({'wishlist_ids': ids, 'count': len(ids)})
-
 
 # ══════════════════════════════════════════════════════════════════
 # CHECKOUT — Səbət → Ünvan → PayPal → Təsdiq

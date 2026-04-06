@@ -99,39 +99,46 @@ def product_to_dict(p, request=None, store=None):
  
  
 def products(request):
-    """Store-a görə filtrlənmiş məhsullar"""
     store = get_active_store(request)
- 
-    # Yalnız bu store-da aktiv olan məhsulları çək
     qs = Product.objects.filter(
         is_active=True,
         store_prices__store=store,
         store_prices__is_active=True,
     ).select_related('category').prefetch_related('store_prices__store').distinct()
- 
-    # Mövcud filter/sort məntiqi eyni qalır...
+
     cat_slug = request.GET.get('category', '').strip()
     if cat_slug:
         qs = qs.filter(category__slug=cat_slug)
- 
+
     if request.GET.get('featured'):
         qs = qs.filter(is_featured=True)
- 
+
     q = request.GET.get('search', '').strip()
     if q:
         qs = qs.filter(
             Q(name__icontains=q) | Q(description__icontains=q) |
             Q(flavor_name__icontains=q) | Q(category__name__icontains=q)
         ).distinct()
- 
+
+    # ── Price filter ──────────────────────────────────────────
+    prices = request.GET.getlist('price')
+    if prices:
+        from django.db.models import Q as Qp
+        pq = Qp()
+        for p in prices:
+            if p == 'lt25':   pq |= Qp(price__lt=25)
+            elif p == '25-50': pq |= Qp(price__gte=25, price__lte=50)
+            elif p == '50-100': pq |= Qp(price__gte=50, price__lte=100)
+            elif p == 'gt100': pq |= Qp(price__gt=100)
+        qs = qs.filter(pq)
+
     sort_map = {
-        'price_asc':  'price', 'price_desc': '-price',
-        'name_asc':   'name',  'name_desc':  '-name',
+        'price_asc': 'price', 'price_desc': '-price',
+        'name_asc': 'name', 'name_desc': '-name',
     }
     qs = qs.order_by(sort_map.get(request.GET.get('sort', ''), '-created_at'))
- 
+
     return JsonResponse([product_to_dict(p, request, store) for p in qs], safe=False)
- 
  
 def store_switch(request):
     """POST /api/store/switch/  body: {store_code: "US"}"""
