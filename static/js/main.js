@@ -682,6 +682,7 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
             const geo = await fetch('/api/location/').then(r => r.json());
             const countryCode = geo.countryCode;
+            console.log(countryCode)
 
             const countryToStore = {
                 'AZ': 'AZ',
@@ -814,6 +815,6 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
         <div class="store-sk" style="width:65%"></div>
         <div class="store-sk" style="width:75%"></div>
     </div>`;
-
+    detectAndSetLocation()
     initStoreSwitcher();
 })();
