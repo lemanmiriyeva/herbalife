@@ -2,858 +2,160 @@
 {% load static i18n %}
 {% block css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 <style>
-    /* Product actions */
-.product-actions {
+.page-header{padding:60px 0 40px;}.page-title{font-size:3rem;font-weight:300;color:#2d5f5d;margin-bottom:20px;line-height:1.2;}
+.page-description{color:#6c757d;font-size:1rem;line-height:1.6;max-width:700px;}
+.category-carousel{padding:30px 0;border-bottom:2px solid #e5e7eb;margin-bottom:40px;}
+.category-item{text-align:center;padding:15px;cursor:pointer;transition:all 0.3s ease;border-bottom:3px solid transparent;}
+.category-item:hover,.category-item.active{border-bottom-color:#2d5f5d;}
+.category-item span{color:#3d6f6d;font-size:0.95rem;font-weight:500;}
+.category-item.active span{color:#2d5f5d;font-weight:600;}
+.filter-sort-section{padding:20px 0;margin-bottom:30px;}
+.filter-btn{background-color:#f0f0f0;border:none;padding:10px 25px;border-radius:25px;color:#3d6f6d;font-weight:500;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s ease;}
+.filter-btn:hover{background-color:#e0e0e0;}
+.sort-dropdown{border:1px solid #d1d5db;border-radius:8px;padding:10px 15px;color:#3d6f6d;background-color:white;}
+.product-count{color:#6c757d;font-size:0.9rem;}
+.sidebar{background-color:#fafafa;padding:25px;border-radius:12px;}
+.filter-section{margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid #e5e7eb;}
+.filter-section:last-child{border-bottom:none;}
+.filter-title{font-size:1rem;font-weight:600;color:#2d5f5d;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.filter-option{margin-bottom:12px;}
+.filter-option input[type="checkbox"]{margin-right:10px;width:18px;height:18px;cursor:pointer;}
+.filter-option label{color:#3d6f6d;font-size:0.9rem;cursor:pointer;}
+.mobile-filter-sidebar{position:fixed;top:0;left:-100%;width:85%;max-width:400px;height:100vh;background-color:white;z-index:1050;transition:left 0.3s ease;overflow-y:auto;box-shadow:2px 0 10px rgba(0,0,0,0.1);}
+.mobile-filter-sidebar.active{left:0;}
+.filter-sidebar-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid #e5e7eb;position:sticky;top:0;background-color:white;z-index:10;}
+.filter-sidebar-header h3{font-size:1.25rem;font-weight:600;color:#2d5f5d;margin:0;}
+.close-filter{background:none;border:none;font-size:1.5rem;color:#6c757d;cursor:pointer;padding:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;}
+.filter-sidebar-footer{position:sticky;bottom:0;background-color:white;padding:20px;border-top:1px solid #e5e7eb;display:flex;gap:10px;}
+.filter-sidebar-footer button{flex:1;padding:12px;border-radius:8px;font-weight:600;border:none;cursor:pointer;transition:all 0.3s ease;}
+.clear-filters{background-color:#f0f0f0;color:#3d6f6d;}
+.apply-filters{background-color:#2d5f5d;color:white;}
+.filter-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background-color:rgba(0,0,0,0.5);z-index:1040;display:none;}
+.filter-overlay.active{display:block;}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-bottom:60px;}
+.product-card{background:white;border-radius:12px;overflow:hidden;transition:all 0.3s ease;border:1px solid #f0f0f0;position:relative;}
+.product-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.1);transform:translateY(-5px);}
+.product-badge{position:absolute;top:15px;left:15px;background-color:#2d5f5d;color:white;padding:6px 15px;border-radius:20px;font-size:0.75rem;font-weight:600;z-index:10;}
+.product-image{width:100%;height:300px;object-fit:contain;padding:20px;background-color:#fafafa;}
+.product-info{padding:20px;}
+.product-flavor{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.flavor-dot{width:12px;height:12px;border-radius:50%;}
+.flavor-name{font-size:0.85rem;color:#6c757d;}
+.product-name{font-size:1rem;font-weight:500;color:#1a1a1a;margin-bottom:8px;min-height:48px;}
+.product-size{font-size:0.85rem;color:#6c757d;margin-bottom:15px;}
+.product-footer{display:flex;justify-content:space-between;align-items:center;}
+.product-price{font-size:1.1rem;font-weight:600;color:#1a1a1a;}
+.add-btn{background-color:#2d5f5d;border:none;color:#fff;padding:8px 16px;border-radius:25px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.25s ease;}
+.add-btn:hover{background-color:#1f4948;}
+.wishlist-btn{background:#f5f5f5;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;color:#aaa;}
+.wishlist-btn:hover,.wishlist-btn.wl-active{background:#ffeaea;color:#e8483b;}
+.product-actions{
     display: flex;
-    align-items: center;
-    gap: 8px;
+    gap: 20px;
 }
-
-.add-btn {
-    background-color: #2d5f5d;
-    border: none;
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 25px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-}
-
-.add-btn:hover {
-    background-color: #1f4948;
-    transform: translateY(-1px);
-}
-
-.wishlist-btn {
-    background: #f5f5f5;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    flex-shrink: 0;
-    color: #aaa;
-    font-size: 15px;
-}
-
-.wishlist-btn:hover {
-    background: #ffeaea;
-    color: #e8483b;
-}
-
-.wishlist-btn.wl-active {
-    background: #ffeaea;
-    color: #e8483b;
-}
-
-.wishlist-btn.wl-active i {
-    font-weight: 900;
-}
-
-/* Flavor dot böyüdülmüş */
-.flavor-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    display: inline-block;
-}
-    .page-header {
-        padding: 60px 0 40px;
-    }
-
-    .page-title {
-        font-size: 3rem;
-        font-weight: 300;
-        color: #2d5f5d;
-        margin-bottom: 20px;
-        line-height: 1.2;
-    }
-
-    .page-description {
-        color: #6c757d;
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 700px;
-    }
-
-    .category-carousel {
-        padding: 30px 0;
-        border-bottom: 2px solid #e5e7eb;
-        margin-bottom: 40px;
-    }
-
-    .category-item {
-        text-align: center;
-        padding: 15px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-bottom: 3px solid transparent;
-    }
-
-    .category-item:hover,
-    .category-item.active {
-        border-bottom-color: #2d5f5d;
-    }
-
-    .category-item span {
-        color: #3d6f6d;
-        font-size: 0.95rem;
-        font-weight: 500;
-    }
-
-    .category-item.active span {
-        color: #2d5f5d;
-        font-weight: 600;
-    }
-
-    .filter-sort-section {
-        padding: 20px 0;
-        margin-bottom: 30px;
-    }
-
-    .filter-btn {
-        background-color: #f0f0f0;
-        border: none;
-        padding: 10px 25px;
-        border-radius: 25px;
-        color: #3d6f6d;
-        font-weight: 500;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .filter-btn:hover {
-        background-color: #e0e0e0;
-    }
-
-    .sort-dropdown {
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        padding: 10px 15px;
-        color: #3d6f6d;
-        background-color: white;
-    }
-
-    .product-count {
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    .sidebar {
-        background-color: #fafafa;
-        padding: 25px;
-        border-radius: 12px;
-    }
-
-    .filter-section {
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-
-    .filter-section:last-child {
-        border-bottom: none;
-    }
-
-    .filter-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #2d5f5d;
-        margin-bottom: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    .filter-option {
-        margin-bottom: 12px;
-    }
-
-    .filter-option input[type="checkbox"] {
-        margin-right: 10px;
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-    .filter-option label {
-        color: #3d6f6d;
-        font-size: 0.9rem;
-        cursor: pointer;
-    }
-
-    .show-more {
-        color: #2d5f5d;
-        font-size: 0.85rem;
-        cursor: pointer;
-        text-decoration: underline;
-        margin-top: 10px;
-        display: inline-block;
-    }
-
-    .mobile-filter-sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 85%;
-        max-width: 400px;
-        height: 100vh;
-        background-color: white;
-        z-index: 1050;
-        transition: left 0.3s ease;
-        overflow-y: auto;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .mobile-filter-sidebar.active {
-        left: 0;
-    }
-
-    .filter-sidebar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #e5e7eb;
-        position: sticky;
-        top: 0;
-        background-color: white;
-        z-index: 10;
-    }
-
-    .filter-sidebar-header h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #2d5f5d;
-        margin: 0;
-    }
-
-    .close-filter {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: #6c757d;
-        cursor: pointer;
-        padding: 0;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .filter-sidebar-content {
-        padding: 20px;
-    }
-
-    .filter-sidebar-footer {
-        position: sticky;
-        bottom: 0;
-        background-color: white;
-        padding: 20px;
-        border-top: 1px solid #e5e7eb;
-        display: flex;
-        gap: 10px;
-    }
-
-    .filter-sidebar-footer button {
-        flex: 1;
-        padding: 12px;
-        border-radius: 8px;
-        font-weight: 600;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .clear-filters {
-        background-color: #f0f0f0;
-        color: #3d6f6d;
-    }
-
-    .clear-filters:hover {
-        background-color: #e0e0e0;
-    }
-
-    .apply-filters {
-        background-color: #2d5f5d;
-        color: white;
-    }
-
-    .apply-filters:hover {
-        background-color: #1f4948;
-    }
-
-    .filter-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1040;
-        display: none;
-    }
-
-    .filter-overlay.active {
-        display: block;
-    }
-
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-        margin-bottom: 60px;
-    }
-
-    .product-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        border: 1px solid #f0f0f0;
-        position: relative;
-    }
-
-    .product-card:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        transform: translateY(-5px);
-    }
-
-    .product-badge {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background-color: #2d5f5d;
-        color: white;
-        padding: 6px 15px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        z-index: 10;
-    }
-
-    .product-image {
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
-        padding: 20px;
-        background-color: #fafafa;
-    }
-
-    .product-info {
-        padding: 20px;
-    }
-
-    .product-flavor {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 10px;
-    }
-
-    .flavor-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-    }
-
-    .flavor-name {
-        font-size: 0.85rem;
-        color: #6c757d;
-    }
-
-    .product-name {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #1a1a1a;
-        margin-bottom: 8px;
-        min-height: 48px;
-    }
-
-    .product-size {
-        font-size: 0.85rem;
-        color: #6c757d;
-        margin-bottom: 15px;
-    }
-
-    .product-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .product-price {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1a1a1a;
-    }
-
-    .product-price-small {
-        font-size: 0.8rem;
-        color: #6c757d;
-        display: block;
-    }
-
-    .add-btn {
-        background-color: transparent;
-        border: 2px solid #2d5f5d;
-        color: #2d5f5d;
-        padding: 8px 20px;
-        border-radius: 25px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .add-btn:hover {
-        background-color: #2d5f5d;
-        color: white;
-    }
-
-    @media (max-width: 1199px) {
-        .product-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 767px) {
-        .product-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .page-title {
-            font-size: 2rem;
-        }
-
-        .navbar-nav {
-            margin-top: 20px;
-        }
-
-        .desktop-sidebar {
-            display: none;
-        }
-
-        .mobile-filter-btn {
-            display: inline-flex !important;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .mobile-filter-sidebar {
-            display: none;
-        }
-
-        .mobile-filter-btn {
-            display: none;
-        }
-
-        .filter-overlay {
-            display: none !important;
-        }
-    }
-
-    .category-carousel .owl-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .category-carousel .owl-nav button {
-        background-color: white !important;
-        border: 2px solid #d1d5db !important;
-        border-radius: 50% !important;
-        width: 40px !important;
-        height: 40px !important;
-        color: #6c757d !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .category-carousel .owl-nav button:hover {
-        border-color: #2d5f5d !important;
-        color: #2d5f5d !important;
-    }
-
-    .category-carousel .owl-nav button span {
-        font-size: 24px;
-    }
-
-    .category-carousel .owl-dots {
-        display: none;
-    }
+@media(max-width:1199px){.product-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:767px){.product-grid{grid-template-columns:1fr;}.page-title{font-size:2rem;}.desktop-sidebar{display:none;}.mobile-filter-btn{display:inline-flex !important;}}
+@media(min-width:768px){.mobile-filter-sidebar{display:none;}.mobile-filter-btn{display:none;}.filter-overlay{display:none !important;}}
 </style>
-
 {% endblock %}
 {% block content %}
-
-<!-- Breadcrumb -->
 <div class="breadcrumb-section">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">{% trans "Home" %}</a></li>
-                <li class="breadcrumb-item"><a href="#">{% trans "Products" %}</a></li>
-                <li class="breadcrumb-item active">{% trans "Targeted Health" %}</li>
+                <li class="breadcrumb-item"><a href="#">{% trans "products_breadcrumb_home" %}</a></li>
+                <li class="breadcrumb-item"><a href="#">{% trans "products_breadcrumb_products" %}</a></li>
+                <li class="breadcrumb-item active">{% trans "products_breadcrumb_category" %}</li>
             </ol>
         </nav>
     </div>
 </div>
-
-<!-- Page Header -->
 <div class="page-header">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <h1 class="page-title">{% trans "Targeted" %}<br>{% trans "Health" %}</h1>
-                <p class="page-description">
-                    {% blocktrans %}
-                    Ensure your body receives its daily requirements. Whether you want to support your immune system,
-                    bone and joint, digestive or heart health, our array of products is designed to complement your diet
-                    and cater to your specific needs.
-                    {% endblocktrans %}
-                </p>
+                <h1 class="page-title">{% trans "products_page_title_1" %}<br>{% trans "products_page_title_2" %}</h1>
+                <p class="page-description">{% trans "products_page_desc" %}</p>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Category Carousel -->
 <div class="category-carousel">
     <div class="container">
-        <div class="owl-carousel owl-theme category-slider" id="categorySliderInner">
-        </div>
+        <div class="owl-carousel owl-theme category-slider" id="categorySliderInner"></div>
     </div>
 </div>
-
-<!-- Mobile Filter Overlay -->
 <div class="filter-overlay" id="filterOverlay"></div>
-
-<!-- Mobile Filter Sidebar -->
 <div class="mobile-filter-sidebar" id="mobileFilterSidebar">
     <div class="filter-sidebar-header">
-        <h3>{% trans "Filters" %}</h3>
-        <button class="close-filter" id="closeFilter">
-            <i class="fas fa-times"></i>
-        </button>
+        <h3>{% trans "products_filters_title" %}</h3>
+        <button class="close-filter" id="closeFilter"><i class="fas fa-times"></i></button>
     </div>
     <div class="filter-sidebar-content" id="mobileFilterContent">
-        <div style="padding:20px;text-align:center;color:#aaa;font-size:13px;">{% trans "Loading filters..." %}</div>
+        <div style="padding:20px;text-align:center;color:#aaa;font-size:13px;">{% trans "products_loading_filters" %}</div>
     </div>
     <div class="filter-sidebar-footer">
-        <button class="clear-filters">{% trans "Clear All" %}</button>
-        <button class="apply-filters" id="applyFilters">{% trans "Apply Filters" %}</button>
+        <button class="clear-filters">{% trans "products_clear_filters" %}</button>
+        <button class="apply-filters" id="applyFilters">{% trans "products_apply_filters" %}</button>
     </div>
 </div>
-
-<!-- Main Content -->
 <div class="container">
     <div class="row">
-        <!-- Desktop Sidebar Filters -->
         <div class="col-lg-3 mb-4 desktop-sidebar">
             <div class="sidebar">
-                <button class="filter-btn w-100 mb-3">
-                    <i class="fas fa-filter"></i>
-                    {% trans "Filter" %}
-                </button>
+                <button class="filter-btn w-100 mb-3"><i class="fas fa-filter"></i> {% trans "products_filter_btn" %}</button>
                 <div id="desktopFilterContent">
-                    <div style="padding:16px 0;text-align:center;color:#aaa;font-size:13px;">{% trans "Loading..." %}
-                    </div>
+                    <div style="padding:16px 0;text-align:center;color:#aaa;font-size:13px;">{% trans "products_loading" %}</div>
                 </div>
             </div>
         </div>
-
-        <!-- Product Grid -->
         <div class="col-lg-9">
-            <!-- Filter and Sort Bar -->
             <div class="filter-sort-section d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3">
-                    <button class="filter-btn mobile-filter-btn" id="openFilter" style="display: none;">
-                        <i class="fas fa-filter"></i>
-                        {% trans "Filter" %}
+                    <button class="filter-btn mobile-filter-btn" id="openFilter" style="display:none;">
+                        <i class="fas fa-filter"></i> {% trans "products_filter_btn" %}
                     </button>
-                    <div class="product-count" id="productCount">{% trans "Loading..." %}</div>
+                    <div class="product-count" id="productCount">{% trans "products_loading" %}</div>
                 </div>
                 <select class="sort-dropdown" id="sortSelect">
-                    <option value="">{% trans "Sort by: Featured" %}</option>
-                    <option value="price_asc">{% trans "Price: Low to High" %}</option>
-                    <option value="price_desc">{% trans "Price: High to Low" %}</option>
-                    <option value="name_asc">{% trans "Name: A-Z" %}</option>
-                    <option value="name_desc">{% trans "Name: Z-A" %}</option>
+                    <option value="">{% trans "products_sort_featured" %}</option>
+                    <option value="price_asc">{% trans "products_sort_price_asc" %}</option>
+                    <option value="price_desc">{% trans "products_sort_price_desc" %}</option>
+                    <option value="name_asc">{% trans "products_sort_name_asc" %}</option>
+                    <option value="name_desc">{% trans "products_sort_name_desc" %}</option>
                 </select>
             </div>
-
-            <!-- Products (JS doldurur) -->
             <div class="product-grid" id="productGrid">
-                <div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">{% trans "Loading..." %}
-                </div>
+                <div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">{% trans "products_loading" %}</div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
-
 {% block js %}
 <script>
-    const i18n = {
-        loading: "{% trans 'Loading...' %}",
-        loadingFilters: "{% trans 'Loading filters...' %}",
-        noProducts: "{% trans 'No products found.' %}",
-        addToCart: "{% trans 'Add to Cart' %}",
-        outOfStock: "{% trans 'Out of Stock' %}",
-        products: "{% trans 'products' %}",
-        flavor: "{% trans 'Flavor' %}",
-        size: "{% trans 'Size' %}",
-        price: "{% trans 'Price' %}",
-        clearAll: "{% trans 'Clear All' %}",
-        applyFilters: "{% trans 'Apply Filters' %}",
-        priceRanges: {
-            lt25: "{% trans 'Under $25' %}",
-            r25_50: "{% trans '$25 – $50' %}",
-            r50_100: "{% trans '$50 – $100' %}",
-            gt100: "{% trans 'Over $100' %}",
-        }
-    };
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('.category-slider').owlCarousel({
-            loop: false,
-            margin: 0,
-            nav: true,
-            dots: false,
-            navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
-            responsive: {
-                0: { items: 2 },
-                576: { items: 3 },
-                768: { items: 4 },
-                992: { items: 5 },
-                1200: { items: 6 }
-            }
-        });
-
-        const openFilter = document.getElementById('openFilter');
-        const closeFilter = document.getElementById('closeFilter');
-        const applyFilters = document.getElementById('applyFilters');
-        const filterSidebar = document.getElementById('mobileFilterSidebar');
-        const filterOverlay = document.getElementById('filterOverlay');
-
-        openFilter.addEventListener('click', function () {
-            filterSidebar.classList.add('active');
-            filterOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        function closeSidebar() {
-            filterSidebar.classList.remove('active');
-            filterOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        closeFilter.addEventListener('click', closeSidebar);
-        filterOverlay.addEventListener('click', closeSidebar);
-        applyFilters.addEventListener('click', closeSidebar);
-
-        document.querySelector('.clear-filters').addEventListener('click', function () {
-            document.querySelectorAll('#mobileFilterSidebar input[type="checkbox"]').forEach(cb => {
-                cb.checked = false;
-            });
-        });
-    });
-
-    let _wishlistIds = [];
-
-function initWishlistButtons() {
-    fetch('/wishlist/status/')
-        .then(r => r.ok ? r.json() : { wishlist_ids: [] })
-        .then(data => {
-            _wishlistIds = data.wishlist_ids || [];
-            applyWishlistState();
-        })
-        .catch(() => {});
-}
-
-function applyWishlistState() {
-    document.querySelectorAll('[data-wishlist-btn]').forEach(btn => {
-        const pid = parseInt(btn.dataset.wishlistBtn);
-        setWishlistState(btn, _wishlistIds.includes(pid));
-    });
-}
-    function setWishlistState(btn, active) {
-        const icon = btn.querySelector('i');
-        if (!icon) return;
-        if (active) {
-            icon.classList.replace('far', 'fas');
-            btn.classList.add('wl-active');
-            btn.title = 'Sevimlilərden sil';
-        } else {
-            icon.classList.replace('fas', 'far');
-            btn.classList.remove('wl-active');
-            btn.title = 'Sevimlilərə əlavə et';
-        }
-    }
-
-    function toggleWishlist(productId) {
-        fetch('/wishlist/toggle/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCsrfToken(),
-            },
-            body: JSON.stringify({ product_id: productId }),
-        })
-            .then(r => {
-                if (r.status === 401) {
-                    // Login tələb olunur — redirect
-                    return r.json().then(d => {
-                        showLoginPrompt(d.login_url || '/login/');
-                        return null;
-                    });
-                }
-                return r.json();
-            })
-            .then(data => {
-                if (!data) return;
-                // Bütün bu məhsulun düymələrini yenilə
-                document.querySelectorAll(`[data-wishlist-btn="${productId}"]`).forEach(btn => {
-                    setWishlistState(btn, data.in_wishlist);
-                });
-                // Wishlist sayını navbar-da yenilə (varsa)
-                const counter = document.querySelector('.wishlist-counter');
-                if (counter) counter.textContent = data.count;
-            })
-            .catch(console.error);
-    }
-
-    // ── Cart add — login yoxlaması ──────────────────────────────────
-    function addToCart(productId, quantity = 1) {
-        fetch('/api/cart/add/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCsrfToken(),
-            },
-            body: JSON.stringify({ product_id: productId, quantity }),
-        })
-            .then(r => {
-                if (r.status === 401) {
-                    return r.json().then(d => {
-                        showLoginPrompt(d.login_url || '/login/');
-                        return null;
-                    });
-                }
-                return r.json();
-            })
-            .then(data => {
-                if (!data) return;
-                updateCartUI(data);        // mövcud cart update funksiyası
-                showCartToast();           // mövcud toast funksiyası
-            })
-            .catch(console.error);
-    }
-
-    // ── Login prompt modal ──────────────────────────────────────────
-    function showLoginPrompt(loginUrl) {
-        // Mövcud modal varsa onu sil
-        const existing = document.getElementById('loginPromptModal');
-        if (existing) existing.remove();
-
-        const modal = document.createElement('div');
-        modal.id = 'loginPromptModal';
-        modal.innerHTML = `
-    <div style="
-      position:fixed;inset:0;z-index:9999;
-      background:rgba(0,0,0,.5);
-      display:flex;align-items:center;justify-content:center;
-      padding:16px;
-      animation: fadeIn .2s;
-    ">
-      <div style="
-        background:#fff;border-radius:20px;padding:36px 32px;
-        max-width:380px;width:100%;text-align:center;
-        box-shadow:0 20px 60px rgba(0,0,0,.2);
-        animation: slideUp .25s;
-      ">
-        <div style="
-          width:64px;height:64px;border-radius:50%;
-          background:linear-gradient(135deg,#E8F8EF,#D1ECE0);
-          display:flex;align-items:center;justify-content:center;
-          margin:0 auto 20px;font-size:28px;
-        ">🌿</div>
-        <h3 style="font-size:20px;font-weight:700;color:#1A2E1A;margin-bottom:8px">
-          Daxil olmaq lazımdır
-        </h3>
-        <p style="color:#6B7B6B;font-size:14px;margin-bottom:24px;line-height:1.6">
-          Bu əməliyyatı yerinə yetirmək üçün hesabınıza daxil olun.
-        </p>
-        <div style="display:flex;gap:10px">
-          <button onclick="document.getElementById('loginPromptModal').remove()"
-                  style="flex:1;padding:11px;border-radius:10px;border:1.5px solid #D6EBE0;
-                         background:#fff;color:#6B7B6B;font-weight:600;cursor:pointer;font-size:14px">
-            Ləğv et
-          </button>
-          <a href="${loginUrl}?next=${encodeURIComponent(location.pathname)}"
-             style="flex:1;padding:11px;border-radius:10px;border:none;
-                    background:#009A44;color:#fff;font-weight:600;
-                    text-decoration:none;display:flex;align-items:center;
-                    justify-content:center;font-size:14px">
-            Daxil ol
-          </a>
-        </div>
-      </div>
-    </div>
-    <style>
-      @keyframes fadeIn  { from{opacity:0}  to{opacity:1} }
-      @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-    </style>
-  `;
-        document.body.appendChild(modal);
-        // Overlay-ə klik ilə bağla
-        modal.querySelector('div').addEventListener('click', e => {
-            if (e.target === e.currentTarget) modal.remove();
-        });
-    }
-
-    // ── CSRF helper ─────────────────────────────────────────────────
-    function getCsrfToken() {
-        const v = document.cookie.match('(^|;)\\s*csrftoken\\s*=\\s*([^;]+)');
-        return v ? v.pop() : '';
-    }
-
-    // ── Init ────────────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
-        initWishlistButtons();
-
-        // Wishlist düymələrinə event listener
-        document.addEventListener('click', e => {
-            const btn = e.target.closest('[data-wishlist-btn]');
-            if (btn) {
-                e.preventDefault();
-                toggleWishlist(parseInt(btn.dataset.wishlistBtn));
-            }
-        });
-    });
+const i18n={
+    loading:"{% trans 'products_loading' %}",
+    no_products:"{% trans 'products_not_found' %}",
+    add_btn:"{% trans 'products_add_btn' %}",
+    toast_added:"{% trans 'products_added_toast' %}",
+    add_to_bag:"{% trans 'products_add_to_bag' %}",
+    out_of_stock:"{% trans 'products_out_of_stock' %}",
+    related:"{% trans 'products_related' %}",
+    all_products:"{% trans 'products_all_label' %}",
+    products_count:"{% trans 'products_count_label' %}",
+    filter_flavor:"{% trans 'products_filter_flavor' %}",
+    filter_size:"{% trans 'products_filter_size' %}",
+    filter_price:"{% trans 'products_filter_price' %}",
+    see_all:"{% trans 'products_see_all' %}",
+    cart_empty:"{% trans 'cart_empty_text' %}",
+    cart_continue:"{% trans 'cart_continue_shopping' %}",
+    cart_title:"{% trans 'cart_title_label' %}",
+    cart_price:"{% trans 'cart_price_label' %}",
+    cart_flavor:"{% trans 'cart_flavor_label' %}",
+    cart_subtotal:"{% trans 'cart_subtotal_label' %}",
+    cart_remove:"{% trans 'cart_remove_btn' %}",
+};
 </script>
 {% endblock %}

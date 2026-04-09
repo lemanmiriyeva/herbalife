@@ -4,7 +4,7 @@
     <div class="container">
         <div class="top-bar-inner">
             
-            <!-- Dil seçimi - modern dropdown -->
+            <!-- Dil seçimi -->
             <div class="lang-dropdown-wrapper">
                 <button class="lang-dropdown-btn" id="langDropdownBtn">
                     <i class="fas fa-globe"></i>
@@ -56,92 +56,170 @@
                 src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha" alt="Herbalife">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Desktop nav -->
+        <ul class="navbar-nav mx-auto d-none d-lg-flex ">
+            <li><a class="nav-link" href="{% url 'home' %}">{% trans "nav_home" %}</a></li>
+            <li><a class="nav-link" href="{% url 'products' %}">{% trans "nav_products" %}</a></li>
+            <li><a class="nav-link" href="{% url 'blog' %}">{% trans "nav_blog" %}</a></li>
+            <li><a class="nav-link" href="{% url 'cart' %}">{% trans "nav_cart" %}</a></li>
+        </ul>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products' %}">{% trans "Products" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'blog' %}">{% trans "Blog" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'cart' %}">{% trans "Cart" %}</a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav align-items-center gap-2">
-
-                <!-- Auth dropdown -->
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link auth-dropdown-btn" href="#" id="userDropdown" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i>
-                        {{ user.get_full_name|default:user.username|default:user.phone }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'logout' %}">
-                                <i class="fas fa-sign-out-alt me-2"></i>{% trans "Sign Out" %}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {% else %}
-                <li class="nav-item dropdown">
-                    <button class="auth-dropdown-btn" id="authDropdownBtn">
-                        <i class="fas fa-user"></i>
-                        <span>{% trans "Account" %}</span>
-                        <i class="fas fa-chevron-down" style="font-size:10px;"></i>
-                    </button>
-                    <div class="auth-dropdown-menu" id="authDropdownMenu">
-                        <div class="auth-dropdown-header">{% trans "Welcome!" %}</div>
-                        <a href="{% url 'login' %}" class="auth-dropdown-item">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <div>
-                                <strong>{% trans "Sign In" %}</strong>
-                                <span>{% trans "Access your account" %}</span>
-                            </div>
+        <!-- Desktop right -->
+        <div class="navbar-right-desktop">
+            {% if user.is_authenticated %}
+            <!-- <div class="nav-item-wrap dropdown">
+                <a class="auth-dropdown-btn" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                    <i class="fas fa-user-circle"></i>
+                    {{ user.get_full_name|default:user.username|default:user.phone }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'profile' %}">
+                            <i class="fas fa-user-circle me-2"></i>{% trans "nav_profile" %}
                         </a>
-                        <a href="{% url 'register' %}" class="auth-dropdown-item">
-                            <i class="fas fa-user-plus"></i>
-                            <div>
-                                <strong>{% trans "Register" %}</strong>
-                                <span>{% trans "Create new account" %}</span>
-                            </div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-2"></i>{% trans "nav_sign_out" %}
                         </a>
-                    </div>
-                </li>
-                {% endif %}
+                    </li>
+                </ul>
+            </div> -->
+             <div class="nav-item-wrap" style="position:relative;">
+                <button class="auth-dropdown-btn" id="authDropdownBtn">
+                    <i class="fas fa-user"></i>
+                    <span> {{ user.get_full_name|default:user.username|default:user.phone }}</span>
+                    <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                </button>
+                <div  class="auth-dropdown-menu" id="authDropdownMenu">
+                    <div class="auth-dropdown-header">{% trans "nav_welcome" %}</div>
+                    <a href="{% url 'profile' %}" class="auth-dropdown-item">
 
-                <!-- Search -->
-                <li class="nav-item">
-                    <button class="icon-nav-btn" onclick="openSearchModal()">
-                        <img width="22" height="22" src="{% static 'images/search.png' %}" alt="Search">
-                    </button>
-                </li>
-
-                <!-- Cart -->
-                <li class="nav-item">
-                    <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
-                        <img width="22" height="22" src="{% static 'images/basket.png' %}" alt="Cart">
-                        <span class="cart-badge"
-                            style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">
-                            0
-                        </span>
+                        <!-- <i class="fas fa-sign-in-alt"></i>
+                        <div>
+                            <strong>{% trans "nav_sign_in" %}</strong>
+                            <span>{% trans "nav_account_access" %}</span>
+                        </div> -->
+                         <i class="fas fa-user-circle me-2"></i>
+                          <div>
+                            <strong> {% trans "nav_profile" %}</strong>
+                          </div>
                     </a>
-                </li>
+                    
+                    <a href="{% url 'logout' %}" class="auth-dropdown-item">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        <div>
+                            <strong>{% trans "nav_sign_out" %}</strong>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="nav-item-wrap" style="position:relative;">
+                <button class="auth-dropdown-btn" id="authDropdownBtn">
+                    <i class="fas fa-user"></i>
+                    <span>{% trans "nav_account" %}</span>
+                    <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                </button>
+                <div class="auth-dropdown-menu" id="authDropdownMenu">
+                    <div class="auth-dropdown-header">{% trans "nav_welcome" %}</div>
+                    <a href="{% url 'login' %}" class="auth-dropdown-item">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <div>
+                            <strong>{% trans "nav_sign_in" %}</strong>
+                            <span>{% trans "nav_account_access" %}</span>
+                        </div>
+                    </a>
+                    <a href="{% url 'register' %}" class="auth-dropdown-item">
+                        <i class="fas fa-user-plus"></i>
+                        <div>
+                            <strong>{% trans "nav_register" %}</strong>
+                            <span>{% trans "nav_account_create" %}</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
 
-            </ul>
+            <button class="icon-nav-btn" onclick="openSearchModal()">
+                <img width="22" height="22" src="{% static 'images/search.png' %}" alt="Search">
+            </button>
+
+            <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
+                <img width="22" height="22" src="{% static 'images/basket.png' %}" alt="Cart">
+                <span class="cart-badge" style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">0</span>
+            </a>
+        </div>
+
+        <!-- Mobile right (search + cart + toggler) -->
+        <div class="navbar-mobile-right">
+            <button class="icon-nav-btn" onclick="openSearchModal()">
+                <img width="22" height="22" src="{% static 'images/search.png' %}" alt="Search">
+            </button>
+            <a href="{% url 'cart' %}" style="position:relative;display:inline-flex;">
+                <img width="22" height="22" src="{% static 'images/basket.png' %}" alt="Cart">
+                <span class="cart-badge" style="position:absolute;top:-8px;right:-10px;background:#e8483b;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;">0</span>
+            </a>
+            <!-- Hamburger toggler -->
+            <button class="nav-toggler" id="navToggler" onclick="openOffcanvas()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </div>
 </nav>
+
+<!-- Offcanvas overlay -->
+<div class="offcanvas-overlay" id="offcanvasOverlay" onclick="closeOffcanvas()"></div>
+
+<!-- Offcanvas menu -->
+<div class="offcanvas-menu" id="offcanvasMenu">
+    <div class="offcanvas-header">
+        <img width="130" height="35" src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha" alt="Herbalife">
+        <button class="offcanvas-close" onclick="closeOffcanvas()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="offcanvas-body">
+        <!-- Nav links -->
+        <nav class="offcanvas-nav">
+            <a href="{% url 'home' %}" class="offcanvas-link">
+                <i class="fas fa-home"></i> {% trans "nav_home" %}
+            </a>
+            <a href="{% url 'products' %}" class="offcanvas-link">
+                <i class="fas fa-box"></i>{% trans "nav_products" %}
+            </a>
+            <a href="{% url 'blog' %}" class="offcanvas-link">
+                <i class="fas fa-newspaper"></i>{% trans "nav_blog" %}
+            </a>
+            <a href="{% url 'cart' %}" class="offcanvas-link">
+                <i class="fas fa-shopping-cart"></i> {% trans "nav_cart" %}
+            </a>
+        </nav>
+
+        <div class="offcanvas-divider"></div>
+
+        <!-- Auth -->
+        {% if user.is_authenticated %}
+        <div class="offcanvas-user">
+            <i class="fas fa-user-circle"></i>
+            <span>{{ user.get_full_name|default:user.username|default:user.phone }}</span>
+        </div>
+        <a href="{% url 'logout' %}" class="offcanvas-link" style="color:#e8483b;">
+            <i class="fas fa-sign-out-alt"></i> {% trans "Sign Out" %}
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" class="offcanvas-btn-outline">
+            <i class="fas fa-sign-in-alt"></i> {% trans "Sign In" %}
+        </a>
+        <a href="{% url 'register' %}" class="offcanvas-btn-fill">
+            <i class="fas fa-user-plus"></i> {% trans "Register" %}
+        </a>
+        {% endif %}
+    </div>
+</div>
 
 <!-- Full Page Search Modal -->
 <div class="search-modal" id="searchModal">
@@ -153,7 +231,7 @@
             <p class="search-modal-label">{% trans "Search products..." %}</p>
             <div class="search-modal-input-wrapper">
                 <i class="fas fa-search"></i>
-                <input type="text" id="modalSearchInput" 
+                <input type="text" id="modalSearchInput"
                        placeholder="{% trans 'Type to search...' %}"
                        autocomplete="off">
             </div>
@@ -162,11 +240,23 @@
     </div>
 </div>
 
-<!-- Dropdownları bağlamaq üçün overlay -->
-<div class="nav-overlay" id="navOverlay" onclick="closeAllDropdowns()"></div>
-
 <script>
-// Lang dropdown
+// ── Offcanvas ─────────────────────────────────────────────
+function openOffcanvas() {
+    document.getElementById('offcanvasMenu').classList.add('open');
+    document.getElementById('offcanvasOverlay').classList.add('open');
+    document.getElementById('navToggler').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeOffcanvas() {
+    document.getElementById('offcanvasMenu').classList.remove('open');
+    document.getElementById('offcanvasOverlay').classList.remove('open');
+    document.getElementById('navToggler').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ── Lang dropdown ─────────────────────────────────────────
 const langBtn = document.getElementById('langDropdownBtn');
 const langMenu = document.getElementById('langDropdownMenu');
 const langChevron = document.getElementById('langChevron');
@@ -178,14 +268,14 @@ langBtn.addEventListener('click', (e) => {
     closeAuthDropdown();
 });
 
-// Auth dropdown
+// ── Auth dropdown ─────────────────────────────────────────
 const authBtn = document.getElementById('authDropdownBtn');
 const authMenu = document.getElementById('authDropdownMenu');
 
 if (authBtn) {
     authBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isOpen = authMenu.classList.toggle('open');
+        authMenu.classList.toggle('open');
         closeLangDropdown();
     });
 }
@@ -199,14 +289,12 @@ function closeAuthDropdown() {
     authMenu?.classList.remove('open');
 }
 
-function closeAllDropdowns() {
+document.addEventListener('click', () => {
     closeLangDropdown();
     closeAuthDropdown();
-}
+});
 
-document.addEventListener('click', closeAllDropdowns);
-
-// Search Modal
+// ── Search Modal ──────────────────────────────────────────
 function openSearchModal() {
     document.getElementById('searchModal').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -221,10 +309,9 @@ function closeSearchModal() {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeSearchModal();
+    if (e.key === 'Escape') { closeSearchModal(); closeOffcanvas(); }
 });
 
-// Modal search input
 const modalInput = document.getElementById('modalSearchInput');
 if (modalInput) {
     let timer;
@@ -252,12 +339,9 @@ if (modalInput) {
                                     <span class="search-result-price">$${p.final_price}</span>
                                 </div>
                             </a>
-                        </li>
-                    `).join('') + `
+                        </li>`).join('') + `
                         <li class="search-see-all">
-                            <a href="/products?search=${encodeURIComponent(q)}" onclick="closeSearchModal()">
-                                Hamısına bax →
-                            </a>
+                            <a href="/products?search=${encodeURIComponent(q)}" onclick="closeSearchModal()">Hamısına bax →</a>
                         </li>`;
                 });
         }, 300);

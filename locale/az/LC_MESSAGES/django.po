@@ -1,180 +1,846 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Herbalife Website 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-25 00:00+0000\n"
-"PO-Revision-Date: 2026-03-25 00:00+0000\n"
-"Last-Translator: Laman <youremail@example.com>\n"
-"Language-Team: Azerbaijani\n"
 "Language: az\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Home"
+# ── Navbar ────────────────────────────────────────────────────────
+msgid "nav_home"
 msgstr "Ana səhifə"
 
-msgid "Products"
+msgid "nav_profile"
+msgstr "Hesabım"
+
+msgid "nav_products"
 msgstr "Məhsullar"
 
-msgid "Cart"
+msgid "nav_blog"
+msgstr "Blo1lar"
+
+msgid "nav_cart"
 msgstr "Səbət"
 
-msgid "Sign In"
+msgid "nav_account"
+msgstr "Hesab"
+
+msgid "nav_sign_in"
 msgstr "Daxil ol"
 
-msgid "Sign Out"
+msgid "nav_sign_out"
 msgstr "Çıxış et"
 
-msgid "Register"
+msgid "nav_register"
 msgstr "Qeydiyyat"
 
-msgid "Search products..."
+msgid "nav_welcome"
+msgstr "Xoş gəldiniz!"
+
+msgid "nav_account_access"
+msgstr "Hesabınıza daxil olun"
+
+msgid "nav_account_create"
+msgstr "Yeni hesab açın"
+
+msgid "nav_select_region"
+msgstr "Bölgənizi seçin"
+
+msgid "nav_search_placeholder"
 msgstr "Məhsul axtar..."
 
-msgid "Search"
+msgid "nav_type_to_search"
+msgstr "Axtarmaq üçün yazın..."
+
+msgid "nav_search"
 msgstr "Axtar"
 
-msgid "Herbalife Logo"
-msgstr "Herbalife Loqo"
+msgid "nav_stores_failed"
+msgstr "Mağazalar yüklənmədi."
 
-msgid "Our Products"
-msgstr "Məhsullarımız"
+# ── Login ─────────────────────────────────────────────────────────
+msgid "login_page_title"
+msgstr "Daxil ol"
 
-msgid "Healthy Weight"
-msgstr "Sağlam Çəki"
+msgid "login_side_title"
+msgstr "Xoş gəldiniz!"
 
-msgid "Fitness"
-msgstr "Fitness"
+msgid "login_side_subtitle"
+msgstr "Hesabınıza daxil olun"
 
-msgid "Performance"
-msgstr "Performans"
+msgid "login_perk_orders"
+msgstr "Sifariş tarixçənizi izləyin"
 
-msgid "Daily Nutrition & Health"
-msgstr "Gündəlik Qidalanma və Sağlamlıq"
+msgid "login_perk_wishlist"
+msgstr "Sevimlilər siyahısı yaradın"
 
-msgid "Skin and Body Care"
-msgstr "Dəri və Bədən Baxımı"
+msgid "login_perk_checkout"
+msgstr "Sürətli checkout prosesi"
 
-msgid "About Herbalife"
-msgstr "Herbalife Haqqında"
+msgid "login_perk_campaigns"
+msgstr "Ekskluziv kampaniyalar"
 
-msgid "Our Leadership"
-msgstr "Rəhbərliyimiz"
+msgid "login_form_title"
+msgstr "Daxil ol"
 
-msgid "Future of Health"
-msgstr "Sağlamlığın Gələcəyi"
+msgid "login_no_account"
+msgstr "Hesabınız yoxdur?"
 
-msgid "Press Room"
-msgstr "Mətbuat Otağı"
+msgid "login_register_link"
+msgstr "Qeydiyyatdan keçin"
 
-msgid "Investor Relations"
-msgstr "İnvestor Əlaqələri"
+msgid "login_identity_label"
+msgstr "Kimlik"
 
-msgid "Career Opportunities"
-msgstr "Karyera Fürsətləri"
+msgid "login_tab_phone"
+msgstr "Telefon"
 
-msgid "Statement of Typical Distributor Earnings"
-msgstr "Tipik Distribyutor Gəlirləri Bəyannaməsi"
+msgid "login_tab_email"
+msgstr "E-poçt"
 
-msgid "Gold Standard Guarantee"
-msgstr "Qızıl Standart Zəmanəti"
+msgid "login_tab_username"
+msgstr "İstifadəçi adı"
 
-msgid "Ethics and Compliance"
-msgstr "Etika və Uyğunluq"
+msgid "login_password_label"
+msgstr "Şifrə"
 
-msgid "Get Help"
-msgstr "Kömək Alın"
+msgid "login_forgot_password"
+msgstr "Şifrəni unutdum?"
 
-msgid "Support Center"
-msgstr "Dəstək Mərkəzi"
+msgid "login_submit_btn"
+msgstr "Daxil ol"
 
-msgid "Contact Us"
-msgstr "Bizimlə Əlaqə"
+# ── Register ──────────────────────────────────────────────────────
+msgid "register_page_title"
+msgstr "Qeydiyyat"
 
-msgid "Refund Policy"
-msgstr "Geri Ödəmə Siyasəti"
+msgid "register_side_title"
+msgstr "Sağlam həyatınıza başlayın"
 
-msgid "Frequently Asked Questions"
-msgstr "Tez-tez Soruşulan Suallar"
+msgid "register_side_subtitle"
+msgstr "Pulsuz hesab açın, sağlamlıq dünyasına qoşulun."
 
-msgid "For Distributors"
-msgstr "Distribyutorlar Üçün"
+msgid "register_step_1"
+msgstr "Məlumatlarınızı daxil edin"
 
-msgid "Distributor Login"
-msgstr "Distribyutor Girişi"
+msgid "register_step_2"
+msgstr "Hesabınızı aktivləşdirin"
 
-msgid "Business Opportunity"
-msgstr "Biznes Fürsəti"
+msgid "register_step_3"
+msgstr "Premium məhsullara çatın"
 
-msgid "Site Map"
-msgstr "Sayt Xəritəsi"
+msgid "register_form_title"
+msgstr "Hesab yarat"
 
-msgid "Terms of Use"
-msgstr "İstifadə Şərtləri"
+msgid "register_have_account"
+msgstr "Artıq hesabınız var?"
 
-msgid "Herbalife Privacy Policy"
-msgstr "Herbalife Məxfilik Siyasəti"
+msgid "register_signin_link"
+msgstr "Daxil olun"
 
-msgid "Herbalife Consumer Health Data Privacy Policy"
-msgstr "Herbalife İstehlakçı Sağlamlıq Məlumatları Məxfilik Siyasəti"
+msgid "register_first_name"
+msgstr "Ad *"
 
-msgid "Cookie Policy"
-msgstr "Cookie Siyasəti"
+msgid "register_first_name_placeholder"
+msgstr "Adınız"
 
-msgid "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
-msgstr "Şəxsi Məlumatlarımı Satmayın və ya Paylaşmayın / Hədəflənmiş Reklamdan İmtina"
+msgid "register_last_name"
+msgstr "Soyad"
 
-msgid "United States"
-msgstr "Amerika Birləşmiş Ştatları"
+msgid "register_last_name_placeholder"
+msgstr "Soyadınız"
 
-msgid "Your daily collagen, to go"
+msgid "register_email"
+msgstr "E-poçt ünvanı *"
+
+msgid "register_phone"
+msgstr "Telefon nömrəsi *"
+
+msgid "register_password"
+msgstr "Şifrə *"
+
+msgid "register_password_placeholder"
+msgstr "Minimum 6 simvol"
+
+msgid "register_confirm_password"
+msgstr "Şifrəni təsdiq edin *"
+
+msgid "register_confirm_placeholder"
+msgstr "Yenidən daxil edin"
+
+msgid "register_submit_btn"
+msgstr "Qeydiyyatdan keç"
+
+msgid "register_terms_text"
+msgstr "Qeydiyyatdan keçməklə"
+
+msgid "register_terms_link"
+msgstr "İstifadə şərtlərini"
+
+msgid "register_terms_agree"
+msgstr "qəbul etmiş olursunuz."
+
+# ── Cart ──────────────────────────────────────────────────────────
+msgid "cart_page_title"
+msgstr "Alış-veriş Səbəti"
+
+msgid "cart_clear_btn"
+msgstr "Səbəti Təmizlə"
+
+msgid "cart_summary_title"
+msgstr "Məbləğ Xülasəsi"
+
+msgid "cart_free_shipping"
+msgstr "Sifarişiniz pulsuz çatdırılmaya uyğundur"
+
+msgid "cart_item_subtotal"
+msgstr "Məhsul Cəmi"
+
+msgid "cart_tax_note"
+msgstr "Vergilər və Çatdırılma Checkout-da Hesablanır"
+
+msgid "cart_checkout_btn"
+msgstr "Sifariş ver"
+
+msgid "cart_empty_text"
+msgstr "Səbətiniz boşdur"
+
+msgid "cart_continue_shopping"
+msgstr "Alış-verişə davam et"
+
+msgid "cart_title_label"
+msgstr "Alış-veriş Səbəti"
+
+msgid "cart_price_label"
+msgstr "qiymət"
+
+msgid "cart_flavor_label"
+msgstr "Dad:"
+
+msgid "cart_subtotal_label"
+msgstr "Cəmi:"
+
+msgid "cart_remove_btn"
+msgstr "Sil"
+
+# ── Products ──────────────────────────────────────────────────────
+msgid "products_page_title_1"
+msgstr "Hədəflənmiş"
+
+msgid "products_page_title_2"
+msgstr "Sağlamlıq"
+
+msgid "products_page_desc"
+msgstr "Bədəninizin gündəlik ehtiyaclarını qarşılayın. İmmun sisteminizi, sümük və oynaqlarınızı, həzm və ya ürək sağlamlığınızı dəstəkləmək istəyirsinizsə, məhsullarımız pəhrizinizi tamamlamaq üçün hazırlanmışdır."
+
+msgid "products_filter_btn"
+msgstr "Filtr"
+
+msgid "products_filters_title"
+msgstr "Filtrlər"
+
+msgid "products_clear_filters"
+msgstr "Hamısını Sil"
+
+msgid "products_apply_filters"
+msgstr "Filtrlər Tətbiq Et"
+
+msgid "products_loading_filters"
+msgstr "Filtrlər yüklənir..."
+
+msgid "products_sort_featured"
+msgstr "Sırala: Seçilmiş"
+
+msgid "products_sort_price_asc"
+msgstr "Qiymət: Azdan Çoxa"
+
+msgid "products_sort_price_desc"
+msgstr "Qiymət: Çoxdan Aza"
+
+msgid "products_sort_name_asc"
+msgstr "Ad: A-Z"
+
+msgid "products_sort_name_desc"
+msgstr "Ad: Z-A"
+
+msgid "products_not_found"
+msgstr "Məhsul tapılmadı."
+
+msgid "products_loading"
+msgstr "Yüklənir..."
+
+msgid "products_all_label"
+msgstr "Hamısı"
+
+msgid "products_count_label"
+msgstr "Məhsul"
+
+msgid "products_add_btn"
+msgstr "Əlavə et"
+
+msgid "products_added_toast"
+msgstr "Məhsul səbətə əlavə edildi"
+
+msgid "products_add_to_bag"
+msgstr "Səbətə əlavə et"
+
+msgid "products_out_of_stock"
+msgstr "Stokda yoxdur"
+
+msgid "products_related"
+msgstr "Əlaqəli məhsullar"
+
+msgid "products_filter_flavor"
+msgstr "Dad"
+
+msgid "products_filter_size"
+msgstr "Ölçü"
+
+msgid "products_filter_price"
+msgstr "Qiymət"
+
+msgid "products_see_all"
+msgstr "Hamısına bax"
+
+msgid "products_breadcrumb_home"
+msgstr "Ana səhifə"
+
+msgid "products_breadcrumb_products"
+msgstr "Məhsullar"
+
+msgid "products_breadcrumb_category"
+msgstr "Hədəflənmiş Sağlamlıq"
+
+# ── Home ──────────────────────────────────────────────────────────
+msgid "home_hero_1_title"
 msgstr "Gündəlik kollageniniz, yanınızda"
 
-msgid "Learn More"
-msgstr "Ətraflı oxu"
-
-msgid "Cellular health, reimagined."
+msgid "home_hero_2_title"
 msgstr "Hüceyrə sağlamlığı, yenidən nəzərdən keçirilmişdir."
 
-msgid "Skin & body care you can see"
+msgid "home_learn_more"
+msgstr "Ətraflı oxu"
+
+msgid "home_tab_fitness"
+msgstr "Fitness"
+
+msgid "home_tab_performance"
+msgstr "Performans"
+
+msgid "home_tab_nutrition"
+msgstr "Gündəlik Qidalanma və Sağlamlıq"
+
+msgid "home_tab_skin"
+msgstr "Dəri və Bədən Baxımı"
+
+msgid "home_category_title"
 msgstr "Görə biləcəyiniz dəri və bədən baxımı"
 
-msgid "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
+msgid "home_category_desc"
 msgstr "Bədəninizə yalnız ən yaxşısını verin – aloe və bitki ekstraktlı dəri və bədən məhsullarımızla."
 
-msgid "Science & quality"
+msgid "home_science_title"
 msgstr "Elm və keyfiyyət"
 
-msgid "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
+msgid "home_science_text_1"
 msgstr "40 ildən artıq sağlamlıq və qidalanma sahəsində lider olaraq, məhsullarımızın keyfiyyətini, faydalarını və təhlükəsizliyini təmin etmək üçün ciddi testlər aparırıq."
 
-msgid "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
-msgstr "Hər Herbalife tərkibi yüksək keyfiyyət standartlarına uyğun saxlanılır, 'Seed to Feed'. Hər tərkibi çoxsəviyyəli keyfiyyətə nəzarət sistemi ilə elmi şəkildə yoxlayır və test edirik ki, siz ən yaxşı qidalanmanı alasınız."
+msgid "home_science_text_2"
+msgstr "Hər Herbalife tərkibi yüksək keyfiyyət standartlarına uyğun saxlanılır. Hər tərkibi çoxsəviyyəli keyfiyyətə nəzarət sistemi ilə elmi şəkildə yoxlayırıq."
 
-msgid "Real people, real success"
+msgid "home_success_title"
 msgstr "Həqiqi insanlar, həqiqi uğur"
 
-msgid "Check out these success stories from our community."
+msgid "home_success_desc"
 msgstr "İcma üzvlərimizin uğur hekayələrini yoxlayın."
 
-msgid "Articles and recipes"
+msgid "home_articles_title"
 msgstr "Məqalələr və reseptlər"
 
-msgid "A collection of articles, recipes and more to support your journey to wellness."
+msgid "home_articles_desc"
 msgstr "Sizin sağlamlıq yolculuğunuzu dəstəkləmək üçün məqalələr, reseptlər və digər məlumatların toplusu."
 
-msgid "Pending"
+# ── Blog ──────────────────────────────────────────────────────────
+msgid "blog_hero_eyebrow"
+msgstr "Sağlamlıq Məsləhətləri"
+
+msgid "blog_hero_title_1"
+msgstr "Sağlam Yaşa,"
+
+msgid "blog_hero_title_2"
+msgstr "Özünü Yaxşı Hiss Et"
+
+msgid "blog_hero_title_3"
+msgstr "Hər Gün"
+
+msgid "blog_hero_desc"
+msgstr "Ekspert qidalanma məsləhətləri, sağlam reseptlər, fitness bələdçiləri və həyat tərzi ilhamı."
+
+msgid "blog_search_placeholder"
+msgstr "Məqalə axtar..."
+
+msgid "blog_featured_label"
+msgstr "Seçilmiş"
+
+msgid "blog_latest_title"
+msgstr "Son Məqalələr"
+
+msgid "blog_all_topics"
+msgstr "Bütün Mövzular"
+
+msgid "blog_newsletter_title"
+msgstr "Həftəlik Sağlamlıq Məsləhətləri Alın"
+
+msgid "blog_newsletter_desc"
+msgstr "Hər həftə ekspert məsləhətləri alan 50,000+ oxucuya qoşulun."
+
+msgid "blog_email_placeholder"
+msgstr "E-poçt ünvanınız"
+
+msgid "blog_subscribe_btn"
+msgstr "Abunə ol"
+
+msgid "blog_subscribed"
+msgstr "Abunə oldunuz!"
+
+msgid "blog_no_articles"
+msgstr "Məqalə tapılmadı."
+
+msgid "blog_load_failed"
+msgstr "Məqalələr yüklənmədi."
+
+msgid "blog_min_read"
+msgstr "dəq oxuma"
+
+msgid "blog_read_article"
+msgstr "Məqaləni oxu"
+
+msgid "blog_read_btn"
+msgstr "Oxu"
+
+# ── Blog Detail ───────────────────────────────────────────────────
+msgid "blog_detail_loading"
+msgstr "Yüklənir..."
+
+msgid "blog_detail_breadcrumb_home"
+msgstr "Ana səhifə"
+
+msgid "blog_detail_breadcrumb_blog"
+msgstr "Blog"
+
+msgid "blog_detail_contents"
+msgstr "Məzmun"
+
+msgid "blog_detail_related"
+msgstr "Əlaqəli Məqalələr"
+
+msgid "blog_detail_stay_updated"
+msgstr "Xəbərdar olun"
+
+msgid "blog_detail_newsletter_desc"
+msgstr "Hər həftə ən son sağlamlıq məsləhətlərini e-poçtunuza alın."
+
+msgid "blog_detail_email_placeholder"
+msgstr "E-poçtunuz"
+
+msgid "blog_detail_subscribe"
+msgstr "Abunə ol"
+
+msgid "blog_detail_subscribed"
+msgstr "Abunə oldunuz!"
+
+msgid "blog_detail_you_might_like"
+msgstr "Bunları da bəyənə bilərsiniz"
+
+msgid "blog_detail_all_articles"
+msgstr "Bütün Məqalələr"
+
+msgid "blog_detail_tags"
+msgstr "Etiketlər:"
+
+msgid "blog_detail_wellness_tag"
+msgstr "Sağlamlıq"
+
+msgid "blog_detail_share"
+msgstr "Paylaş:"
+
+msgid "blog_detail_author_role"
+msgstr "Herbalife Qidalanma Eksperti"
+
+msgid "blog_detail_author_bio"
+msgstr "Qidalanma və sağlamlıq üzrə ekspertlərimiz sizi daha sağlam və aktiv həyat sürmənizə kömək etmək üçün çalışır."
+
+msgid "blog_detail_not_found"
+msgstr "Məqalə tapılmadı"
+
+msgid "blog_detail_back"
+msgstr "Bloga qayıt"
+
+msgid "blog_detail_load_failed"
+msgstr "Bu məqalə yüklənə bilmədi."
+
+msgid "blog_detail_min_read"
+msgstr "dəq oxuma"
+
+msgid "blog_detail_read_article"
+msgstr "Məqaləni oxu"
+
+# ── Profile ───────────────────────────────────────────────────────
+msgid "profile_page_title"
+msgstr "Profilim"
+
+msgid "profile_member_badge"
+msgstr "Üzv"
+
+msgid "profile_tab_orders"
+msgstr "Sifarişlər"
+
+msgid "profile_tab_wishlist"
+msgstr "Sevimlilər"
+
+msgid "profile_tab_settings"
+msgstr "Parametrlər"
+
+msgid "profile_tab_password"
+msgstr "Şifrə"
+
+msgid "profile_orders_title"
+msgstr "Sifariş tarixçəsi"
+
+msgid "profile_no_orders"
+msgstr "Hələ sifarişiniz yoxdur."
+
+msgid "profile_browse_products"
+msgstr "Məhsullara baxın"
+
+msgid "profile_wishlist_title"
+msgstr "Sevilmiş məhsullar"
+
+msgid "profile_no_wishlist"
+msgstr "Sevilmiş məhsulunuz yoxdur."
+
+msgid "profile_view_btn"
+msgstr "Baxın"
+
+msgid "profile_remove_from_wishlist"
+msgstr "Siyahıdan sil"
+
+msgid "profile_settings_title"
+msgstr "Şəxsi məlumatlar"
+
+msgid "profile_first_name"
+msgstr "Ad"
+
+msgid "profile_last_name"
+msgstr "Soyad"
+
+msgid "profile_phone"
+msgstr "Telefon nömrəsi"
+
+msgid "profile_save_btn"
+msgstr "Yadda saxla"
+
+msgid "profile_password_title"
+msgstr "Şifrə dəyiş"
+
+msgid "profile_old_password"
+msgstr "Köhnə şifrə"
+
+msgid "profile_old_password_placeholder"
+msgstr "Mövcud şifrəniz"
+
+msgid "profile_new_password"
+msgstr "Yeni şifrə"
+
+msgid "profile_confirm_password"
+msgstr "Yeni şifrəni təsdiq edin"
+
+msgid "profile_confirm_placeholder"
+msgstr "Yenidən daxil edin"
+
+msgid "profile_change_password_btn"
+msgstr "Şifrəni dəyiş"
+
+# ── Checkout ──────────────────────────────────────────────────────
+msgid "checkout_page_title"
+msgstr "Ünvan məlumatları"
+
+msgid "checkout_step_basket"
+msgstr "Səbət"
+
+msgid "checkout_step_address"
+msgstr "Ünvan"
+
+msgid "checkout_step_paypal"
+msgstr "PayPal"
+
+msgid "checkout_step_confirm"
+msgstr "Təsdiq"
+
+msgid "checkout_delivery_title"
+msgstr "Çatdırılma ünvanı"
+
+msgid "checkout_first_name"
+msgstr "Ad *"
+
+msgid "checkout_first_name_placeholder"
+msgstr "Adınız"
+
+msgid "checkout_last_name"
+msgstr "Soyad"
+
+msgid "checkout_last_name_placeholder"
+msgstr "Soyadınız"
+
+msgid "checkout_address_label"
+msgstr "Ünvan (küçə, ev nömrəsi) *"
+
+msgid "checkout_address_placeholder"
+msgstr "Nümunə: Nizami küç. 12, mən. 5"
+
+msgid "checkout_city"
+msgstr "Şəhər *"
+
+msgid "checkout_postal"
+msgstr "Poçt kodu"
+
+msgid "checkout_country"
+msgstr "Ölkə / Mağaza *"
+
+msgid "checkout_select"
+msgstr "— Seçin —"
+
+msgid "checkout_note"
+msgstr "Qeyd (isteğe bağlı)"
+
+msgid "checkout_note_placeholder"
+msgstr "Xüsusi istəklər, çatdırılma təlimatları..."
+
+msgid "checkout_save_address"
+msgstr "Bu ünvanı profilimə saxla"
+
+msgid "checkout_summary_title"
+msgstr "Sifariş xülasəsi"
+
+msgid "checkout_total"
+msgstr "Cəmi"
+
+msgid "checkout_paypal_note"
+msgstr "PayPal-a keçid etdikdən sonra ödənişi tamamlayın. AZN ödənişlər USD-ə çevrilir."
+
+msgid "checkout_pay_btn"
+msgstr "PayPal ilə ödə"
+
+msgid "checkout_ssl_note"
+msgstr "256-bit SSL şifrələmə ilə qorunur"
+
+# ── Checkout Success ──────────────────────────────────────────────
+msgid "success_page_title"
+msgstr "Sifariş Təsdiqləndi"
+
+msgid "success_title"
+msgstr "Sifarişiniz qəbul edildi! 🎉"
+
+msgid "success_message"
+msgstr "Sifarişiniz uğurla ödənildi və işlənməyə başlandı. Tezliklə sizinlə əlaqə saxlanılacaq."
+
+msgid "success_paid_badge"
+msgstr "PayPal ilə ödənilib"
+
+msgid "success_order_number"
+msgstr "Sifariş №"
+
+msgid "success_date"
+msgstr "Tarix"
+
+msgid "success_status"
+msgstr "Status"
+
+msgid "success_address"
+msgstr "Ünvan"
+
+msgid "success_total"
+msgstr "Cəmi məbləğ"
+
+msgid "success_ordered_products"
+msgstr "Sifariş edilən məhsullar"
+
+msgid "success_continue_btn"
+msgstr "Alış-verişə davam et"
+
+msgid "success_my_orders_btn"
+msgstr "Sifarişlərim"
+
+# ── Footer ────────────────────────────────────────────────────────
+msgid "footer_logo_alt"
+msgstr "Herbalife Loqo"
+
+msgid "footer_products_title"
+msgstr "Məhsullarımız"
+
+msgid "footer_products_weight"
+msgstr "Sağlam Çəki"
+
+msgid "footer_products_fitness"
+msgstr "Fitness"
+
+msgid "footer_products_performance"
+msgstr "Performans"
+
+msgid "footer_products_nutrition"
+msgstr "Gündəlik Qidalanma və Sağlamlıq"
+
+msgid "footer_products_skin"
+msgstr "Dəri və Bədən Baxımı"
+
+msgid "footer_about_title"
+msgstr "Herbalife Haqqında"
+
+msgid "footer_about_leadership"
+msgstr "Rəhbərliyimiz"
+
+msgid "footer_about_future"
+msgstr "Sağlamlığın Gələcəyi"
+
+msgid "footer_about_press"
+msgstr "Mətbuat Otağı"
+
+msgid "footer_about_investor"
+msgstr "İnvestor Əlaqələri"
+
+msgid "footer_about_career"
+msgstr "Karyera Fürsətləri"
+
+msgid "footer_about_earnings"
+msgstr "Tipik Distribyutor Gəlirləri Bəyannaməsi"
+
+msgid "footer_about_guarantee"
+msgstr "Qızıl Standart Zəmanəti"
+
+msgid "footer_about_ethics"
+msgstr "Etika və Uyğunluq"
+
+msgid "footer_help_title"
+msgstr "Kömək Alın"
+
+msgid "footer_help_support"
+msgstr "Dəstək Mərkəzi"
+
+msgid "footer_help_contact"
+msgstr "Bizimlə Əlaqə"
+
+msgid "footer_help_refund"
+msgstr "Geri Ödəmə Siyasəti"
+
+msgid "footer_help_faq"
+msgstr "Tez-tez Soruşulan Suallar"
+
+msgid "footer_dist_title"
+msgstr "Distribyutorlar Üçün"
+
+msgid "footer_dist_login"
+msgstr "Distribyutor Girişi"
+
+msgid "footer_dist_opportunity"
+msgstr "Biznes Fürsəti"
+
+msgid "footer_legal_sitemap"
+msgstr "Sayt Xəritəsi"
+
+msgid "footer_legal_terms"
+msgstr "İstifadə Şərtləri"
+
+msgid "footer_legal_privacy"
+msgstr "Herbalife Məxfilik Siyasəti"
+
+msgid "footer_legal_health_privacy"
+msgstr "Herbalife İstehlakçı Sağlamlıq Məlumatları Məxfilik Siyasəti"
+
+msgid "footer_legal_cookie"
+msgstr "Cookie Siyasəti"
+
+msgid "footer_legal_donotsell"
+msgstr "Şəxsi Məlumatlarımı Satmayın / Hədəflənmiş Reklamdan İmtina"
+
+msgid "footer_copyright"
+msgstr "Herbalife <a href=\"#\">Birbaşa Satış Assosiasiyasının</a> Fəxri Üzvüdür. Copyright © 2026 Herbalife International of America, Inc. Bütün hüquqlar qorunur."
+
+msgid "footer_location"
+msgstr "Amerika Birləşmiş Ştatları"
+
+# ── JS keys (DJANGO_TRANS object in base.html) ────────────────────
+msgid "js_loading"
+msgstr "Yüklənir..."
+
+msgid "js_no_products"
+msgstr "Məhsul tapılmadı."
+
+msgid "js_add_btn"
+msgstr "Əlavə et"
+
+msgid "js_toast_added"
+msgstr "Məhsul səbətə əlavə edildi"
+
+msgid "js_add_to_bag"
+msgstr "Səbətə əlavə et"
+
+msgid "js_out_of_stock"
+msgstr "Stokda yoxdur"
+
+msgid "js_related"
+msgstr "Əlaqəli məhsullar"
+
+msgid "js_all_products"
+msgstr "Hamısı"
+
+msgid "js_products_count"
+msgstr "Məhsul"
+
+msgid "js_filter_flavor"
+msgstr "Dad"
+
+msgid "js_filter_size"
+msgstr "Ölçü"
+
+msgid "js_filter_price"
+msgstr "Qiymət"
+
+msgid "js_see_all"
+msgstr "Hamısına bax"
+
+msgid "js_cart_empty"
+msgstr "Səbətiniz boşdur"
+
+msgid "js_cart_continue"
+msgstr "Alış-verişə davam et"
+
+msgid "js_cart_title"
+msgstr "Alış-veriş Səbəti"
+
+msgid "js_cart_price"
+msgstr "qiymət"
+
+msgid "js_cart_flavor"
+msgstr "Dad:"
+
+msgid "js_cart_subtotal"
+msgstr "Cəmi:"
+
+msgid "js_cart_remove"
+msgstr "Sil"
+
+# ── Order statuses ────────────────────────────────────────────────
+msgid "status_pending"
 msgstr "Gözləyir"
 
-msgid "Confirmed"
+msgid "status_confirmed"
 msgstr "Təsdiqləndi"
 
-msgid "Cancelled"
+msgid "status_cancelled"
 msgstr "Ləğv edildi"
 
-msgid "New"
+msgid "badge_new"
 msgstr "Yeni"
 
-msgid "Best Seller"
+msgid "badge_bestseller"
 msgstr "Çox satılan"

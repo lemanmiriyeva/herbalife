@@ -4,131 +4,96 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
-
 {% block content %}
-
-<!-- HERO -->
 <section class="hero">
     <div class="owl-carousel owl-carousel1 owl-theme">
         <div class="item">
-            <div class="hero-left">
-                <div class="hero-blur"></div>
+            <div class="hero-left"><div class="hero-blur"></div>
                 <div class="hero-content">
-                    <h1>{% trans "Your daily collagen, to go" %}</h1>
+                    <h1>{% trans "home_hero_1_title" %}</h1>
                     <a href="#" class="btn btn-light learn-btn">
                         <img width="30" height="30" src="{% static 'images/right-green.png' %}" alt="">
-                        {% trans "Learn More" %}
+                        {% trans "home_learn_more" %}
                     </a>
                 </div>
             </div>
-            <div class="hero-right">
-                <img src="{% static 'images/hero.webp' %}" alt="">
-            </div>
+            <div class="hero-right"><img src="{% static 'images/hero.webp' %}" alt=""></div>
         </div>
-
         <div class="item">
-            <div class="hero-left">
-                <div class="hero-blur"></div>
+            <div class="hero-left"><div class="hero-blur"></div>
                 <div class="hero-content">
-                    <h1>{% trans "Cellular health, reimagined." %}</h1>
+                    <h1>{% trans "home_hero_2_title" %}</h1>
                     <a href="#" class="btn btn-light learn-btn">
                         <img width="30" height="30" src="{% static 'images/right-green.png' %}" alt="">
-                        {% trans "Learn More" %}
+                        {% trans "home_learn_more" %}
                     </a>
                 </div>
             </div>
-            <div class="hero-right">
-                <img src="{% static 'images/hero.webp' %}" alt="">
-            </div>
+            <div class="hero-right"><img src="{% static 'images/hero.webp' %}" alt=""></div>
         </div>
     </div>
 </section>
 
-<!-- CATEGORY SECTION -->
 <div class="category-section">
-    <div class="category-tabs container ">
+    <div class="category-tabs container">
         <div class="owl-carousel tabs-carousel">
-            <button class="tab-item active" data-target="#fitness">{% trans "Fitness" %}</button>
-            <button class="tab-item" data-target="#performance">{% trans "Performance" %}</button>
-            <button class="tab-item" data-target="#nutrition">{% trans "Daily Nutrition & Health" %}</button>
-            <button class="tab-item" data-target="#skin">{% trans "Skin & Body Care" %}</button>
+            <button class="tab-item active" data-target="#fitness">{% trans "home_tab_fitness" %}</button>
+            <button class="tab-item" data-target="#performance">{% trans "home_tab_performance" %}</button>
+            <button class="tab-item" data-target="#nutrition">{% trans "home_tab_nutrition" %}</button>
+            <button class="tab-item" data-target="#skin">{% trans "home_tab_skin" %}</button>
         </div>
     </div>
-
     <div class="tab-content category-tabs">
-
-        <!-- FITNESS -->
         <div class="tab-pane fade show active" id="fitness">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 category-left">
-                        <h1>{% trans "Skin & body care you can see" %}</h1>
-                        <p>{% trans "Treat your body to only the best with our line of aloe and botanical-infused skin and body products." %}</p>
-                        <a href="#" class="learn-btn">
-                            <img width="30" height="30" src="{% static 'images/right.png' %}" alt="">
-                            {% trans "Learn More" %}
-                        </a>
+                        <h1>{% trans "home_category_title" %}</h1>
+                        <p>{% trans "home_category_desc" %}</p>
+                        <a href="#" class="learn-btn"><img width="30" height="30" src="{% static 'images/right.png' %}" alt=""> {% trans "home_learn_more" %}</a>
                     </div>
-
                     <div class="col-lg-6 category-right">
-                        <div class="image-wrap">
-                            <img src="/static/images/hero.webp" alt="">
-                        </div>
+                        <div class="image-wrap"><img src="/static/images/hero.webp" alt=""></div>
                         <div class="green-box"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- PERFORMANCE -->
         <div class="tab-pane fade" id="performance">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 category-left">
-                        <h1>{% trans "Skin & body care you can see" %}</h1>
-                        <p>{% trans "Treat your body to only the best with our line of aloe and botanical-infused skin and body products." %}</p>
-                        <a href="#" class="learn-btn">
-                            <img width="30" height="30" src="{% static 'images/right.png' %}" alt="">
-                            {% trans "Learn More" %}
-                        </a>
+                        <h1>{% trans "home_category_title" %}</h1>
+                        <p>{% trans "home_category_desc" %}</p>
+                        <a href="#" class="learn-btn"><img width="30" height="30" src="{% static 'images/right.png' %}" alt=""> {% trans "home_learn_more" %}</a>
                     </div>
-
                     <div class="col-lg-6 category-right">
-                        <div class="image-wrap">
-                            <img src="/static/images/hero.webp" alt="">
-                        </div>
+                        <div class="image-wrap"><img src="/static/images/hero.webp" alt=""></div>
                         <div class="green-box"></div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
-<!-- REACH WEIGHT -->
 <section class="section-carousel">
     <div class="container">
         <div class="owl-carousel owl-carousel3 owl-theme">
             <div class="carousel-item">
-                <div class="carousel-image">
-                    <img src="{% static 'images/hero.webp'%}" alt="Lab">
-                </div>
+                <div class="carousel-image"><img src="{% static 'images/hero.webp'%}" alt="Lab"></div>
                 <div class="carousel-content">
-                    <h2>{% trans "Science & quality" %}</h2>
-                    <p>{% trans "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products." %}</p>
-                    <p>{% trans "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible." %}</p>
+                    <h2>{% trans "home_science_title" %}</h2>
+                    <p>{% trans "home_science_text_1" %}</p>
+                    <p>{% trans "home_science_text_2" %}</p>
                 </div>
             </div>
-
             <div class="carousel-item">
-                <div class="carousel-image">
-                    <img src="{% static 'images/hero.webp'%}" alt="Lab">
-                </div>
+                <div class="carousel-image"><img src="{% static 'images/hero.webp'%}" alt="Lab"></div>
                 <div class="carousel-content">
-                    <h2>{% trans "Science & quality" %}</h2>
-                    <p>{% trans "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products." %}</p>
-                    <p>{% trans "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible." %}</p>
+                    <h2>{% trans "home_science_title" %}</h2>
+                    <p>{% trans "home_science_text_1" %}</p>
+                    <p>{% trans "home_science_text_2" %}</p>
                 </div>
             </div>
         </div>
