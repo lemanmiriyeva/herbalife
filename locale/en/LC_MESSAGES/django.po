@@ -1,167 +1,853 @@
-msgid "Home"
+msgid ""
+msgstr ""
+"Project-Id-Version: Herbalife 1.0\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# ── Navbar ────────────────────────────────────────────
+msgid "nav_home"
 msgstr "Home"
 
-msgid "Products"
+msgid "nav_products"
 msgstr "Products"
 
-msgid "Cart"
+msgid "nav_blog"
+msgstr "Blog"
+
+msgid "nav_cart"
 msgstr "Cart"
 
-msgid "Sign In"
+msgid "nav_account"
+msgstr "Account"
+
+msgid "nav_sign_in"
 msgstr "Sign In"
 
-msgid "Sign Out"
+msgid "nav_sign_out"
 msgstr "Sign Out"
 
-msgid "Register"
+msgid "nav_register"
 msgstr "Register"
 
-msgid "Search products..."
+msgid "nav_welcome"
+msgstr "Welcome!"
+
+msgid "nav_profile"
+msgstr "My Account"
+
+msgid "nav_account_access"
+msgstr "Access your account"
+
+msgid "nav_account_create"
+msgstr "Create new account"
+
+msgid "nav_select_region"
+msgstr "Select your region"
+
+msgid "nav_search_placeholder"
 msgstr "Search products..."
 
-msgid "Search"
+msgid "nav_type_to_search"
+msgstr "Type to search..."
+
+msgid "nav_search"
 msgstr "Search"
 
-msgid "Herbalife Logo"
-msgstr "Herbalife Logo"
+msgid "nav_stores_failed"
+msgstr "Failed to load stores."
 
-msgid "Our Products"
-msgstr "Our Products"
+# ── Login ──────────────────────────────────────────────
+msgid "login_page_title"
+msgstr "Sign In"
 
-msgid "Healthy Weight"
-msgstr "Healthy Weight"
+msgid "login_side_title"
+msgstr "Welcome back!"
 
-msgid "Fitness"
-msgstr "Fitness"
+msgid "login_side_subtitle"
+msgstr "Sign in to your account"
 
-msgid "Performance"
-msgstr "Performance"
+msgid "login_perk_orders"
+msgstr "Track your order history"
 
-msgid "Daily Nutrition & Health"
-msgstr "Daily Nutrition & Health"
+msgid "login_perk_wishlist"
+msgstr "Create your favorites list"
 
-msgid "Skin and Body Care"
-msgstr "Skin and Body Care"
+msgid "login_perk_checkout"
+msgstr "Fast checkout process"
 
-msgid "About Herbalife"
-msgstr "About Herbalife"
+msgid "login_perk_campaigns"
+msgstr "Exclusive campaigns"
 
-msgid "Our Leadership"
-msgstr "Our Leadership"
+msgid "login_form_title"
+msgstr "Sign In"
 
-msgid "Future of Health"
-msgstr "Future of Health"
+msgid "login_no_account"
+msgstr "Don't have an account?"
 
-msgid "Press Room"
-msgstr "Press Room"
+msgid "login_register_link"
+msgstr "Register here"
 
-msgid "Investor Relations"
-msgstr "Investor Relations"
+msgid "login_identity_label"
+msgstr "Identity"
 
-msgid "Career Opportunities"
-msgstr "Career Opportunities"
+msgid "login_tab_phone"
+msgstr "Phone"
 
-msgid "Statement of Typical Distributor Earnings"
-msgstr "Statement of Typical Distributor Earnings"
+msgid "login_tab_email"
+msgstr "Email"
 
-msgid "Gold Standard Guarantee"
-msgstr "Gold Standard Guarantee"
+msgid "login_tab_username"
+msgstr "Username"
 
-msgid "Ethics and Compliance"
-msgstr "Ethics and Compliance"
+msgid "login_password_label"
+msgstr "Password"
 
-msgid "Get Help"
-msgstr "Get Help"
+msgid "login_forgot_password"
+msgstr "Forgot password?"
 
-msgid "Support Center"
-msgstr "Support Center"
+msgid "login_submit_btn"
+msgstr "Sign In"
 
-msgid "Contact Us"
-msgstr "Contact Us"
+# ── Register ───────────────────────────────────────────
+msgid "register_page_title"
+msgstr "Register"
 
-msgid "Refund Policy"
-msgstr "Refund Policy"
+msgid "register_side_title"
+msgstr "Start your healthy life"
 
-msgid "Frequently Asked Questions"
-msgstr "Frequently Asked Questions"
+msgid "register_side_subtitle"
+msgstr "Open a free account, join the health world."
 
-msgid "For Distributors"
-msgstr "For Distributors"
+msgid "register_step_1"
+msgstr "Enter your information"
 
-msgid "Distributor Login"
-msgstr "Distributor Login"
+msgid "register_step_2"
+msgstr "Activate your account"
 
-msgid "Business Opportunity"
-msgstr "Business Opportunity"
+msgid "register_step_3"
+msgstr "Access premium products"
 
-msgid "Site Map"
-msgstr "Site Map"
+msgid "register_form_title"
+msgstr "Create Account"
 
-msgid "Terms of Use"
+msgid "register_have_account"
+msgstr "Already have an account?"
+
+msgid "register_signin_link"
+msgstr "Sign in here"
+
+msgid "register_first_name"
+msgstr "First Name *"
+
+msgid "register_first_name_placeholder"
+msgstr "Your first name"
+
+msgid "register_last_name"
+msgstr "Last Name"
+
+msgid "register_last_name_placeholder"
+msgstr "Your last name"
+
+msgid "register_email"
+msgstr "Email Address *"
+
+msgid "register_phone"
+msgstr "Phone Number *"
+
+msgid "register_password"
+msgstr "Password *"
+
+msgid "register_password_placeholder"
+msgstr "Minimum 6 characters"
+
+msgid "register_confirm_password"
+msgstr "Confirm Password *"
+
+msgid "register_confirm_placeholder"
+msgstr "Re-enter password"
+
+msgid "register_submit_btn"
+msgstr "Create Account"
+
+msgid "register_terms_text"
+msgstr "By registering you accept our"
+
+msgid "register_terms_link"
 msgstr "Terms of Use"
 
-msgid "Herbalife Privacy Policy"
-msgstr "Herbalife Privacy Policy"
+msgid "register_terms_agree"
+msgstr "and agree to our terms."
 
-msgid "Herbalife Consumer Health Data Privacy Policy"
-msgstr "Herbalife Consumer Health Data Privacy Policy"
+# ── Cart ───────────────────────────────────────────────
+msgid "cart_page_title"
+msgstr "Shopping Bag"
 
-msgid "Cookie Policy"
-msgstr "Cookie Policy"
+msgid "cart_clear_btn"
+msgstr "Clear Bag"
 
-msgid "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
-msgstr "Do Not Sell or Share My Personal Information/Opt-out of Targeted Advertising"
+msgid "cart_summary_title"
+msgstr "Summary Amounts"
 
-msgid "United States"
-msgstr "United States"
+msgid "cart_free_shipping"
+msgstr "Your order qualifies for free shipping"
 
-msgid "Your daily collagen, to go"
+msgid "cart_item_subtotal"
+msgstr "Item Subtotal"
+
+msgid "cart_tax_note"
+msgstr "Taxes and Shipping Calculated at Checkout"
+
+msgid "cart_checkout_btn"
+msgstr "Checkout"
+
+msgid "cart_empty_text"
+msgstr "Your cart is empty"
+
+msgid "cart_continue_shopping"
+msgstr "Continue Shopping"
+
+msgid "cart_title_label"
+msgstr "Shopping Bag"
+
+msgid "cart_price_label"
+msgstr "price"
+
+msgid "cart_flavor_label"
+msgstr "Flavor:"
+
+msgid "cart_subtotal_label"
+msgstr "Subtotal:"
+
+msgid "cart_remove_btn"
+msgstr "Remove"
+
+# ── Products ───────────────────────────────────────────
+msgid "products_page_title_1"
+msgstr "Targeted"
+
+msgid "products_page_title_2"
+msgstr "Health"
+
+msgid "products_page_desc"
+msgstr "Ensure your body receives its daily requirements. Whether you want to support your immune system, bone and joint, digestive or heart health, our array of products is designed to complement your diet."
+
+msgid "products_filter_btn"
+msgstr "Filter"
+
+msgid "products_filters_title"
+msgstr "Filters"
+
+msgid "products_clear_filters"
+msgstr "Clear All"
+
+msgid "products_apply_filters"
+msgstr "Apply Filters"
+
+msgid "products_loading_filters"
+msgstr "Loading filters..."
+
+msgid "products_sort_featured"
+msgstr "Sort by: Featured"
+
+msgid "products_sort_price_asc"
+msgstr "Price: Low to High"
+
+msgid "products_sort_price_desc"
+msgstr "Price: High to Low"
+
+msgid "products_sort_name_asc"
+msgstr "Name: A-Z"
+
+msgid "products_sort_name_desc"
+msgstr "Name: Z-A"
+
+msgid "products_not_found"
+msgstr "No products found."
+
+msgid "products_loading"
+msgstr "Loading..."
+
+msgid "products_all_label"
+msgstr "All"
+
+msgid "products_count_label"
+msgstr "Products"
+
+msgid "products_add_btn"
+msgstr "Add"
+
+msgid "products_added_toast"
+msgstr "Product added to cart"
+
+msgid "products_add_to_bag"
+msgstr "Add to Bag"
+
+msgid "products_out_of_stock"
+msgstr "Out of Stock"
+
+msgid "products_related"
+msgstr "Related Products"
+
+msgid "products_filter_flavor"
+msgstr "Flavor"
+
+msgid "products_filter_size"
+msgstr "Size"
+
+msgid "products_filter_price"
+msgstr "Price"
+
+msgid "products_see_all"
+msgstr "See all"
+
+msgid "products_breadcrumb_home"
+msgstr "Home"
+
+msgid "products_breadcrumb_products"
+msgstr "Products"
+
+msgid "products_breadcrumb_category"
+msgstr "Targeted Health"
+
+# ── Home ───────────────────────────────────────────────
+msgid "home_hero_1_title"
 msgstr "Your daily collagen, to go"
 
-msgid "Learn More"
-msgstr "Learn More"
-
-msgid "Cellular health, reimagined."
+msgid "home_hero_2_title"
 msgstr "Cellular health, reimagined."
 
-msgid "Skin & body care you can see"
+msgid "home_learn_more"
+msgstr "Learn More"
+
+msgid "home_tab_fitness"
+msgstr "Fitness"
+
+msgid "home_tab_performance"
+msgstr "Performance"
+
+msgid "home_tab_nutrition"
+msgstr "Daily Nutrition & Health"
+
+msgid "home_tab_skin"
+msgstr "Skin & Body Care"
+
+msgid "home_category_title"
 msgstr "Skin & body care you can see"
 
-msgid "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
+msgid "home_category_desc"
 msgstr "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
 
-msgid "Science & quality"
+msgid "home_science_title"
 msgstr "Science & quality"
 
-msgid "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
+msgid "home_science_text_1"
 msgstr "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
 
-msgid "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
-msgstr "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system to guarantee you receive the best nutrition possible."
+msgid "home_science_text_2"
+msgstr "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system."
 
-msgid "Real people, real success"
+msgid "home_success_title"
 msgstr "Real people, real success"
 
-msgid "Check out these success stories from our community."
+msgid "home_success_desc"
 msgstr "Check out these success stories from our community."
 
-msgid "Articles and recipes"
+msgid "home_articles_title"
 msgstr "Articles and recipes"
 
-msgid "A collection of articles, recipes and more to support your journey to wellness."
+msgid "home_articles_desc"
 msgstr "A collection of articles, recipes and more to support your journey to wellness."
 
-msgid "Pending"
+# ── Blog ───────────────────────────────────────────────
+msgid "blog_hero_eyebrow"
+msgstr "Wellness Insights"
+
+msgid "blog_hero_title_1"
+msgstr "Live Well,"
+
+msgid "blog_hero_title_2"
+msgstr "Feel Great"
+
+msgid "blog_hero_title_3"
+msgstr "Every Day"
+
+msgid "blog_hero_desc"
+msgstr "Expert nutrition tips, healthy recipes, fitness guides and lifestyle inspiration."
+
+msgid "blog_search_placeholder"
+msgstr "Search articles..."
+
+msgid "blog_featured_label"
+msgstr "Featured"
+
+msgid "blog_latest_title"
+msgstr "Latest Articles"
+
+msgid "blog_all_topics"
+msgstr "All Topics"
+
+msgid "blog_newsletter_title"
+msgstr "Get Weekly Wellness Tips"
+
+msgid "blog_newsletter_desc"
+msgstr "Join 50,000+ readers who get expert advice every week."
+
+msgid "blog_email_placeholder"
+msgstr "Your email address"
+
+msgid "blog_subscribe_btn"
+msgstr "Subscribe"
+
+msgid "blog_subscribed"
+msgstr "Subscribed!"
+
+msgid "blog_no_articles"
+msgstr "No articles found."
+
+msgid "blog_load_failed"
+msgstr "Failed to load articles."
+
+msgid "blog_min_read"
+msgstr "min read"
+
+msgid "blog_read_article"
+msgstr "Read Article"
+
+msgid "blog_read_btn"
+msgstr "Read"
+
+# ── Blog Detail ────────────────────────────────────────
+msgid "blog_detail_loading"
+msgstr "Loading..."
+
+msgid "blog_detail_breadcrumb_home"
+msgstr "Home"
+
+msgid "blog_detail_breadcrumb_blog"
+msgstr "Blog"
+
+msgid "blog_detail_contents"
+msgstr "Contents"
+
+msgid "blog_detail_related"
+msgstr "Related Articles"
+
+msgid "blog_detail_stay_updated"
+msgstr "Stay Updated"
+
+msgid "blog_detail_newsletter_desc"
+msgstr "Get the latest wellness tips delivered to your inbox every week."
+
+msgid "blog_detail_email_placeholder"
+msgstr "Your email"
+
+msgid "blog_detail_subscribe"
+msgstr "Subscribe"
+
+msgid "blog_detail_subscribed"
+msgstr "Subscribed!"
+
+msgid "blog_detail_you_might_like"
+msgstr "You Might Also Like"
+
+msgid "blog_detail_all_articles"
+msgstr "All Articles"
+
+msgid "blog_detail_tags"
+msgstr "Tags:"
+
+msgid "blog_detail_wellness_tag"
+msgstr "Wellness"
+
+msgid "blog_detail_share"
+msgstr "Share:"
+
+msgid "blog_detail_author_role"
+msgstr "Herbalife Nutrition Expert"
+
+msgid "blog_detail_author_bio"
+msgstr "Our team of nutrition and wellness experts is dedicated to helping you live a healthier, more active life."
+
+msgid "blog_detail_not_found"
+msgstr "Article not found"
+
+msgid "blog_detail_back"
+msgstr "Back to Blog"
+
+msgid "blog_detail_load_failed"
+msgstr "This article could not be loaded."
+
+msgid "blog_detail_min_read"
+msgstr "min read"
+
+msgid "blog_detail_read_article"
+msgstr "Read Article"
+
+# ── Profile ────────────────────────────────────────────
+msgid "profile_page_title"
+msgstr "My Profile"
+
+msgid "profile_member_badge"
+msgstr "Member"
+
+msgid "profile_tab_orders"
+msgstr "Orders"
+
+msgid "profile_tab_wishlist"
+msgstr "Favorites"
+
+msgid "profile_tab_settings"
+msgstr "Settings"
+
+msgid "profile_tab_password"
+msgstr "Password"
+
+msgid "profile_orders_title"
+msgstr "Order History"
+
+msgid "profile_no_orders"
+msgstr "No orders yet."
+
+msgid "profile_browse_products"
+msgstr "Browse products"
+
+msgid "profile_wishlist_title"
+msgstr "Favorite Products"
+
+msgid "profile_no_wishlist"
+msgstr "No favorites yet."
+
+msgid "profile_view_btn"
+msgstr "View"
+
+msgid "profile_remove_from_wishlist"
+msgstr "Remove from list"
+
+msgid "profile_settings_title"
+msgstr "Personal Information"
+
+msgid "profile_first_name"
+msgstr "First Name"
+
+msgid "profile_last_name"
+msgstr "Last Name"
+
+msgid "profile_phone"
+msgstr "Phone Number"
+
+msgid "profile_save_btn"
+msgstr "Save"
+
+msgid "profile_password_title"
+msgstr "Change Password"
+
+msgid "profile_old_password"
+msgstr "Old Password"
+
+msgid "profile_old_password_placeholder"
+msgstr "Your current password"
+
+msgid "profile_new_password"
+msgstr "New Password"
+
+msgid "profile_confirm_password"
+msgstr "Confirm New Password"
+
+msgid "profile_confirm_placeholder"
+msgstr "Re-enter password"
+
+msgid "profile_change_password_btn"
+msgstr "Change Password"
+
+# ── Checkout ───────────────────────────────────────────
+msgid "checkout_page_title"
+msgstr "Address Information"
+
+msgid "checkout_step_basket"
+msgstr "Cart"
+
+msgid "checkout_step_address"
+msgstr "Address"
+
+msgid "checkout_step_paypal"
+msgstr "PayPal"
+
+msgid "checkout_step_confirm"
+msgstr "Confirmation"
+
+msgid "checkout_delivery_title"
+msgstr "Delivery Address"
+
+msgid "checkout_first_name"
+msgstr "First Name *"
+
+msgid "checkout_first_name_placeholder"
+msgstr "Your first name"
+
+msgid "checkout_last_name"
+msgstr "Last Name"
+
+msgid "checkout_last_name_placeholder"
+msgstr "Your last name"
+
+msgid "checkout_address_label"
+msgstr "Street Address *"
+
+msgid "checkout_address_placeholder"
+msgstr "e.g. 123 Main Street, Apt 4"
+
+msgid "checkout_city"
+msgstr "City *"
+
+msgid "checkout_postal"
+msgstr "Postal Code"
+
+msgid "checkout_country"
+msgstr "Country / Store *"
+
+msgid "checkout_select"
+msgstr "— Select —"
+
+msgid "checkout_note"
+msgstr "Note (optional)"
+
+msgid "checkout_note_placeholder"
+msgstr "Special requests, delivery instructions..."
+
+msgid "checkout_save_address"
+msgstr "Save this address to my profile"
+
+msgid "checkout_summary_title"
+msgstr "Order Summary"
+
+msgid "checkout_total"
+msgstr "Total"
+
+msgid "checkout_paypal_note"
+msgstr "Complete your payment after being redirected to PayPal."
+
+msgid "checkout_pay_btn"
+msgstr "Pay with PayPal"
+
+msgid "checkout_ssl_note"
+msgstr "Protected with 256-bit SSL encryption"
+
+# ── Checkout Success ───────────────────────────────────
+msgid "success_page_title"
+msgstr "Order Confirmed"
+
+msgid "success_title"
+msgstr "Your order has been placed! 🎉"
+
+msgid "success_message"
+msgstr "Your order has been successfully paid and is being processed. We will contact you soon."
+
+msgid "success_paid_badge"
+msgstr "Paid with PayPal"
+
+msgid "success_order_number"
+msgstr "Order #"
+
+msgid "success_date"
+msgstr "Date"
+
+msgid "success_status"
+msgstr "Status"
+
+msgid "success_address"
+msgstr "Address"
+
+msgid "success_total"
+msgstr "Total Amount"
+
+msgid "success_ordered_products"
+msgstr "Ordered Products"
+
+msgid "success_continue_btn"
+msgstr "Continue Shopping"
+
+msgid "success_my_orders_btn"
+msgstr "My Orders"
+
+# ── Footer ─────────────────────────────────────────────
+msgid "footer_logo_alt"
+msgstr "Herbalife Logo"
+
+msgid "footer_products_title"
+msgstr "Our Products"
+
+msgid "footer_products_weight"
+msgstr "Healthy Weight"
+
+msgid "footer_products_fitness"
+msgstr "Fitness"
+
+msgid "footer_products_performance"
+msgstr "Performance"
+
+msgid "footer_products_nutrition"
+msgstr "Daily Nutrition & Health"
+
+msgid "footer_products_skin"
+msgstr "Skin and Body Care"
+
+msgid "footer_about_title"
+msgstr "About Herbalife"
+
+msgid "footer_about_leadership"
+msgstr "Our Leadership"
+
+msgid "footer_about_future"
+msgstr "Future of Health"
+
+msgid "footer_about_press"
+msgstr "Press Room"
+
+msgid "footer_about_investor"
+msgstr "Investor Relations"
+
+msgid "footer_about_career"
+msgstr "Career Opportunities"
+
+msgid "footer_about_earnings"
+msgstr "Statement of Typical Distributor Earnings"
+
+msgid "footer_about_guarantee"
+msgstr "Gold Standard Guarantee"
+
+msgid "footer_about_ethics"
+msgstr "Ethics and Compliance"
+
+msgid "footer_help_title"
+msgstr "Get Help"
+
+msgid "footer_help_support"
+msgstr "Support Center"
+
+msgid "footer_help_contact"
+msgstr "Contact Us"
+
+msgid "footer_help_refund"
+msgstr "Refund Policy"
+
+msgid "footer_help_faq"
+msgstr "Frequently Asked Questions"
+
+msgid "footer_dist_title"
+msgstr "For Distributors"
+
+msgid "footer_dist_login"
+msgstr "Distributor Login"
+
+msgid "footer_dist_opportunity"
+msgstr "Business Opportunity"
+
+msgid "footer_legal_sitemap"
+msgstr "Site Map"
+
+msgid "footer_legal_terms"
+msgstr "Terms of Use"
+
+msgid "footer_legal_privacy"
+msgstr "Herbalife Privacy Policy"
+
+msgid "footer_legal_health_privacy"
+msgstr "Herbalife Consumer Health Data Privacy Policy"
+
+msgid "footer_legal_cookie"
+msgstr "Cookie Policy"
+
+msgid "footer_legal_donotsell"
+msgstr "Do Not Sell or Share My Personal Information"
+
+msgid "footer_copyright"
+msgstr "Herbalife is a Proud Member of the Direct Selling Association. Copyright © 2026 Herbalife International of America, Inc. All Rights Reserved."
+
+msgid "footer_location"
+msgstr "United States"
+
+# ── JS (DJANGO_TRANS) ──────────────────────────────────
+msgid "js_loading"
+msgstr "Loading..."
+
+msgid "js_no_products"
+msgstr "No products found."
+
+msgid "js_add_btn"
+msgstr "Add"
+
+msgid "js_toast_added"
+msgstr "Product added to cart"
+
+msgid "js_add_to_bag"
+msgstr "Add to Bag"
+
+msgid "js_out_of_stock"
+msgstr "Out of Stock"
+
+msgid "js_related"
+msgstr "Related Products"
+
+msgid "js_all_products"
+msgstr "All"
+
+msgid "js_products_count"
+msgstr "Products"
+
+msgid "js_filter_flavor"
+msgstr "Flavor"
+
+msgid "js_filter_size"
+msgstr "Size"
+
+msgid "js_filter_price"
+msgstr "Price"
+
+msgid "js_see_all"
+msgstr "See all"
+
+msgid "js_cart_empty"
+msgstr "Your cart is empty"
+
+msgid "js_cart_continue"
+msgstr "Continue Shopping"
+
+msgid "js_cart_title"
+msgstr "Shopping Bag"
+
+msgid "js_cart_price"
+msgstr "price"
+
+msgid "js_cart_flavor"
+msgstr "Flavor:"
+
+msgid "js_cart_subtotal"
+msgstr "Subtotal:"
+
+msgid "js_cart_remove"
+msgstr "Remove"
+
+# ── Order statuses ─────────────────────────────────────
+msgid "status_pending"
 msgstr "Pending"
 
-msgid "Confirmed"
+msgid "status_confirmed"
 msgstr "Confirmed"
 
-msgid "Cancelled"
+msgid "status_cancelled"
 msgstr "Cancelled"
 
-msgid "New"
+msgid "badge_new"
 msgstr "New"
 
-msgid "Best Seller"
+msgid "badge_bestseller"
 msgstr "Best Seller"
+
+msgid "profile_addresses_title"
+msgstr "My Addresses"
+
+msgid "profile_add_address"
+msgstr "Add New Address"

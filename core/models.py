@@ -292,3 +292,21 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f'{self.user.username} → {self.product.name}'
+    
+class UserAddress(models.Model):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses', verbose_name=_('User'))
+    title       = models.CharField(max_length=100, verbose_name=_('Title'), help_text='Ev, İş, Digər')
+    address     = models.CharField(max_length=255, verbose_name=_('Address'))
+    city        = models.CharField(max_length=100, verbose_name=_('City'))
+    postal_code = models.CharField(max_length=20, blank=True, verbose_name=_('Postal code'))
+    country     = models.CharField(max_length=10, verbose_name=_('Country'))
+    is_default  = models.BooleanField(default=False, verbose_name=_('Default'))
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name        = _('User Address')
+        verbose_name_plural = _('User Addresses')
+        ordering = ['-is_default', '-created_at']
+
+    def __str__(self):
+        return f'{self.title} — {self.city}'

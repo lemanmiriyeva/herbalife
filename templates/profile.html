@@ -128,6 +128,75 @@
         <div class="col-md-6"><label class="form-label">{% trans "profile_phone" %}</label><div class="input-icon-wrap"><i class="fas fa-phone inp-icon"></i><input type="tel" name="phone" class="form-control" value="{{ user.phone }}"></div></div>
       </div>
       <button type="submit" class="btn-hl mt-3"><i class="fas fa-save me-2"></i>{% trans "profile_save_btn" %}</button>
+      <!-- Settings panelinin içinə, save button-dan sonra əlavə et -->
+
+<hr style="margin:32px 0;border-color:var(--hl-border);">
+<div class="panel-title" style="border:none;padding:0;margin-bottom:20px;">
+    <i class="fas fa-map-marker-alt me-2" style="color:var(--hl-green)"></i>{% trans "profile_addresses_title" %}
+</div>
+
+<!-- Mövcud ünvanlar -->
+<div id="addressList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+    {% for addr in request.user.addresses.all %}
+    <div class="address-card {% if addr.is_default %}default{% endif %}" id="addr-{{ addr.pk }}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+                <div style="font-weight:600;font-size:14px;color:var(--hl-text);display:flex;align-items:center;gap:8px;">
+                    {{ addr.title }}
+                    {% if addr.is_default %}<span style="background:#E8F8EF;color:#009A44;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;">Default</span>{% endif %}
+                </div>
+                <div style="font-size:13px;color:var(--hl-muted);margin-top:4px;">{{ addr.address }}, {{ addr.city }} {{ addr.postal_code }}</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+                {% if not addr.is_default %}
+                <button onclick="setDefaultAddress({{ addr.pk }})" style="background:none;border:1px solid var(--hl-border);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--hl-muted);">Default et</button>
+                {% endif %}
+                <button onclick="deleteAddress({{ addr.pk }})" style="background:none;border:1px solid #fdddd4;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;color:#c0392b;">Sil</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Yeni ünvan əlavə et -->
+<button onclick="toggleAddressForm()" class="btn-hl-outline" style="margin-bottom:16px;">
+    <i class="fas fa-plus me-2"></i>{% trans "profile_add_address" %}
+</button>
+
+<div id="newAddressForm" style="display:none;background:var(--hl-light);border-radius:12px;padding:20px;margin-bottom:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+            <label class="form-label">Başlıq</label>
+            <input type="text" id="addrTitle" class="form-control" placeholder="Ev, İş...">
+        </div>
+        <div>
+            <label class="form-label">{% trans "profile_phone" %}</label>
+            <select id="addrCountry" class="form-control">
+                {% for s in stores %}<option value="{{ s.code }}">{{ s.name }}</option>{% endfor %}
+            </select>
+        </div>
+    </div>
+    <div style="margin-bottom:12px;">
+        <label class="form-label">Ünvan</label>
+        <input type="text" id="addrAddress" class="form-control" placeholder="Küçə, ev nömrəsi">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+            <label class="form-label">Şəhər</label>
+            <input type="text" id="addrCity" class="form-control" placeholder="Bakı">
+        </div>
+        <div>
+            <label class="form-label">Poçt kodu</label>
+            <input type="text" id="addrPostal" class="form-control" placeholder="AZ1000">
+        </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+        <input type="checkbox" id="addrDefault" style="width:16px;height:16px;accent-color:var(--hl-green);">
+        <label for="addrDefault" style="font-size:13px;cursor:pointer;">Default ünvan kimi saxla</label>
+    </div>
+    <button onclick="saveAddress()" class="btn-hl"><i class="fas fa-save me-2"></i>Yadda saxla</button>
+    <button onclick="toggleAddressForm()" style="background:none;border:none;color:var(--hl-muted);cursor:pointer;margin-left:12px;font-size:14px;">Ləğv et</button>
+</div>
     </form>
   </div>
 
@@ -149,5 +218,46 @@ const hash=location.hash.replace('#','');if(hash){const btn=document.querySelect
 function removeWishlist(productId,btn){fetch('/wishlist/toggle/',{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},body:JSON.stringify({product_id:productId})}).then(r=>r.json()).then(data=>{if(!data.in_wishlist){const card=document.getElementById('wl-card-'+productId);card.style.transition='opacity .3s,transform .3s';card.style.opacity='0';card.style.transform='scale(.9)';setTimeout(()=>card.remove(),300);const wlBadge=document.querySelector('[data-tab="wishlist"] .badge-count');if(wlBadge)wlBadge.textContent=data.count;}});}
 function togglePw(id,btn){const inp=document.getElementById(id);const icon=btn.querySelector('i');if(inp.type==='password'){inp.type='text';icon.classList.replace('fa-eye','fa-eye-slash');}else{inp.type='password';icon.classList.replace('fa-eye-slash','fa-eye');}}
 function getCookie(name){const v=document.cookie.match('(^|;)\\s*'+name+'\\s*=\\s*([^;]+)');return v?v.pop():'';}
+function toggleAddressForm() {
+    const form = document.getElementById('newAddressForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveAddress() {
+    const data = {
+        title:       document.getElementById('addrTitle').value.trim() || 'Ev',
+        address:     document.getElementById('addrAddress').value.trim(),
+        city:        document.getElementById('addrCity').value.trim(),
+        postal_code: document.getElementById('addrPostal').value.trim(),
+        country:     document.getElementById('addrCountry').value,
+        is_default:  document.getElementById('addrDefault').checked,
+    };
+    if (!data.address || !data.city) { alert('Ünvan və şəhər daxil edin'); return; }
+    fetch('/api/addresses/add/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+        body: JSON.stringify(data),
+    })
+    .then(r => r.json())
+    .then(addr => { location.reload(); });
+}
+
+function deleteAddress(pk) {
+    if (!confirm('Ünvanı silmək istəyirsiniz?')) return;
+    fetch(`/api/addresses/${pk}/delete/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+    })
+    .then(() => { document.getElementById('addr-' + pk)?.remove(); });
+}
+
+function setDefaultAddress(pk) {
+    fetch(`/api/addresses/${pk}/default/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+    })
+    .then(() => location.reload());
+}
+
 </script>
 {% endblock %}

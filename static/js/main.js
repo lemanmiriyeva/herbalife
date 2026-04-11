@@ -1,153 +1,3 @@
-$(document).ready(function () {
-
-    var owl = $('.owl-carousel1');
-
-    owl.owlCarousel({
-        items: 1,
-        loop: true,
-        margin: 0,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        dots: true,
-        nav: true,
-        autoplayHoverPause: true
-    });
-
-});
-
-
-$('.tabs-carousel').owlCarousel({
-    items: 4,
-    margin: 20,
-    dots: false,
-    nav: true,
-    navText: [
-        '<span class="me-2 fa fa-chevron-left"></span>',
-        '<span class="ms-2 fa fa-chevron-right"></span>'
-    ],
-    responsive: {
-        0: { items: 1 },
-        600: { items: 3 },
-        1000: { items: 4 }
-    }
-});
-
-$('.tab-item').on('click', function () {
-
-    var target = $(this).data('target');
-
-    // button active
-    $('.tab-item').removeClass('active');
-    $(this).addClass('active');
-
-    // content dəyiş
-    $('.tab-pane').removeClass('show active');
-    $(target).addClass('show active');
-
-});
-$(document).ready(function () {
-    $(".owl-carousel3").owlCarousel({
-        items: 1,
-        loop: true,
-        margin: 10,
-        nav: true,
-        dots: true,
-        navText: ['<span>‹</span>', '<span>›</span>'],
-        autoplay: false,
-        autoplayTimeout: 5000,
-        smartSpeed: 700
-    });
-});
-
-
-$(document).ready(function () {
-    $('.testimonial-carousel').owlCarousel({
-        loop: true,
-        margin: 20,
-        nav: true,
-        dots: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true,
-        navText: ['<span>‹</span>', '<span>›</span>'],
-        responsive: {
-            0: {
-                items: 1
-            },
-            768: {
-                items: 2
-            },
-            1024: {
-                items: 3
-            }
-        }
-    });
-});
-
-$(document).ready(function () {
-    $('.articles-carousel').owlCarousel({
-        loop: true,
-        margin: 20,
-        nav: true,
-        dots: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayHoverPause: true,
-        navText: ['<span>‹</span>', '<span>›</span>'],
-        responsive: {
-            0: {
-                items: 1
-            },
-            768: {
-                items: 2
-            },
-            1024: {
-                items: 3
-            }
-        }
-    });
-});
-$(document).ready(function () {
-    var owl = $('.owl-carousel1');
-    owl.owlCarousel({
-        items: 1, loop: true, margin: 0, autoplay: true,
-        autoplayTimeout: 3000, dots: true, nav: true, autoplayHoverPause: true
-    });
-});
-
-$('.tabs-carousel').owlCarousel({
-    items: 4, margin: 20, dots: false, nav: true,
-    navText: ['<span class="me-2 fa fa-chevron-left"></span>', '<span class="ms-2 fa fa-chevron-right"></span>'],
-    responsive: { 0: { items: 1 }, 600: { items: 3 }, 1000: { items: 4 } }
-});
-
-$('.tab-item').on('click', function () {
-    var target = $(this).data('target');
-    $('.tab-item').removeClass('active');
-    $(this).addClass('active');
-    $('.tab-pane').removeClass('show active');
-    $(target).addClass('show active');
-});
-
-$(document).ready(function () {
-    $(".owl-carousel3").owlCarousel({
-        items: 1, loop: true, margin: 10, nav: true, dots: true,
-        navText: ['<span>‹</span>', '<span>›</span>'], smartSpeed: 700
-    });
-    $('.testimonial-carousel').owlCarousel({
-        loop: true, margin: 20, nav: true, dots: true, autoplay: true,
-        autoplayTimeout: 5000, autoplayHoverPause: true,
-        navText: ['<span>‹</span>', '<span>›</span>'],
-        responsive: { 0: { items: 1 }, 768: { items: 2 }, 1024: { items: 3 } }
-    });
-    $('.articles-carousel').owlCarousel({
-        loop: true, margin: 20, nav: true, dots: true, autoplay: true,
-        autoplayTimeout: 5000, autoplayHoverPause: true,
-        navText: ['<span>‹</span>', '<span>›</span>'],
-        responsive: { 0: { items: 1 }, 768: { items: 2 }, 1024: { items: 3 } }
-    });
-});
-
 /* ════════════════════════════════════════════════════════════
    main.js — Herbalife | API-driven frontend
    ════════════════════════════════════════════════════════════ */
@@ -226,6 +76,57 @@ function productCard(p, linkPrefix = '/products/') {
     </div>`;
 }
 
+/* ── WISHLIST ────────────────────────────────────────────── */
+let _wishlistIds = [];
+
+function initWishlistButtons() {
+    fetch('/wishlist/status/', { credentials: 'same-origin' })
+        .then(r => r.ok ? r.json() : { wishlist_ids: [] })
+        .then(data => {
+            _wishlistIds = data.wishlist_ids || [];
+            applyWishlistState();
+        })
+        .catch(() => {});
+}
+
+function applyWishlistState() {
+    document.querySelectorAll('[data-wishlist-btn]').forEach(btn => {
+        const pid = parseInt(btn.dataset.wishlistBtn);
+        const active = _wishlistIds.includes(pid);
+        const icon = btn.querySelector('i');
+        if (!icon) return;
+        if (active) {
+            icon.classList.replace('far', 'fas');
+            btn.classList.add('wl-active');
+        } else {
+            icon.classList.replace('fas', 'far');
+            btn.classList.remove('wl-active');
+        }
+    });
+}
+
+function toggleWishlist(productId) {
+    fetch('/wishlist/toggle/', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+        body: JSON.stringify({ product_id: productId }),
+    })
+    .then(r => {
+        if (r.status === 401) { showLoginPrompt('/login/'); return null; }
+        return r.json();
+    })
+    .then(data => {
+        if (!data) return;
+        if (data.in_wishlist) {
+            _wishlistIds.push(productId);
+        } else {
+            _wishlistIds = _wishlistIds.filter(id => id !== productId);
+        }
+        applyWishlistState();
+    });
+}
+
 /* ── CART ────────────────────────────────────────────────── */
 let cartState = { total_items: 0, total_price: '0.00', items: [] };
 
@@ -246,9 +147,16 @@ function loadCart() {
 
 function cartAdd(productId, e) {
     if (e) e.preventDefault();
-    const qty = parseInt(document.getElementById('detailQty')?.value || '1');
-    API.post('/api/cart/add/', { product_id: productId, quantity: qty })
-        .then(data => { cartState = data; updateCartBadge(); showToast(t('toast_added')); });
+
+    API.get('/api/auth/status/').then(data => {
+        if (!data.authenticated) {
+            showLoginPrompt('/login/');
+            return;
+        }
+        const qty = parseInt(document.getElementById('detailQty')?.value || '1');
+        API.post('/api/cart/add/', { product_id: productId, quantity: qty })
+            .then(data => { cartState = data; updateCartBadge(); showToast(t('toast_added')); });
+    });
 }
 
 function cartUpdate(itemId, quantity) {
@@ -388,23 +296,23 @@ function initProductsPage() {
         ).forEach(twin => { if (twin !== src) twin.checked = src.checked; });
         const checked = [...document.querySelectorAll('[data-type]:checked')];
         currentParams.flavors = checked.filter(c => c.dataset.type === 'flavor').map(c => c.dataset.value);
-        currentParams.sizes = checked.filter(c => c.dataset.type === 'size').map(c => c.dataset.value);
-        currentParams.prices = checked.filter(c => c.dataset.type === 'price').map(c => c.dataset.value);
+        currentParams.sizes   = checked.filter(c => c.dataset.type === 'size').map(c => c.dataset.value);
+        currentParams.prices  = checked.filter(c => c.dataset.type === 'price').map(c => c.dataset.value);
         loadProducts();
     }
 
     loadFilters();
 
-    const openBtn = document.getElementById('openFilter');
+    const openBtn  = document.getElementById('openFilter');
     const closeBtn = document.getElementById('closeFilter');
-    const sidebar = document.getElementById('mobileFilterSidebar');
-    const overlay = document.getElementById('filterOverlay');
+    const sidebar  = document.getElementById('mobileFilterSidebar');
+    const overlay  = document.getElementById('filterOverlay');
     const applyBtn = document.getElementById('applyFilters');
     const clearBtn = document.querySelector('.clear-filters');
 
-    if (openBtn) openBtn.addEventListener('click', () => { sidebar?.classList.add('active'); overlay?.classList.add('active'); });
+    if (openBtn)  openBtn.addEventListener('click',  () => { sidebar?.classList.add('active'); overlay?.classList.add('active'); });
     if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (overlay)  overlay.addEventListener('click',  closeSidebar);
     if (applyBtn) applyBtn.addEventListener('click', closeSidebar);
     if (clearBtn) clearBtn.addEventListener('click', () => {
         currentParams.flavors = []; currentParams.sizes = []; currentParams.prices = [];
@@ -417,37 +325,33 @@ function initProductsPage() {
         overlay?.classList.remove('active');
     }
 
-    let cachedProducts = [];
-
-   function renderProducts(data) {
-    cachedProducts = data;
-    if (countEl) {
-        countEl.textContent = `${data.length} ${t('products_count') || 'Products'}`;
-        countEl.dataset.count = data.length;
+    function renderProducts(data) {
+        if (countEl) {
+            countEl.textContent = `${data.length} ${t('products_count')}`;
+            countEl.dataset.count = data.length;
+        }
+        if (!data.length) {
+            grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${t('no_products')}</div>`;
+            return;
+        }
+        grid.innerHTML = data.map(p => productCard(p)).join('');
+        applyWishlistState();
     }
-    if (!data.length) {
-        grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${t('no_products')}</div>`;
-        return;
-    }
-    grid.innerHTML = data.map(p => productCard(p)).join('');
-    // ← Kartlar render olandan SONRA wishlist-i tətbiq et
-    applyWishlistState();
-}
 
     function loadProducts() {
         grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;">${t('loading')}</div>`;
         const params = new URLSearchParams();
         if (currentParams.category) params.set('category', currentParams.category);
-        if (currentParams.sort) params.set('sort', currentParams.sort);
-        if (currentParams.search) params.set('search', currentParams.search);
+        if (currentParams.sort)     params.set('sort', currentParams.sort);
+        if (currentParams.search)   params.set('search', currentParams.search);
         currentParams.flavors.forEach(f => params.append('flavor', f));
-        currentParams.sizes.forEach(s => params.append('size', s));
+        currentParams.sizes.forEach(s   => params.append('size', s));
         (currentParams.prices || []).forEach(p => params.append('price', p));
         API.get(`/api/products/?${params}`).then(data => renderProducts(data));
     }
 
     loadProducts();
-}   // ← initProductsPage bağlandı
+}
 
 /* ── PRODUCT DETAIL PAGE ─────────────────────────────────── */
 function initProductDetailPage() {
@@ -501,22 +405,23 @@ function initProductDetailPage() {
                                 <button class="quantity-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
                             </div>
                             ${p.stock > 0
-                ? `<button class="add-to-cart-btn" onclick="cartAdd(${p.id}, event)"
+                                ? `<button class="add-to-cart-btn" onclick="cartAdd(${p.id}, event)"
                                        style="background:#2d5f5d;color:#fff;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:10px;">
                                        ${t('add_to_bag')}</button>`
-                : `<button disabled style="background:#ddd;color:#999;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;margin-top:10px;">
+                                : `<button disabled style="background:#ddd;color:#999;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;margin-top:10px;">
                                        ${t('out_of_stock')}</button>`
-            }
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         ${related}`;
+        applyWishlistState();
     }
 
     API.get(`/api/products/${slug}/`).then(p => renderDetail(p));
-}   // ← initProductDetailPage bağlandı
+}
 
 function changeQty(delta) {
     const input = document.getElementById('detailQty');
@@ -526,7 +431,7 @@ function changeQty(delta) {
 
 /* ── CART PAGE ───────────────────────────────────────────── */
 function renderCartPage() {
-    const root = document.getElementById('cartPageRoot');
+    const root    = document.getElementById('cartPageRoot');
     const totalEl = document.getElementById('cartSummaryTotal');
     const countEl = document.getElementById('cartSummaryCount');
     if (!root) return;
@@ -575,7 +480,7 @@ function renderCartPage() {
             </div>
         </div>
     </div>`).join('');
-}   // ← renderCartPage bağlandı
+}
 
 function initCartPage() {
     if (!document.getElementById('cartPageRoot')) return;
@@ -584,7 +489,7 @@ function initCartPage() {
 
 /* ── LIVE SEARCH ─────────────────────────────────────────── */
 function initHeaderSearch() {
-    const input = document.getElementById('headerSearchInput');
+    const input    = document.getElementById('headerSearchInput');
     const dropdown = document.getElementById('headerSearchDropdown');
     if (!input || !dropdown) return;
 
@@ -601,8 +506,8 @@ function initHeaderSearch() {
                     <a href="/products/${p.slug}/" style="display:flex;align-items:center;gap:10px;padding:8px 14px;text-decoration:none;color:#222;"
                        onmouseover="this.style.background='#f9f0ef'" onmouseout="this.style.background=''">
                         ${p.image
-                        ? `<img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;">`
-                        : `<div style="width:40px;height:40px;border-radius:6px;background:#2d5f5d;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">${p.name[0]}</div>`}
+                            ? `<img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;flex-shrink:0;">`
+                            : `<div style="width:40px;height:40px;border-radius:6px;background:#2d5f5d;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">${p.name[0]}</div>`}
                         <span style="flex:1;font-size:13px;">${p.name}</span>
                         <span style="font-size:13px;font-weight:600;color:#2d5f5d;">$${p.final_price}</span>
                     </a>
@@ -625,7 +530,7 @@ function initHeaderSearch() {
     document.addEventListener('click', e => {
         if (!dropdown.contains(e.target) && e.target !== input) dropdown.style.display = 'none';
     });
-}   // ← initHeaderSearch bağlandı
+}
 
 function toggleSearchBox() {
     const box = document.getElementById('headerSearchBox');
@@ -650,7 +555,35 @@ function showToast(msg, type = 'success') {
     container.appendChild(toast);
     requestAnimationFrame(() => { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; });
     setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
-}   // ← showToast bağlandı
+}
+
+/* ── LOGIN PROMPT MODAL ──────────────────────────────────── */
+function showLoginPrompt(loginUrl) {
+    const existing = document.getElementById('loginPromptModal');
+    if (existing) existing.remove();
+    const modal = document.createElement('div');
+    modal.id = 'loginPromptModal';
+    modal.innerHTML = `
+    <div style="position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;">
+      <div style="background:#fff;border-radius:20px;padding:36px 32px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+        <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#E8F8EF,#D1ECE0);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;">🌿</div>
+        <h3 style="font-size:20px;font-weight:700;color:#1A2E1A;margin-bottom:8px">Daxil olmaq lazımdır</h3>
+        <p style="color:#6B7B6B;font-size:14px;margin-bottom:24px;line-height:1.6">Bu əməliyyatı yerinə yetirmək üçün hesabınıza daxil olun.</p>
+        <div style="display:flex;gap:10px">
+          <button onclick="document.getElementById('loginPromptModal').remove()"
+                  style="flex:1;padding:11px;border-radius:10px;border:1.5px solid #D6EBE0;background:#fff;color:#6B7B6B;font-weight:600;cursor:pointer;font-size:14px">
+            Ləğv et
+          </button>
+          <a href="${loginUrl}?next=${encodeURIComponent(location.pathname)}"
+             style="flex:1;padding:11px;border-radius:10px;border:none;background:#009A44;color:#fff;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:14px">
+            Daxil ol
+          </a>
+        </div>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+    modal.querySelector('div').addEventListener('click', e => { if (e.target === e.currentTarget) modal.remove(); });
+}
 
 /* ── CHECKOUT LOGIN CHECK ────────────────────────────────── */
 function checkLoginBeforeCheckout(e) {
@@ -669,6 +602,17 @@ function checkLoginBeforeCheckout(e) {
 document.addEventListener('DOMContentLoaded', function () {
     loadCart();
     initHeaderSearch();
+    initWishlistButtons();
+
+    // Global wishlist click handler
+    document.addEventListener('click', e => {
+        const btn = e.target.closest('[data-wishlist-btn]');
+        if (btn) {
+            e.preventDefault();
+            toggleWishlist(parseInt(btn.dataset.wishlistBtn));
+        }
+    });
+
     const path = location.pathname;
     if (path === '/' || path === '') initHomePage();
     if (path.startsWith('/products') && !path.includes('/products/')) initProductsPage();
@@ -676,14 +620,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (path === '/cart' || path === '/cart/') initCartPage();
 });
 
-function initHomePage() { }   // Home static templatedir, JS lazım deyil
+function initHomePage() {}
 
+/* ── STORE SWITCHER ──────────────────────────────────────── */
 (function () {
+    const API_STORE_INFO   = window.API_URLS?.storeInfo;
+    const API_STORE_SWITCH = window.API_URLS?.storeSwitch;
 
-    const API_STORE_INFO = window.API_URLS.storeInfo;
-    const API_STORE_SWITCH = window.API_URLS.storeSwitch;
+    if (!API_STORE_INFO) return;
 
     let activeStoreCode = null;
+
     async function detectAndSetLocation() {
         try {
             const stored = sessionStorage.getItem('store_selected');
@@ -691,16 +638,10 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
             const geo = await fetch('/api/location/').then(r => r.json());
             const countryCode = geo.country_code;
-            console.log(countryCode)
 
-            const countryToStore = {
-                'AZ': 'AZ',
-                'US': 'US',
-                'RU': 'RU',
-                'TR': 'TR',
-            };
-
+            const countryToStore = { 'AZ': 'AZ', 'US': 'US', 'RU': 'RU', 'TR': 'TR' };
             const storeCode = countryToStore[countryCode];
+
             if (storeCode && storeCode !== activeStoreCode) {
                 await window.switchStore(storeCode);
                 sessionStorage.setItem('store_selected', '1');
@@ -712,23 +653,20 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
 
     async function initStoreSwitcher() {
         try {
-            const data = await fetch(API_STORE_INFO).then(r => r.json());
+            const data   = await fetch(API_STORE_INFO).then(r => r.json());
             const active = data.active;
-            const all = data.all;
+            const all    = data.all;
 
             activeStoreCode = active ? active.code : null;
-
 
             if (active) {
                 document.getElementById('storeFlag').innerHTML = '<i class="fa-solid fa-location-dot"></i>';
                 document.getElementById('storeCurrency').textContent = active.name;
             }
 
-            // Dropdown siyahısını doldur
             const list = document.getElementById('storeList');
             list.innerHTML = all.map(s => `
-            <button class="store-option ${s.code === activeStoreCode ? 'active' : ''}"
-                    data-code="${s.code}">
+            <button class="store-option ${s.code === activeStoreCode ? 'active' : ''}" data-code="${s.code}">
                 <span class="flag">${s.flag_emoji || '🌍'}</span>
                 <span class="info">
                     <span class="name">${s.name}</span>
@@ -737,65 +675,51 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
                 <i class="fas fa-check check"></i>
             </button>`).join('');
 
-            // Event delegation
             document.getElementById('storeList').addEventListener('click', function (e) {
                 const btn = e.target.closest('.store-option');
                 if (btn) window.switchStore(btn.dataset.code);
             });
         } catch (e) {
-            document.getElementById('storeList').innerHTML =
-                '<div style="padding:16px;color:#aaa;font-size:.85rem">{% trans "Failed to load stores." %}</div>';
+            const list = document.getElementById('storeList');
+            if (list) list.innerHTML = '<div style="padding:16px;color:#aaa;font-size:.85rem">Mağazalar yüklənmədi.</div>';
         }
+        await detectAndSetLocation();
     }
 
     window.toggleStoreDropdown = function () {
-        const dd = document.getElementById('storeDropdown');
+        const dd  = document.getElementById('storeDropdown');
         const chv = document.getElementById('storeChevron');
         if (!dd || !chv) return;
         dd.classList.toggle('open');
         chv.classList.toggle('rotated');
     };
 
-    // Dışarı tıklayanda kapat
     document.addEventListener('click', function (e) {
-        if (!document.getElementById('storeSwitcher').contains(e.target)) {
-            document.getElementById('storeDropdown').classList.remove('open');
-            document.getElementById('storeChevron').classList.remove('rotated');
+        const switcher = document.getElementById('storeSwitcher');
+        if (switcher && !switcher.contains(e.target)) {
+            document.getElementById('storeDropdown')?.classList.remove('open');
+            document.getElementById('storeChevron')?.classList.remove('rotated');
         }
     });
 
     window.switchStore = async function (code) {
-        if (code === activeStoreCode) {
-            toggleStoreDropdown();
-            return;
-        }
+        if (code === activeStoreCode) { toggleStoreDropdown(); return; }
         try {
-            const res = await fetch(API_STORE_SWITCH, {
+            const res  = await fetch(API_STORE_SWITCH, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
-                body: JSON.stringify({ store_code: code })
+                body: JSON.stringify({ store_code: code }),
             });
             const data = await res.json();
             if (data.success) {
-                // Navbar-ı güncəllə
-                window.location.reload();
+                activeStoreCode = code;
                 document.getElementById('storeFlag').innerHTML = '<i class="fa-solid fa-location-dot"></i>';
                 document.getElementById('storeCurrency').textContent = data.store.name;
-                activeStoreCode = code;
-
-                // Active class-ları güncəllə
                 document.querySelectorAll('.store-option').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.code === code);
                 });
-
                 toggleStoreDropdown();
-
-                // Səhifəni refresh et ki məhsullar yenilənsin
-                // (əgər products API-si zaten store-a görə filter edirsə)
-                if (typeof loadProducts === 'function') loadProducts();
-                if (typeof loadPosts === 'function') loadPosts();
-                // Yox əgər tam reload istəyirsənsə:
-                // window.location.reload();
+                window.location.reload();
             }
         } catch (e) {
             console.error('Store switch failed:', e);
@@ -811,19 +735,23 @@ function initHomePage() { }   // Home static templatedir, JS lazım deyil
         return v;
     }
 
-    // storeBtn click
-    document.getElementById('storeBtn').addEventListener('click', function (e) {
-        e.stopPropagation();
-        window.toggleStoreDropdown();
-    });
+    const storeBtn = document.getElementById('storeBtn');
+    if (storeBtn) {
+        storeBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            window.toggleStoreDropdown();
+        });
+    }
 
-    // Siyahı loading skeletonu göstər
-    document.getElementById('storeList').innerHTML = `
-    <div class="store-loading">
-        <div class="store-sk" style="width:80%"></div>
-        <div class="store-sk" style="width:65%"></div>
-        <div class="store-sk" style="width:75%"></div>
-    </div>`;
-    detectAndSetLocation()
+    const storeList = document.getElementById('storeList');
+    if (storeList) {
+        storeList.innerHTML = `
+        <div class="store-loading">
+            <div class="store-sk" style="width:80%"></div>
+            <div class="store-sk" style="width:65%"></div>
+            <div class="store-sk" style="width:75%"></div>
+        </div>`;
+    }
+
     initStoreSwitcher();
 })();

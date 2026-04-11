@@ -68,6 +68,27 @@
           <div><label class="hl-label">{% trans "checkout_first_name" %}</label><input type="text" name="first_name" class="hl-input" value="{{ request.user.first_name }}" placeholder="{% trans 'checkout_first_name_placeholder' %}" required></div>
           <div><label class="hl-label">{% trans "checkout_last_name" %}</label><input type="text" name="last_name" class="hl-input" value="{{ request.user.last_name }}" placeholder="{% trans 'checkout_last_name_placeholder' %}"></div>
         </div>
+        {% if request.user.addresses.all %}
+<div class="hl-field">
+    <label class="hl-label">Saxlanmış ünvanlar</label>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+        {% for addr in request.user.addresses.all %}
+        <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--hl-border);border-radius:10px;cursor:pointer;transition:border-color .2s;" 
+               onclick="selectAddress('{{ addr.address }}','{{ addr.city }}','{{ addr.postal_code }}','{{ addr.country }}', this)">
+            <input type="radio" name="saved_address" style="width:16px;height:16px;accent-color:var(--hl-green);" {% if addr.is_default %}checked{% endif %}>
+            <div>
+                <div style="font-weight:600;font-size:13px;color:var(--hl-text);">{{ addr.title }}</div>
+                <div style="font-size:12px;color:var(--hl-muted);">{{ addr.address }}, {{ addr.city }}</div>
+            </div>
+        </label>
+        {% endfor %}
+        <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--hl-border);border-radius:10px;cursor:pointer;" onclick="clearAddress(this)">
+            <input type="radio" name="saved_address" style="width:16px;height:16px;accent-color:var(--hl-green);">
+            <div style="font-size:13px;color:var(--hl-muted);">Yeni ünvan daxil et</div>
+        </label>
+    </div>
+</div>
+{% endif %}
         <div class="hl-field"><label class="hl-label">{% trans "checkout_address_label" %}</label><input type="text" name="address" class="hl-input" value="{{ initial.address }}" placeholder="{% trans 'checkout_address_placeholder' %}" required></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px" class="hl-field">
           <div><label class="hl-label">{% trans "checkout_city" %}</label><input type="text" name="city" class="hl-input" value="{{ initial.city }}" placeholder="Bakı" required></div>
@@ -99,4 +120,35 @@
     </div>
   </form>
 </div></div>
+{% endblock %}
+
+{% block js %}
+<script>
+function selectAddress(address, city, postal, country, el) {
+    document.querySelectorAll('[name=saved_address]').forEach(r => {
+        r.closest('label').style.borderColor = 'var(--hl-border)';
+    });
+    el.style.borderColor = 'var(--hl-green)';
+    document.querySelector('[name=address]').value = address;
+    document.querySelector('[name=city]').value = city;
+    document.querySelector('[name=postal_code]').value = postal;
+    document.querySelector('[name=country]').value = country;
+}
+
+function clearAddress(el) {
+    document.querySelectorAll('[name=saved_address]').forEach(r => {
+        r.closest('label').style.borderColor = 'var(--hl-border)';
+    });
+    el.style.borderColor = 'var(--hl-green)';
+    document.querySelector('[name=address]').value = '';
+    document.querySelector('[name=city]').value = '';
+    document.querySelector('[name=postal_code]').value = '';
+}
+
+// Default ünvanı avtomatik doldur
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultRadio = document.querySelector('[name=saved_address]:checked');
+    if (defaultRadio) defaultRadio.closest('label').click();
+});
+</script>
 {% endblock %}

@@ -1,6 +1,3 @@
-# core/views.py — checkout bölməsini TAM bu ilə əvəz et
-# (digər view-lar eyni qalır)
-
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -10,9 +7,11 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Cart, CartItem, Order, OrderItem, Product, Wishlist, User
+from .models import Cart, CartItem, Order, OrderItem, Product, Wishlist, User,UserAddress
 from .paypal_client import create_paypal_order, capture_paypal_order
 
+from .models import Store
+from .api import get_active_store
 
 # ── Helpers ───────────────────────────────────────────────────────
 
@@ -226,10 +225,6 @@ def wishlist_status(request):
 
 @login_required(login_url='/login/')
 def checkout_address(request):
-    """
-    GET  → Ünvan forması göstər
-    POST → Ünvanı session-a yaz, PayPal order yarat, redirect et
-    """
     cart_obj = get_or_create_cart(request)
     items    = list(cart_obj.items.select_related('product').all())
 
@@ -237,14 +232,11 @@ def checkout_address(request):
         messages.warning(request, 'Səbətiniz boşdur.')
         return redirect('cart')
 
-    # Store / currency
-    from .models import Store
-    from .api import get_active_store
     store    = get_active_store(request)
     currency = store.currency if store else 'USD'
-    # PayPal yalnız USD/CAD qəbul edir — AZN-i USD-ə çevir (sabit kurs)
     CURRENCY_MAP = {'AZN': ('USD', 0.59), 'USD': ('USD', 1.0), 'CAD': ('CAD', 1.0)}
     pp_currency, rate = CURRENCY_MAP.get(currency, ('USD', 1.0))
+    addresses = request.user.addresses.all()
 
     if request.method == 'POST':
         address     = request.POST.get('address', '').strip()
@@ -312,9 +304,11 @@ def checkout_address(request):
     u = request.user
     initial = {
         'address':     u.address,
+        'addresses': addresses,
         'city':        u.city,
         'postal_code': u.postal_code,
         'country':     u.country,
+        
     }
     from .models import Store as StoreModel
     stores = StoreModel.objects.filter(is_active=True)
@@ -327,6 +321,38 @@ def checkout_address(request):
         'initial':  initial,
     })
 
+
+@login_required(login_url='/login/')
+def address_add(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    data = json.loads(request.body)
+    if data.get('is_default'):
+        request.user.addresses.update(is_default=False)
+    addr = UserAddress.objects.create(
+        user        = request.user,
+        title       = data.get('title', 'Ev'),
+        address     = data.get('address', ''),
+        city        = data.get('city', ''),
+        postal_code = data.get('postal_code', ''),
+        country     = data.get('country', ''),
+        is_default  = data.get('is_default', False),
+    )
+    return JsonResponse({'id': addr.pk, 'title': addr.title, 'address': addr.address, 'city': addr.city, 'country': addr.country, 'is_default': addr.is_default})
+
+@login_required(login_url='/login/')
+def address_delete(request, pk):
+    addr = get_object_or_404(UserAddress, pk=pk, user=request.user)
+    addr.delete()
+    return JsonResponse({'success': True})
+
+@login_required(login_url='/login/')  
+def address_set_default(request, pk):
+    request.user.addresses.update(is_default=False)
+    addr = get_object_or_404(UserAddress, pk=pk, user=request.user)
+    addr.is_default = True
+    addr.save()
+    return JsonResponse({'success': True})
 
 @login_required(login_url='/login/')
 def checkout_paypal_return(request):

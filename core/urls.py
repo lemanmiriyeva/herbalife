@@ -44,4 +44,7 @@ urlpatterns = [
     path('api/store/',                  api.store_info,                name='api_store_info'),
     path('api/store/switch/',           csrf_exempt(api.store_switch), name='api_store_switch'),
     path('api/location/', api.detect_location),
+    path('api/addresses/add/',            views.address_add,         name='address_add'),
+    path('api/addresses/<int:pk>/delete/', views.address_delete,      name='address_delete'),
+    path('api/addresses/<int:pk>/default/', views.address_set_default, name='address_default'),
 ]

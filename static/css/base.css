@@ -1031,3 +1031,28 @@ footer {
         padding: 60px 16px 30px;
     }
 }
+
+.address-card {
+    border: 1.5px solid var(--hl-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: border-color .2s;
+}
+.address-card.default {
+    border-color: var(--hl-green);
+    background: #f0faf4;
+}
+.btn-hl-outline {
+    background: transparent;
+    color: var(--hl-green);
+    border: 1.5px solid var(--hl-green);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-hl-outline:hover { background: var(--hl-green); color: #fff; }

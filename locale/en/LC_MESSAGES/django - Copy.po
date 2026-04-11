@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Herbalife 1.0\n"
-"Language: az\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -9,845 +9,836 @@ msgstr ""
 
 # ── Navbar ────────────────────────────────────────────
 msgid "nav_home"
-msgstr "Ana səhifə"
+msgstr "Home"
 
 msgid "nav_products"
-msgstr "Məhsullar"
-
-msgid "nav_profile"
-msgstr "Hesabım"
+msgstr "Products"
 
 msgid "nav_blog"
 msgstr "Blog"
 
 msgid "nav_cart"
-msgstr "Səbət"
+msgstr "Cart"
 
 msgid "nav_account"
-msgstr "Hesab"
+msgstr "Account"
 
 msgid "nav_sign_in"
-msgstr "Daxil ol"
+msgstr "Sign In"
 
 msgid "nav_sign_out"
-msgstr "Çıxış et"
+msgstr "Sign Out"
 
 msgid "nav_register"
-msgstr "Qeydiyyat"
+msgstr "Register"
 
 msgid "nav_welcome"
-msgstr "Xoş gəldiniz!"
+msgstr "Welcome!"
 
 msgid "nav_account_access"
-msgstr "Hesabınıza daxil olun"
+msgstr "Access your account"
 
 msgid "nav_account_create"
-msgstr "Yeni hesab açın"
+msgstr "Create new account"
 
 msgid "nav_select_region"
-msgstr "Bölgənizi seçin"
+msgstr "Select your region"
 
 msgid "nav_search_placeholder"
-msgstr "Məhsul axtar..."
+msgstr "Search products..."
 
 msgid "nav_type_to_search"
-msgstr "Axtarmaq üçün yazın..."
+msgstr "Type to search..."
 
 msgid "nav_search"
-msgstr "Axtar"
+msgstr "Search"
 
 msgid "nav_stores_failed"
-msgstr "Mağazalar yüklənmədi."
+msgstr "Failed to load stores."
 
 # ── Login ──────────────────────────────────────────────
 msgid "login_page_title"
-msgstr "Daxil ol"
+msgstr "Sign In"
 
 msgid "login_side_title"
-msgstr "Xoş gəldiniz!"
+msgstr "Welcome back!"
 
 msgid "login_side_subtitle"
-msgstr "Hesabınıza daxil olun"
+msgstr "Sign in to your account"
 
 msgid "login_perk_orders"
-msgstr "Sifariş tarixçənizi izləyin"
+msgstr "Track your order history"
 
 msgid "login_perk_wishlist"
-msgstr "Sevimlilər siyahısı yaradın"
+msgstr "Create your favorites list"
 
 msgid "login_perk_checkout"
-msgstr "Sürətli checkout prosesi"
+msgstr "Fast checkout process"
 
 msgid "login_perk_campaigns"
-msgstr "Ekskluziv kampaniyalar"
+msgstr "Exclusive campaigns"
 
 msgid "login_form_title"
-msgstr "Daxil ol"
+msgstr "Sign In"
 
 msgid "login_no_account"
-msgstr "Hesabınız yoxdur?"
+msgstr "Don't have an account?"
 
 msgid "login_register_link"
-msgstr "Qeydiyyatdan keçin"
+msgstr "Register here"
 
 msgid "login_identity_label"
-msgstr "Kimlik"
+msgstr "Identity"
 
 msgid "login_tab_phone"
-msgstr "Telefon"
+msgstr "Phone"
 
 msgid "login_tab_email"
-msgstr "E-poçt"
+msgstr "Email"
 
 msgid "login_tab_username"
-msgstr "İstifadəçi adı"
+msgstr "Username"
 
 msgid "login_password_label"
-msgstr "Şifrə"
+msgstr "Password"
 
 msgid "login_forgot_password"
-msgstr "Şifrəni unutdum?"
+msgstr "Forgot password?"
 
 msgid "login_submit_btn"
-msgstr "Daxil ol"
+msgstr "Sign In"
 
 # ── Register ───────────────────────────────────────────
 msgid "register_page_title"
-msgstr "Qeydiyyat"
+msgstr "Register"
 
 msgid "register_side_title"
-msgstr "Sağlam həyatınıza başlayın"
+msgstr "Start your healthy life"
 
 msgid "register_side_subtitle"
-msgstr "Pulsuz hesab açın, sağlamlıq dünyasına qoşulun."
+msgstr "Open a free account, join the health world."
 
 msgid "register_step_1"
-msgstr "Məlumatlarınızı daxil edin"
+msgstr "Enter your information"
 
 msgid "register_step_2"
-msgstr "Hesabınızı aktivləşdirin"
+msgstr "Activate your account"
 
 msgid "register_step_3"
-msgstr "Premium məhsullara çatın"
+msgstr "Access premium products"
 
 msgid "register_form_title"
-msgstr "Hesab yarat"
+msgstr "Create Account"
 
 msgid "register_have_account"
-msgstr "Artıq hesabınız var?"
+msgstr "Already have an account?"
 
 msgid "register_signin_link"
-msgstr "Daxil olun"
+msgstr "Sign in here"
 
 msgid "register_first_name"
-msgstr "Ad *"
+msgstr "First Name *"
 
 msgid "register_first_name_placeholder"
-msgstr "Adınız"
+msgstr "Your first name"
 
 msgid "register_last_name"
-msgstr "Soyad"
+msgstr "Last Name"
 
 msgid "register_last_name_placeholder"
-msgstr "Soyadınız"
+msgstr "Your last name"
 
 msgid "register_email"
-msgstr "E-poçt ünvanı *"
+msgstr "Email Address *"
 
 msgid "register_phone"
-msgstr "Telefon nömrəsi *"
+msgstr "Phone Number *"
 
 msgid "register_password"
-msgstr "Şifrə *"
+msgstr "Password *"
 
 msgid "register_password_placeholder"
-msgstr "Minimum 6 simvol"
+msgstr "Minimum 6 characters"
 
 msgid "register_confirm_password"
-msgstr "Şifrəni təsdiq edin *"
+msgstr "Confirm Password *"
 
 msgid "register_confirm_placeholder"
-msgstr "Yenidən daxil edin"
+msgstr "Re-enter password"
 
 msgid "register_submit_btn"
-msgstr "Qeydiyyatdan keç"
+msgstr "Create Account"
 
 msgid "register_terms_text"
-msgstr "Qeydiyyatdan keçməklə"
+msgstr "By registering you accept our"
 
 msgid "register_terms_link"
-msgstr "İstifadə şərtlərini"
+msgstr "Terms of Use"
 
 msgid "register_terms_agree"
-msgstr "qəbul etmiş olursunuz."
+msgstr "and agree to our terms."
 
 # ── Cart ───────────────────────────────────────────────
 msgid "cart_page_title"
-msgstr "Alış-veriş Səbəti"
+msgstr "Shopping Bag"
 
 msgid "cart_clear_btn"
-msgstr "Səbəti Təmizlə"
+msgstr "Clear Bag"
 
 msgid "cart_summary_title"
-msgstr "Məbləğ Xülasəsi"
+msgstr "Summary Amounts"
 
 msgid "cart_free_shipping"
-msgstr "Sifarişiniz pulsuz çatdırılmaya uyğundur"
+msgstr "Your order qualifies for free shipping"
 
 msgid "cart_item_subtotal"
-msgstr "Məhsul Cəmi"
+msgstr "Item Subtotal"
 
 msgid "cart_tax_note"
-msgstr "Vergilər və Çatdırılma Checkout-da Hesablanır"
+msgstr "Taxes and Shipping Calculated at Checkout"
 
 msgid "cart_checkout_btn"
-msgstr "Sifariş ver"
+msgstr "Checkout"
 
 msgid "cart_empty_text"
-msgstr "Səbətiniz boşdur"
+msgstr "Your cart is empty"
 
 msgid "cart_continue_shopping"
-msgstr "Alış-verişə davam et"
+msgstr "Continue Shopping"
 
 msgid "cart_title_label"
-msgstr "Alış-veriş Səbəti"
+msgstr "Shopping Bag"
 
 msgid "cart_price_label"
-msgstr "qiymət"
+msgstr "price"
 
 msgid "cart_flavor_label"
-msgstr "Filtr:"
+msgstr "Flavor:"
 
 msgid "cart_subtotal_label"
-msgstr "Cəmi:"
+msgstr "Subtotal:"
 
 msgid "cart_remove_btn"
-msgstr "Sil"
+msgstr "Remove"
 
 # ── Products ───────────────────────────────────────────
 msgid "products_page_title_1"
-msgstr "Hədəflənmiş"
+msgstr "Targeted"
 
 msgid "products_page_title_2"
-msgstr "Sağlamlıq"
+msgstr "Health"
 
 msgid "products_page_desc"
-msgstr "Bədəninizin gündəlik ehtiyaclarını qarşılayın. İmmun sisteminizi, sümük və oynaqlarınızı, həzm və ya ürək sağlamlığınızı dəstəkləmək istəyirsinizsə, məhsullarımız pəhrizinizi tamamlamaq üçün hazırlanmışdır."
+msgstr "Ensure your body receives its daily requirements. Whether you want to support your immune system, bone and joint, digestive or heart health, our array of products is designed to complement your diet."
 
 msgid "products_filter_btn"
-msgstr "Filtr"
+msgstr "Filter"
 
 msgid "products_filters_title"
-msgstr "Filtrlər"
+msgstr "Filters"
 
 msgid "products_clear_filters"
-msgstr "Hamısını Sil"
+msgstr "Clear All"
 
 msgid "products_apply_filters"
-msgstr "Filtrlər Tətbiq Et"
+msgstr "Apply Filters"
 
 msgid "products_loading_filters"
-msgstr "Filtrlər yüklənir..."
+msgstr "Loading filters..."
 
 msgid "products_sort_featured"
-msgstr "Sırala: Seçilmiş"
+msgstr "Sort by: Featured"
 
 msgid "products_sort_price_asc"
-msgstr "Qiymət: Azdan Çoxa"
+msgstr "Price: Low to High"
 
 msgid "products_sort_price_desc"
-msgstr "Qiymət: Çoxdan Aza"
+msgstr "Price: High to Low"
 
 msgid "products_sort_name_asc"
-msgstr "Ad: A-Z"
+msgstr "Name: A-Z"
 
 msgid "products_sort_name_desc"
-msgstr "Ad: Z-A"
+msgstr "Name: Z-A"
 
 msgid "products_not_found"
-msgstr "Məhsul tapılmadı."
+msgstr "No products found."
 
 msgid "products_loading"
-msgstr "Yüklənir..."
+msgstr "Loading..."
 
 msgid "products_all_label"
-msgstr "Hamısı"
+msgstr "All"
 
 msgid "products_count_label"
-msgstr "Məhsul"
+msgstr "Products"
 
 msgid "products_add_btn"
-msgstr "Əlavə et"
+msgstr "Add"
 
 msgid "products_added_toast"
-msgstr "Məhsul səbətə əlavə edildi"
+msgstr "Product added to cart"
 
 msgid "products_add_to_bag"
-msgstr "Səbətə əlavə et"
+msgstr "Add to Bag"
 
 msgid "products_out_of_stock"
-msgstr "Stokda yoxdur"
+msgstr "Out of Stock"
 
 msgid "products_related"
-msgstr "Əlaqəli məhsullar"
+msgstr "Related Products"
 
 msgid "products_filter_flavor"
-msgstr "Filtr"
+msgstr "Flavor"
 
 msgid "products_filter_size"
-msgstr "Ölçü"
+msgstr "Size"
 
 msgid "products_filter_price"
-msgstr "Qiymət"
+msgstr "Price"
 
 msgid "products_see_all"
-msgstr "Hamısına bax"
+msgstr "See all"
 
 msgid "products_breadcrumb_home"
-msgstr "Ana səhifə"
+msgstr "Home"
 
 msgid "products_breadcrumb_products"
-msgstr "Məhsullar"
+msgstr "Products"
 
 msgid "products_breadcrumb_category"
-msgstr "Hədəflənmiş Sağlamlıq"
+msgstr "Targeted Health"
 
 # ── Home ───────────────────────────────────────────────
 msgid "home_hero_1_title"
-msgstr "Gündəlik kollageniniz, yanınızda"
+msgstr "Your daily collagen, to go"
 
 msgid "home_hero_2_title"
-msgstr "Hüceyrə sağlamlığı, yenidən nəzərdən keçirilmişdir."
+msgstr "Cellular health, reimagined."
 
 msgid "home_learn_more"
-msgstr "Ətraflı oxu"
+msgstr "Learn More"
 
 msgid "home_tab_fitness"
 msgstr "Fitness"
 
 msgid "home_tab_performance"
-msgstr "Performans"
+msgstr "Performance"
 
 msgid "home_tab_nutrition"
-msgstr "Gündəlik Qidalanma və Sağlamlıq"
+msgstr "Daily Nutrition & Health"
 
 msgid "home_tab_skin"
-msgstr "Dəri və Bədən Baxımı"
+msgstr "Skin & Body Care"
 
 msgid "home_category_title"
-msgstr "Görə biləcəyiniz dəri və bədən baxımı"
+msgstr "Skin & body care you can see"
 
 msgid "home_category_desc"
-msgstr "Bədəninizə yalnız ən yaxşısını verin – aloe və bitki ekstraktlı dəri və bədən məhsullarımızla."
+msgstr "Treat your body to only the best with our line of aloe and botanical-infused skin and body products."
 
 msgid "home_science_title"
-msgstr "Elm və keyfiyyət"
+msgstr "Science & quality"
 
 msgid "home_science_text_1"
-msgstr "40 ildən artıq sağlamlıq və qidalanma sahəsində lider olaraq, məhsullarımızın keyfiyyətini, faydalarını və təhlükəsizliyini təmin etmək üçün ciddi testlər aparırıq."
+msgstr "As a leader in health and nutrition for more than 40 years, we rigorously test to ensure the quality, benefits, and safety of our full line of products."
 
 msgid "home_science_text_2"
-msgstr "Hər Herbalife tərkibi yüksək keyfiyyət standartlarına uyğun saxlanılır. Hər tərkibi çoxsəviyyəli keyfiyyətə nəzarət sistemi ilə elmi şəkildə yoxlayırıq."
+msgstr "Every Herbalife ingredient is held to high-quality standards, from Seed to Feed. We scientifically verify and test each ingredient with a multilevel quality control system."
 
 msgid "home_success_title"
-msgstr "Həqiqi insanlar, həqiqi uğur"
+msgstr "Real people, real success"
 
 msgid "home_success_desc"
-msgstr "İcma üzvlərimizin uğur hekayələrini yoxlayın."
+msgstr "Check out these success stories from our community."
 
 msgid "home_articles_title"
-msgstr "Məqalələr və reseptlər"
+msgstr "Articles and recipes"
 
 msgid "home_articles_desc"
-msgstr "Sizin sağlamlıq yolculuğunuzu dəstəkləmək üçün məqalələr, reseptlər və digər məlumatların toplusu."
+msgstr "A collection of articles, recipes and more to support your journey to wellness."
 
 # ── Blog ───────────────────────────────────────────────
 msgid "blog_hero_eyebrow"
-msgstr "Sağlamlıq Məsləhətləri"
+msgstr "Wellness Insights"
 
 msgid "blog_hero_title_1"
-msgstr "Sağlam Yaşa,"
+msgstr "Live Well,"
 
 msgid "blog_hero_title_2"
-msgstr "Özünü Yaxşı Hiss Et"
+msgstr "Feel Great"
 
 msgid "blog_hero_title_3"
-msgstr "Hər Gün"
+msgstr "Every Day"
 
 msgid "blog_hero_desc"
-msgstr "Ekspert qidalanma məsləhətləri, sağlam reseptlər, fitness bələdçiləri və həyat tərzi ilhamı."
+msgstr "Expert nutrition tips, healthy recipes, fitness guides and lifestyle inspiration."
 
 msgid "blog_search_placeholder"
-msgstr "Məqalə axtar..."
+msgstr "Search articles..."
 
 msgid "blog_featured_label"
-msgstr "Seçilmiş"
+msgstr "Featured"
 
 msgid "blog_latest_title"
-msgstr "Son Məqalələr"
+msgstr "Latest Articles"
 
 msgid "blog_all_topics"
-msgstr "Bütün Mövzular"
+msgstr "All Topics"
 
 msgid "blog_newsletter_title"
-msgstr "Həftəlik Sağlamlıq Məsləhətləri Alın"
+msgstr "Get Weekly Wellness Tips"
 
 msgid "blog_newsletter_desc"
-msgstr "Hər həftə ekspert məsləhətləri alan 50,000+ oxucuya qoşulun."
+msgstr "Join 50,000+ readers who get expert advice every week."
 
 msgid "blog_email_placeholder"
-msgstr "E-poçt ünvanınız"
+msgstr "Your email address"
 
 msgid "blog_subscribe_btn"
-msgstr "Abunə ol"
+msgstr "Subscribe"
 
 msgid "blog_subscribed"
-msgstr "Abunə oldunuz!"
+msgstr "Subscribed!"
 
 msgid "blog_no_articles"
-msgstr "Məqalə tapılmadı."
+msgstr "No articles found."
 
 msgid "blog_load_failed"
-msgstr "Məqalələr yüklənmədi."
+msgstr "Failed to load articles."
 
 msgid "blog_min_read"
-msgstr "dəq oxuma"
+msgstr "min read"
 
 msgid "blog_read_article"
-msgstr "Məqaləni oxu"
+msgstr "Read Article"
 
 msgid "blog_read_btn"
-msgstr "Oxu"
+msgstr "Read"
 
 # ── Blog Detail ────────────────────────────────────────
 msgid "blog_detail_loading"
-msgstr "Yüklənir..."
+msgstr "Loading..."
 
 msgid "blog_detail_breadcrumb_home"
-msgstr "Ana səhifə"
+msgstr "Home"
 
 msgid "blog_detail_breadcrumb_blog"
 msgstr "Blog"
 
 msgid "blog_detail_contents"
-msgstr "Məzmun"
+msgstr "Contents"
 
 msgid "blog_detail_related"
-msgstr "Əlaqəli Məqalələr"
+msgstr "Related Articles"
 
 msgid "blog_detail_stay_updated"
-msgstr "Xəbərdar olun"
+msgstr "Stay Updated"
 
 msgid "blog_detail_newsletter_desc"
-msgstr "Hər həftə ən son sağlamlıq məsləhətlərini e-poçtunuza alın."
+msgstr "Get the latest wellness tips delivered to your inbox every week."
 
 msgid "blog_detail_email_placeholder"
-msgstr "E-poçtunuz"
+msgstr "Your email"
 
 msgid "blog_detail_subscribe"
-msgstr "Abunə ol"
+msgstr "Subscribe"
 
 msgid "blog_detail_subscribed"
-msgstr "Abunə oldunuz!"
+msgstr "Subscribed!"
 
 msgid "blog_detail_you_might_like"
-msgstr "Bunları da bəyənə bilərsiniz"
+msgstr "You Might Also Like"
 
 msgid "blog_detail_all_articles"
-msgstr "Bütün Məqalələr"
+msgstr "All Articles"
 
 msgid "blog_detail_tags"
-msgstr "Etiketlər:"
+msgstr "Tags:"
 
 msgid "blog_detail_wellness_tag"
-msgstr "Sağlamlıq"
+msgstr "Wellness"
 
 msgid "blog_detail_share"
-msgstr "Paylaş:"
+msgstr "Share:"
 
 msgid "blog_detail_author_role"
-msgstr "Herbalife Qidalanma Eksperti"
+msgstr "Herbalife Nutrition Expert"
 
 msgid "blog_detail_author_bio"
-msgstr "Qidalanma və sağlamlıq üzrə ekspertlərimiz sizi daha sağlam və aktiv həyat sürmənizə kömək etmək üçün çalışır."
+msgstr "Our team of nutrition and wellness experts is dedicated to helping you live a healthier, more active life."
 
 msgid "blog_detail_not_found"
-msgstr "Məqalə tapılmadı"
+msgstr "Article not found"
 
 msgid "blog_detail_back"
-msgstr "Bloga qayıt"
+msgstr "Back to Blog"
 
 msgid "blog_detail_load_failed"
-msgstr "Bu məqalə yüklənə bilmədi."
+msgstr "This article could not be loaded."
 
 msgid "blog_detail_min_read"
-msgstr "dəq oxuma"
+msgstr "min read"
 
 msgid "blog_detail_read_article"
-msgstr "Məqaləni oxu"
+msgstr "Read Article"
 
 # ── Profile ────────────────────────────────────────────
 msgid "profile_page_title"
-msgstr "Profilim"
+msgstr "My Profile"
 
 msgid "profile_member_badge"
-msgstr "Üzv"
+msgstr "Member"
 
 msgid "profile_tab_orders"
-msgstr "Sifarişlər"
+msgstr "Orders"
 
 msgid "profile_tab_wishlist"
-msgstr "Sevimlilər"
+msgstr "Favorites"
 
 msgid "profile_tab_settings"
-msgstr "Parametrlər"
+msgstr "Settings"
 
 msgid "profile_tab_password"
-msgstr "Şifrə"
+msgstr "Password"
 
 msgid "profile_orders_title"
-msgstr "Sifariş tarixçəsi"
+msgstr "Order History"
 
 msgid "profile_no_orders"
-msgstr "Hələ sifarişiniz yoxdur."
+msgstr "No orders yet."
 
 msgid "profile_browse_products"
-msgstr "Məhsullara baxın"
+msgstr "Browse products"
 
 msgid "profile_wishlist_title"
-msgstr "Sevilmiş məhsullar"
+msgstr "Favorite Products"
 
 msgid "profile_no_wishlist"
-msgstr "Sevilmiş məhsulunuz yoxdur."
+msgstr "No favorites yet."
 
 msgid "profile_view_btn"
-msgstr "Baxın"
+msgstr "View"
 
 msgid "profile_remove_from_wishlist"
-msgstr "Siyahıdan sil"
+msgstr "Remove from list"
 
 msgid "profile_settings_title"
-msgstr "Şəxsi məlumatlar"
+msgstr "Personal Information"
 
 msgid "profile_first_name"
-msgstr "Ad"
+msgstr "First Name"
 
 msgid "profile_last_name"
-msgstr "Soyad"
+msgstr "Last Name"
 
 msgid "profile_phone"
-msgstr "Telefon nömrəsi"
+msgstr "Phone Number"
 
 msgid "profile_save_btn"
-msgstr "Yadda saxla"
+msgstr "Save"
 
 msgid "profile_password_title"
-msgstr "Şifrə dəyiş"
+msgstr "Change Password"
 
 msgid "profile_old_password"
-msgstr "Köhnə şifrə"
+msgstr "Old Password"
 
 msgid "profile_old_password_placeholder"
-msgstr "Mövcud şifrəniz"
+msgstr "Your current password"
 
 msgid "profile_new_password"
-msgstr "Yeni şifrə"
+msgstr "New Password"
 
 msgid "profile_confirm_password"
-msgstr "Yeni şifrəni təsdiq edin"
+msgstr "Confirm New Password"
 
 msgid "profile_confirm_placeholder"
-msgstr "Yenidən daxil edin"
+msgstr "Re-enter password"
 
 msgid "profile_change_password_btn"
-msgstr "Şifrəni dəyiş"
+msgstr "Change Password"
 
 # ── Checkout ───────────────────────────────────────────
 msgid "checkout_page_title"
-msgstr "Ünvan məlumatları"
+msgstr "Address Information"
 
 msgid "checkout_step_basket"
-msgstr "Səbət"
+msgstr "Cart"
 
 msgid "checkout_step_address"
-msgstr "Ünvan"
+msgstr "Address"
 
 msgid "checkout_step_paypal"
 msgstr "PayPal"
 
 msgid "checkout_step_confirm"
-msgstr "Təsdiq"
+msgstr "Confirmation"
 
 msgid "checkout_delivery_title"
-msgstr "Çatdırılma ünvanı"
+msgstr "Delivery Address"
 
 msgid "checkout_first_name"
-msgstr "Ad *"
+msgstr "First Name *"
 
 msgid "checkout_first_name_placeholder"
-msgstr "Adınız"
+msgstr "Your first name"
 
 msgid "checkout_last_name"
-msgstr "Soyad"
+msgstr "Last Name"
 
 msgid "checkout_last_name_placeholder"
-msgstr "Soyadınız"
+msgstr "Your last name"
 
 msgid "checkout_address_label"
-msgstr "Ünvan (küçə, ev nömrəsi) *"
+msgstr "Street Address *"
 
 msgid "checkout_address_placeholder"
-msgstr "Nümunə: Nizami küç. 12, mən. 5"
+msgstr "e.g. 123 Main Street, Apt 4"
 
 msgid "checkout_city"
-msgstr "Şəhər *"
+msgstr "City *"
 
 msgid "checkout_postal"
-msgstr "Poçt kodu"
+msgstr "Postal Code"
 
 msgid "checkout_country"
-msgstr "Ölkə / Mağaza *"
+msgstr "Country / Store *"
 
 msgid "checkout_select"
-msgstr "— Seçin —"
+msgstr "— Select —"
 
 msgid "checkout_note"
-msgstr "Qeyd (isteğe bağlı)"
+msgstr "Note (optional)"
 
 msgid "checkout_note_placeholder"
-msgstr "Xüsusi istəklər, çatdırılma təlimatları..."
+msgstr "Special requests, delivery instructions..."
 
 msgid "checkout_save_address"
-msgstr "Bu ünvanı profilimə saxla"
+msgstr "Save this address to my profile"
 
 msgid "checkout_summary_title"
-msgstr "Sifariş xülasəsi"
+msgstr "Order Summary"
 
 msgid "checkout_total"
-msgstr "Cəmi"
+msgstr "Total"
 
 msgid "checkout_paypal_note"
-msgstr "PayPal-a keçid etdikdən sonra ödənişi tamamlayın. AZN ödənişlər USD-ə çevrilir."
+msgstr "Complete your payment after being redirected to PayPal."
 
 msgid "checkout_pay_btn"
-msgstr "PayPal ilə ödə"
+msgstr "Pay with PayPal"
 
 msgid "checkout_ssl_note"
-msgstr "256-bit SSL şifrələmə ilə qorunur"
+msgstr "Protected with 256-bit SSL encryption"
 
 # ── Checkout Success ───────────────────────────────────
 msgid "success_page_title"
-msgstr "Sifariş Təsdiqləndi"
+msgstr "Order Confirmed"
 
 msgid "success_title"
-msgstr "Sifarişiniz qəbul edildi! 🎉"
+msgstr "Your order has been placed! 🎉"
 
 msgid "success_message"
-msgstr "Sifarişiniz uğurla ödənildi və işlənməyə başlandı. Tezliklə sizinlə əlaqə saxlanılacaq."
+msgstr "Your order has been successfully paid and is being processed. We will contact you soon."
 
 msgid "success_paid_badge"
-msgstr "PayPal ilə ödənilib"
+msgstr "Paid with PayPal"
 
 msgid "success_order_number"
-msgstr "Sifariş №"
+msgstr "Order #"
 
 msgid "success_date"
-msgstr "Tarix"
+msgstr "Date"
 
 msgid "success_status"
 msgstr "Status"
 
 msgid "success_address"
-msgstr "Ünvan"
+msgstr "Address"
 
 msgid "success_total"
-msgstr "Cəmi məbləğ"
+msgstr "Total Amount"
 
 msgid "success_ordered_products"
-msgstr "Sifariş edilən məhsullar"
+msgstr "Ordered Products"
 
 msgid "success_continue_btn"
-msgstr "Alış-verişə davam et"
+msgstr "Continue Shopping"
 
 msgid "success_my_orders_btn"
-msgstr "Sifarişlərim"
+msgstr "My Orders"
 
 # ── Footer ─────────────────────────────────────────────
 msgid "footer_logo_alt"
-msgstr "Herbalife Loqo"
+msgstr "Herbalife Logo"
 
 msgid "footer_products_title"
-msgstr "Məhsullarımız"
+msgstr "Our Products"
 
 msgid "footer_products_weight"
-msgstr "Sağlam Çəki"
+msgstr "Healthy Weight"
 
 msgid "footer_products_fitness"
 msgstr "Fitness"
 
 msgid "footer_products_performance"
-msgstr "Performans"
+msgstr "Performance"
 
 msgid "footer_products_nutrition"
-msgstr "Gündəlik Qidalanma və Sağlamlıq"
+msgstr "Daily Nutrition & Health"
 
 msgid "footer_products_skin"
-msgstr "Dəri və Bədən Baxımı"
+msgstr "Skin and Body Care"
 
 msgid "footer_about_title"
-msgstr "Herbalife Haqqında"
+msgstr "About Herbalife"
 
 msgid "footer_about_leadership"
-msgstr "Rəhbərliyimiz"
+msgstr "Our Leadership"
 
 msgid "footer_about_future"
-msgstr "Sağlamlığın Gələcəyi"
+msgstr "Future of Health"
 
 msgid "footer_about_press"
-msgstr "Mətbuat Otağı"
+msgstr "Press Room"
 
 msgid "footer_about_investor"
-msgstr "İnvestor Əlaqələri"
+msgstr "Investor Relations"
 
 msgid "footer_about_career"
-msgstr "Karyera Fürsətləri"
+msgstr "Career Opportunities"
 
 msgid "footer_about_earnings"
-msgstr "Tipik Distribyutor Gəlirləri Bəyannaməsi"
+msgstr "Statement of Typical Distributor Earnings"
 
 msgid "footer_about_guarantee"
-msgstr "Qızıl Standart Zəmanəti"
+msgstr "Gold Standard Guarantee"
 
 msgid "footer_about_ethics"
-msgstr "Etika və Uyğunluq"
+msgstr "Ethics and Compliance"
 
 msgid "footer_help_title"
-msgstr "Kömək Alın"
+msgstr "Get Help"
 
 msgid "footer_help_support"
-msgstr "Dəstək Mərkəzi"
+msgstr "Support Center"
 
 msgid "footer_help_contact"
-msgstr "Bizimlə Əlaqə"
+msgstr "Contact Us"
 
 msgid "footer_help_refund"
-msgstr "Geri Ödəmə Siyasəti"
+msgstr "Refund Policy"
 
 msgid "footer_help_faq"
-msgstr "Tez-tez Soruşulan Suallar"
+msgstr "Frequently Asked Questions"
 
 msgid "footer_dist_title"
-msgstr "Distribyutorlar Üçün"
+msgstr "For Distributors"
 
 msgid "footer_dist_login"
-msgstr "Distribyutor Girişi"
+msgstr "Distributor Login"
 
 msgid "footer_dist_opportunity"
-msgstr "Biznes Fürsəti"
+msgstr "Business Opportunity"
 
 msgid "footer_legal_sitemap"
-msgstr "Sayt Xəritəsi"
+msgstr "Site Map"
 
 msgid "footer_legal_terms"
-msgstr "İstifadə Şərtləri"
+msgstr "Terms of Use"
 
 msgid "footer_legal_privacy"
-msgstr "Herbalife Məxfilik Siyasəti"
+msgstr "Herbalife Privacy Policy"
 
 msgid "footer_legal_health_privacy"
-msgstr "Herbalife İstehlakçı Sağlamlıq Məlumatları Məxfilik Siyasəti"
+msgstr "Herbalife Consumer Health Data Privacy Policy"
 
 msgid "footer_legal_cookie"
-msgstr "Cookie Siyasəti"
+msgstr "Cookie Policy"
 
 msgid "footer_legal_donotsell"
-msgstr "Şəxsi Məlumatlarımı Satmayın / Hədəflənmiş Reklamdan İmtina"
+msgstr "Do Not Sell or Share My Personal Information"
 
 msgid "footer_copyright"
-msgstr "Herbalife Birbaşa Satış Assosiasiyasının Fəxri Üzvüdür. Copyright © 2026 Herbalife International of America, Inc. Bütün hüquqlar qorunur."
+msgstr "Herbalife is a Proud Member of the Direct Selling Association. Copyright © 2026 Herbalife International of America, Inc. All Rights Reserved."
 
 msgid "footer_location"
-msgstr "Amerika Birləşmiş Ştatları"
+msgstr "United States"
 
 # ── JS (DJANGO_TRANS) ──────────────────────────────────
 msgid "js_loading"
-msgstr "Yüklənir..."
+msgstr "Loading..."
 
 msgid "js_no_products"
-msgstr "Məhsul tapılmadı."
+msgstr "No products found."
 
 msgid "js_add_btn"
-msgstr "Əlavə et"
+msgstr "Add"
 
 msgid "js_toast_added"
-msgstr "Məhsul səbətə əlavə edildi"
+msgstr "Product added to cart"
 
 msgid "js_add_to_bag"
-msgstr "Səbətə əlavə et"
+msgstr "Add to Bag"
 
 msgid "js_out_of_stock"
-msgstr "Stokda yoxdur"
+msgstr "Out of Stock"
 
 msgid "js_related"
-msgstr "Əlaqəli məhsullar"
+msgstr "Related Products"
 
 msgid "js_all_products"
-msgstr "Hamısı"
+msgstr "All"
 
 msgid "js_products_count"
-msgstr "Məhsul"
+msgstr "Products"
 
 msgid "js_filter_flavor"
-msgstr "Filtr"
+msgstr "Flavor"
 
 msgid "js_filter_size"
-msgstr "Ölçü"
+msgstr "Size"
 
 msgid "js_filter_price"
-msgstr "Qiymət"
+msgstr "Price"
 
 msgid "js_see_all"
-msgstr "Hamısına bax"
+msgstr "See all"
 
 msgid "js_cart_empty"
-msgstr "Səbətiniz boşdur"
+msgstr "Your cart is empty"
 
 msgid "js_cart_continue"
-msgstr "Alış-verişə davam et"
+msgstr "Continue Shopping"
 
 msgid "js_cart_title"
-msgstr "Alış-veriş Səbəti"
+msgstr "Shopping Bag"
 
 msgid "js_cart_price"
-msgstr "qiymət"
+msgstr "price"
 
 msgid "js_cart_flavor"
-msgstr "Filtr:"
+msgstr "Flavor:"
 
 msgid "js_cart_subtotal"
-msgstr "Cəmi:"
+msgstr "Subtotal:"
 
 msgid "js_cart_remove"
-msgstr "Sil"
+msgstr "Remove"
 
 # ── Order statuses ─────────────────────────────────────
 msgid "status_pending"
-msgstr "Gözləyir"
+msgstr "Pending"
 
 msgid "status_confirmed"
-msgstr "Təsdiqləndi"
+msgstr "Confirmed"
 
 msgid "status_cancelled"
-msgstr "Ləğv edildi"
+msgstr "Cancelled"
 
 msgid "badge_new"
-msgstr "Yeni"
+msgstr "New"
 
 msgid "badge_bestseller"
-msgstr "Çox satılan"
-
-msgid "profile_addresses_title"
-msgstr "Ünvanlarım"
-
-msgid "profile_add_address"
-msgstr "Yeni ünvan əlavə et"
+msgstr "Best Seller"
