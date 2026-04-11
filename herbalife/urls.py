@@ -8,6 +8,8 @@ import django.views.i18n
 urlpatterns = [
     # Dil dəyişmə endpoint — POST /i18n/setlang/
     path('i18n/', include('django.conf.urls.i18n')),
+
+    path('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

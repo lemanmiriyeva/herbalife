@@ -45,14 +45,13 @@ function productCard(p, linkPrefix = '/products/') {
     const badge = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
     const flavor = p.flavor_name ? `<div class="product-flavor">
         ${p.flavor_color ? `<span class="flavor-dot" style="background-color:${p.flavor_color};" title="${p.flavor_color}"></span>` : ''}
-        <span class="flavor-name">${p.flavor_name}</span>
     </div>` : '';
     const size = p.size ? `<div class="product-size">${p.size}</div>` : '';
     const priceNote = p.price_note ? `<span class="product-price-small">${p.price_note}</span>` : '';
     const addBtn = p.is_addable ? `
         <div class="product-actions">
             <button class="add-btn" onclick="cartAdd(${p.id}, event)">
-                <i class="fas fa-shopping-bag"></i> ${t('add_btn')}
+                <i class="fas fa-shopping-bag"></i> ${window.i18n.add_btn}
             </button>
             <button class="wishlist-btn" data-wishlist-btn="${p.id}" title="Sevimlilərə əlavə et">
                 <i class="far fa-heart"></i>
@@ -196,7 +195,7 @@ function initProductsPage() {
         if (!catSlider) return;
         catSlider.innerHTML =
             `<div class="category-item${!currentParams.category ? ' active' : ''}" data-slug="">
-                <span>${t('all_products')}</span>
+                <span>${window.i18n.all_products}</span>
              </div>` +
             cats.map(c =>
                 `<div class="category-item${currentParams.category === c.slug ? ' active' : ''}" data-slug="${c.slug}">
@@ -262,7 +261,7 @@ function initProductsPage() {
         ];
         el.innerHTML += `
         <div class="filter-section">
-            <div class="filter-title">${t('filter_price')}<i class="fas fa-chevron-up"></i></div>
+            <div class="filter-title">${window.i18n.filter_price}<i class="fas fa-chevron-up"></i></div>
             ${prices.map((p, i) => `
             <div class="filter-option">
                 <input type="checkbox" id="${prefix}-price-${i}"
@@ -279,9 +278,9 @@ function initProductsPage() {
                 const el = document.getElementById(id);
                 if (!el) return;
                 el.innerHTML = '';
-                if (data.flavors.length) renderFilterSection(id, t('filter_flavor'), data.flavors, 'flavor');
+                if (data.flavors.length) renderFilterSection(id, window.i18n.filter_flavor, data.flavors, 'flavor');
                 renderPriceSection(id);
-                if (data.sizes.length) renderFilterSection(id, t('filter_size'), data.sizes, 'size');
+                if (data.sizes.length) renderFilterSection(id,window.i18n.filter_size, data.sizes, 'size');
             });
             document.querySelectorAll('[data-type]').forEach(cb => {
                 cb.addEventListener('change', onFilterChange);
@@ -327,11 +326,11 @@ function initProductsPage() {
 
     function renderProducts(data) {
         if (countEl) {
-            countEl.textContent = `${data.length} ${t('products_count')}`;
+            countEl.textContent = `${data.length} ${window.i18n.products_count}`;
             countEl.dataset.count = data.length;
         }
         if (!data.length) {
-            grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${t('no_products')}</div>`;
+            grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;grid-column:1/-1;">${window.i18n.no_products}</div>`;
             return;
         }
         grid.innerHTML = data.map(p => productCard(p)).join('');
@@ -339,7 +338,7 @@ function initProductsPage() {
     }
 
     function loadProducts() {
-        grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;">${t('loading')}</div>`;
+        grid.innerHTML = `<div style="padding:60px;text-align:center;color:#6c757d;">${window.i18n.loading}</div>`;
         const params = new URLSearchParams();
         if (currentParams.category) params.set('category', currentParams.category);
         if (currentParams.sort)     params.set('sort', currentParams.sort);
@@ -360,7 +359,7 @@ function initProductDetailPage() {
     const slug = root.dataset.slug;
     if (!slug) return;
 
-    root.innerHTML = `<div style="padding:80px;text-align:center;color:#6c757d;">${t('loading')}</div>`;
+    root.innerHTML = `<div style="padding:80px;text-align:center;color:#6c757d;">${window.i18n.loading}</div>`;
 
     function renderDetail(p) {
         const image = p.image
@@ -370,7 +369,7 @@ function initProductDetailPage() {
             ? `<span style="text-decoration:line-through;color:#aaa;font-size:1.4rem;">$${p.price}</span>` : '';
         const related = p.related?.length
             ? `<div class="container mt-5">
-                 <h3 style="color:#2d5f5d;font-weight:300;margin-bottom:24px;">${t('related')}</h3>
+                 <h3 style="color:#2d5f5d;font-weight:300;margin-bottom:24px;">${window.i18n.related}</h3>
                  <div class="product-grid">${p.related.map(r => productCard(r)).join('')}</div>
                </div>` : '';
         root.innerHTML = `
@@ -407,9 +406,9 @@ function initProductDetailPage() {
                             ${p.stock > 0
                                 ? `<button class="add-to-cart-btn" onclick="cartAdd(${p.id}, event)"
                                        style="background:#2d5f5d;color:#fff;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:10px;">
-                                       ${t('add_to_bag')}</button>`
+                                       ${window.i18n.add_to_bag}</button>`
                                 : `<button disabled style="background:#ddd;color:#999;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;margin-top:10px;">
-                                       ${t('out_of_stock')}</button>`
+                                       ${window.i18n.out_of_stock}</button>`
                             }
                         </div>
                     </div>
@@ -439,18 +438,18 @@ function renderCartPage() {
     if (!cartState.items.length) {
         root.innerHTML = `
         <div style="padding:80px;text-align:center;color:#6c757d;">
-            <p style="font-size:1.3rem;margin-bottom:16px;">${t('cart_empty')}</p>
-            <a href="/products" style="color:#2d5f5d;font-weight:600;font-size:1rem;">${t('cart_continue')}</a>
+            <p style="font-size:1.3rem;margin-bottom:16px;">${window.i18n.cart_empty}</p>
+            <a href="/products" style="color:#2d5f5d;font-weight:600;font-size:1rem;">${window.i18n.cart_continue}</a>
         </div>`;
         if (totalEl) totalEl.textContent = '$0.00';
         if (countEl) countEl.textContent = '0';
         const titleEl = document.querySelector('.cart-page-title');
-        if (titleEl) titleEl.textContent = `${t('cart_title')} (0)`;
+        if (titleEl) titleEl.textContent = `${window.i18n.cart_title} (0)`;
         return;
     }
 
     const titleEl = document.querySelector('.cart-page-title');
-    if (titleEl) titleEl.textContent = `${t('cart_title')} (${cartState.total_items})`;
+    if (titleEl) titleEl.textContent = `${window.i18n.cart_title} (${cartState.total_items})`;
     if (totalEl) totalEl.textContent = `$${cartState.total_price}`;
     if (countEl) countEl.textContent = cartState.total_items;
 
@@ -461,9 +460,9 @@ function renderCartPage() {
             : `<img src="https://www.herbalife.com/dmassets/market-reusable-assets/amer/united-states/images/canister/pc-64z1-us.png:pdp-w875h783?fmt=webp-alpha" alt="${item.product.name}" class="item-image">`}
         <div class="item-details">
             <div class="item-name">${item.product.name}</div>
-            <div class="item-price">$${item.product.final_price} <span class="price-label">${t('cart_price')}</span></div>
+            <div class="item-price">$${item.product.final_price} <span class="price-label">${window.i18n.cart_price}</span></div>
             ${item.product.flavor_name ? `
-            <div class="item-flavor">${t('cart_flavor')}
+            <div class="item-flavor">${window.i18n.cart_flavor}
                 ${item.product.flavor_color ? `<span class="flavor-dot" style="background-color:${item.product.flavor_color};"></span>` : ''}
                 ${item.product.flavor_name}
             </div>` : ''}
@@ -473,10 +472,10 @@ function renderCartPage() {
                     <span class="quantity-value">${item.quantity}</span>
                     <button class="quantity-btn" onclick="cartUpdate(${item.id}, ${item.quantity + 1})"><i class="fas fa-plus"></i></button>
                 </div>
-                <button class="action-link" onclick="cartRemove(${item.id})">${t('cart_remove')}</button>
+                <button class="action-link" onclick="cartRemove(${item.id})">${window.i18n.cart_remove}</button>
             </div>
             <div style="font-size:.9rem;color:#6c757d;margin-top:6px;">
-                ${t('cart_subtotal')} <strong>$${item.subtotal}</strong>
+                ${window.i18n.cart_subtotal} <strong>$${item.subtotal}</strong>
             </div>
         </div>
     </div>`).join('');
@@ -515,7 +514,7 @@ function initHeaderSearch() {
                     `<li style="border-top:1px solid #f0f0f0;">
                     <a href="/products?search=${encodeURIComponent(q)}"
                        style="display:block;padding:9px 14px;text-align:center;font-size:13px;font-weight:600;color:#2d5f5d;text-decoration:none;">
-                        ${t('see_all')} →
+                        ${window.i18n.see_all} →
                     </a>
                 </li>`;
                 dropdown.style.display = 'block';

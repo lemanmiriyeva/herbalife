@@ -159,7 +159,7 @@
 </div>
 
 <!-- Yeni ünvan əlavə et -->
-<button onclick="toggleAddressForm()" class="btn-hl-outline" style="margin-bottom:16px;">
+<button type="button" onclick="toggleAddressForm()" class="btn-hl-outline" style="margin-bottom:16px;">
     <i class="fas fa-plus me-2"></i>{% trans "profile_add_address" %}
 </button>
 
@@ -194,7 +194,9 @@
         <input type="checkbox" id="addrDefault" style="width:16px;height:16px;accent-color:var(--hl-green);">
         <label for="addrDefault" style="font-size:13px;cursor:pointer;">Default ünvan kimi saxla</label>
     </div>
-    <button onclick="saveAddress()" class="btn-hl"><i class="fas fa-save me-2"></i>Yadda saxla</button>
+    <button type="button" onclick="saveAddress()" class="btn-hl">
+    <i class="fas fa-save me-2"></i>Yadda saxla
+</button>
     <button onclick="toggleAddressForm()" style="background:none;border:none;color:var(--hl-muted);cursor:pointer;margin-left:12px;font-size:14px;">Ləğv et</button>
 </div>
     </form>
@@ -232,14 +234,62 @@ function saveAddress() {
         country:     document.getElementById('addrCountry').value,
         is_default:  document.getElementById('addrDefault').checked,
     };
-    if (!data.address || !data.city) { alert('Ünvan və şəhər daxil edin'); return; }
+
+    if (!data.address || !data.city) {
+        alert('Ünvan və şəhər daxil edin');
+        return;
+    }
+
     fetch('/api/addresses/add/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
         body: JSON.stringify(data),
     })
     .then(r => r.json())
-    .then(addr => { location.reload(); });
+    .then(addr => {
+        // Əgər default seçilibsə, mövcud default-ları sil
+        if (data.is_default) {
+            document.querySelectorAll('.address-card.default').forEach(card => {
+                card.classList.remove('default');
+                const badge = card.querySelector('.addr-default-badge');
+                if (badge) badge.remove();
+                const defaultBtn = card.querySelector('.addr-default-btn');
+                if (defaultBtn) defaultBtn.style.display = '';
+            });
+        }
+
+        // Yeni ünvan kartını DOM-a əlavə et
+        const list = document.getElementById('addressList');
+        const newCard = document.createElement('div');
+        newCard.className = 'address-card' + (addr.is_default ? ' default' : '');
+        newCard.id = 'addr-' + addr.id;
+        newCard.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                    <div style="font-weight:600;font-size:14px;color:var(--hl-text);display:flex;align-items:center;gap:8px;">
+                        ${addr.title}
+                        ${addr.is_default ? '<span class="addr-default-badge" style="background:#E8F8EF;color:#009A44;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;">Default</span>' : ''}
+                    </div>
+                    <div style="font-size:13px;color:var(--hl-muted);margin-top:4px;">${addr.address}, ${addr.city} ${addr.postal_code || ''}</div>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    ${!addr.is_default ? `<button class="addr-default-btn" onclick="setDefaultAddress(${addr.id})" style="background:none;border:1px solid var(--hl-border);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--hl-muted);">Default et</button>` : ''}
+                    <button onclick="deleteAddress(${addr.id})" style="background:none;border:1px solid #fdddd4;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;color:#c0392b;">Sil</button>
+                </div>
+            </div>`;
+        list.appendChild(newCard);
+
+        // Formu sıfırla və gizlət
+        document.getElementById('addrTitle').value   = '';
+        document.getElementById('addrAddress').value = '';
+        document.getElementById('addrCity').value    = '';
+        document.getElementById('addrPostal').value  = '';
+        document.getElementById('addrDefault').checked = false;
+        toggleAddressForm();
+
+        showToast('Ünvan əlavə edildi ✓');
+    })
+    .catch(() => showToast('Xəta baş verdi', 'error'));
 }
 
 function deleteAddress(pk) {
@@ -256,7 +306,34 @@ function setDefaultAddress(pk) {
         method: 'POST',
         headers: { 'X-CSRFToken': getCookie('csrftoken') },
     })
-    .then(() => location.reload());
+    .then(r => r.json())
+    .then(() => {
+        // Hamısından default sil
+        document.querySelectorAll('.address-card').forEach(card => {
+            card.classList.remove('default');
+            const badge = card.querySelector('.addr-default-badge');
+            if (badge) badge.remove();
+            const btn = card.querySelector('.addr-default-btn');
+            if (btn) btn.style.display = '';
+        });
+
+        // Seçilənə default ver
+        const card = document.getElementById('addr-' + pk);
+        if (card) {
+            card.classList.add('default');
+            const titleDiv = card.querySelector('div > div > div');
+            if (titleDiv) {
+                const badge = document.createElement('span');
+                badge.className = 'addr-default-badge';
+                badge.style.cssText = 'background:#E8F8EF;color:#009A44;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;';
+                badge.textContent = 'Default';
+                titleDiv.appendChild(badge);
+            }
+            const defaultBtn = card.querySelector('.addr-default-btn');
+            if (defaultBtn) defaultBtn.style.display = 'none';
+        }
+        showToast('Default ünvan dəyişdirildi ✓');
+    });
 }
 
 </script>

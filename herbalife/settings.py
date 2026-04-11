@@ -12,6 +12,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
+    'jet',
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
