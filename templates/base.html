@@ -1,4 +1,5 @@
 {% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +49,30 @@
             storeSwitch: "{% url 'api_store_switch' %}"
         };
     </script>
-
+<script>
+window.i18n={
+    loading:"{% trans 'products_loading' %}",
+    no_products:"{% trans 'products_not_found' %}",
+    add_btn:"{% trans 'products_add_btn' %}",
+    toast_added:"{% trans 'products_added_toast' %}",
+    add_to_bag:"{% trans 'products_add_to_bag' %}",
+    out_of_stock:"{% trans 'products_out_of_stock' %}",
+    related:"{% trans 'products_related' %}",
+    all_products:"{% trans 'products_all_label' %}",
+    products_count:"{% trans 'products_count_label' %}",
+    filter_flavor:"{% trans 'products_filter_flavor' %}",
+    filter_size:"{% trans 'products_filter_size' %}",
+    filter_price:"{% trans 'products_filter_price' %}",
+    see_all:"{% trans 'products_see_all' %}",
+    cart_empty:"{% trans 'cart_empty_text' %}",
+    cart_continue:"{% trans 'cart_continue_shopping' %}",
+    cart_title:"{% trans 'cart_title_label' %}",
+    cart_price:"{% trans 'cart_price_label' %}",
+    cart_flavor:"{% trans 'cart_flavor_label' %}",
+    cart_subtotal:"{% trans 'cart_subtotal_label' %}",
+    cart_remove:"{% trans 'cart_remove_btn' %}",
+};
+</script>
     <script src="{% static 'js/main.js' %}"></script>
 
 </body>
