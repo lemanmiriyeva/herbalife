@@ -12,7 +12,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
-    'jet',
+    "jazzmin",
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -110,3 +110,22 @@ PAYPAL_LIVE_CLIENT_ID = os.environ.get('PAYPAL_LIVE_CLIENT_ID', 'YOUR_LIVE_CLIEN
 PAYPAL_LIVE_SECRET    = os.environ.get('PAYPAL_LIVE_SECRET',    'YOUR_LIVE_SECRET')
 
 PAYPAL_AZN_TO_USD_RATE = float(os.environ.get('PAYPAL_AZN_TO_USD_RATE', '0.59'))
+
+# Jazzmin config
+JAZZMIN_SETTINGS = {
+    "site_title": "Herbalife Admin",
+    "site_header": "Herbalife",
+    "site_brand": "Herbalife",
+
+    "welcome_sign": "Xoş gəlmisiniz 👋",
+
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    # "icons": {
+    #     "auth.user": "fas fa-user",
+    #     "core.Order": "fas fa-shopping-cart",
+    #     "core.Product": "fas fa-box",
+    #     "core.Category": "fas fa-list",
+    # },
+}

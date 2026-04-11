@@ -154,7 +154,7 @@ function cartAdd(productId, e) {
         }
         const qty = parseInt(document.getElementById('detailQty')?.value || '1');
         API.post('/api/cart/add/', { product_id: productId, quantity: qty })
-            .then(data => { cartState = data; updateCartBadge(); showToast(t('toast_added')); });
+            .then(data => { cartState = data; updateCartBadge(); showToast(window.i18n.toast_added); });
     });
 }
 
@@ -278,9 +278,9 @@ function initProductsPage() {
                 const el = document.getElementById(id);
                 if (!el) return;
                 el.innerHTML = '';
-                if (data.flavors.length) renderFilterSection(id, t('filter_flavor'), data.flavors, 'flavor');
+                if (data.flavors.length) renderFilterSection(id, window.i18n.filter_flavor, data.flavors, 'flavor');
                 renderPriceSection(id);
-                if (data.sizes.length) renderFilterSection(id, t('filter_size'), data.sizes, 'size');
+                if (data.sizes.length) renderFilterSection(id,window.i18n.filter_size, data.sizes, 'size');
             });
             document.querySelectorAll('[data-type]').forEach(cb => {
                 cb.addEventListener('change', onFilterChange);
@@ -588,7 +588,7 @@ function showLoginPrompt(loginUrl) {
 function checkLoginBeforeCheckout(e) {
     e.preventDefault();
     if (cartState.total_items === 0) {
-        showToast(t('cart_empty'), 'error');
+        showToast(window.i18n.cart_empty, 'error');
         return false;
     }
     API.get('/api/auth/status/').then(data => {
