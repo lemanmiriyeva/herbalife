@@ -300,7 +300,7 @@ function initProductsPage() {
         loadProducts();
     }
 
-    loadFilters();
+    // loadFilters() disabled — filter rendering handled by products.html inline script
 
     const openBtn  = document.getElementById('openFilter');
     const closeBtn = document.getElementById('closeFilter');
@@ -350,82 +350,6 @@ function initProductsPage() {
     }
 
     loadProducts();
-}
-
-/* ── PRODUCT DETAIL PAGE ─────────────────────────────────── */
-function initProductDetailPage() {
-    const root = document.getElementById('productDetailRoot');
-    if (!root) return;
-    const slug = root.dataset.slug;
-    if (!slug) return;
-
-    root.innerHTML = `<div style="padding:80px;text-align:center;color:#6c757d;">${window.i18n.loading}</div>`;
-
-    function renderDetail(p) {
-        const image = p.image
-            ? `<img src="${p.image}" alt="${p.name}" class="main-image">`
-            : `<img src="https://www.herbalife.com/dmassets/market-reusable-assets/amer/united-states/images/canister/pc-64z1-us.png:pdp-w875h783?fmt=webp-alpha" alt="${p.name}" class="main-image">`;
-        const discountHtml = p.discount_price
-            ? `<span style="text-decoration:line-through;color:#aaa;font-size:1.4rem;">$${p.price}</span>` : '';
-        const related = p.related?.length
-            ? `<div class="container mt-5">
-                 <h3 style="color:#2d5f5d;font-weight:300;margin-bottom:24px;">${window.i18n.related}</h3>
-                 <div class="product-grid">${p.related.map(r => productCard(r)).join('')}</div>
-               </div>` : '';
-        root.innerHTML = `
-        <section class="product-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="product-gallery">
-                            <div class="main-image-container">
-                                ${p.badge ? `<div class="product-badges"><span class="badge-new">${p.badge}</span></div>` : ''}
-                                ${image}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="product-info">
-                            ${p.category ? `<div style="color:#6c757d;font-size:.9rem;margin-bottom:8px;">${p.category.name}</div>` : ''}
-                            <h1 class="product-title">${p.name}</h1>
-                            ${p.flavor_name ? `<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                                ${p.flavor_color ? `<span style="width:14px;height:14px;border-radius:50%;background:${p.flavor_color};display:inline-block;"></span>` : ''}
-                                <span style="color:#6c757d;">${p.flavor_name}</span></div>` : ''}
-                            <div class="product-price">$${p.final_price}</div>
-                            ${discountHtml}
-                            ${p.size ? `<div class="sku-number">${p.size}</div>` : ''}
-                            ${p.description ? `<p class="product-subtitle">${p.description}</p>` : ''}
-                            <div class="quantity-label">Qty</div>
-                            <div class="quantity-selector">
-                                <button class="quantity-btn" onclick="changeQty(-1)"><i class="fas fa-minus"></i></button>
-                                <input id="detailQty" type="number" class="quantity-value"
-                                       value="1" min="1" max="${p.stock}"
-                                       style="border:none;text-align:center;width:50px;font-size:1.1rem;font-weight:600;">
-                                <button class="quantity-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
-                            </div>
-                            ${p.stock > 0
-                                ? `<button class="add-to-cart-btn" onclick="cartAdd(${p.id}, event)"
-                                       style="background:#2d5f5d;color:#fff;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:10px;">
-                                       ${window.i18n.add_to_bag}</button>`
-                                : `<button disabled style="background:#ddd;color:#999;border:none;padding:14px 40px;border-radius:30px;font-size:1rem;margin-top:10px;">
-                                       ${window.i18n.out_of_stock}</button>`
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        ${related}`;
-        applyWishlistState();
-    }
-
-    API.get(`/api/products/${slug}/`).then(p => renderDetail(p));
-}
-
-function changeQty(delta) {
-    const input = document.getElementById('detailQty');
-    if (!input) return;
-    input.value = Math.min(parseInt(input.max) || 99, Math.max(1, parseInt(input.value) + delta));
 }
 
 /* ── CART PAGE ───────────────────────────────────────────── */
@@ -614,8 +538,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const path = location.pathname;
     if (path === '/' || path === '') initHomePage();
-    if (path.startsWith('/products') && !path.includes('/products/')) initProductsPage();
-    if (path.startsWith('/products/')) initProductDetailPage();
+    // initProductsPage() disabled — fully handled by products.html inline script
+    // if (path.startsWith('/products') && !path.includes('/products/')) initProductsPage();
+    // Product detail page now renders itself via inline script in product-detail.html
+    // if (path.startsWith('/products/')) initProductDetailPage();
     if (path === '/cart' || path === '/cart/') initCartPage();
 });
 

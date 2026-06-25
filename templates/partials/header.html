@@ -52,8 +52,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img width="167" height="44"
-                src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha" alt="Herbalife">
+            <img width="auto" height="50"
+                src="{% static 'images/logo.png' %}" alt="Herbalife">
         </a>
 
         <!-- Desktop nav -->
@@ -176,7 +176,7 @@
 <!-- Offcanvas menu -->
 <div class="offcanvas-menu" id="offcanvasMenu">
     <div class="offcanvas-header">
-        <img width="130" height="35" src="https://www.herbalife.com/dmassets/hn-one/en/hybrid/h1-logo.png?fmt=webp-alpha" alt="Herbalife">
+        <img width="130" height="35" src="{% static 'images/logo.png' %}" alt="Herbalife">
         <button class="offcanvas-close" onclick="closeOffcanvas()">
             <i class="fas fa-times"></i>
         </button>

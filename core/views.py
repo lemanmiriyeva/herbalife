@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Cart, CartItem, Order, OrderItem, Product, Wishlist, User,UserAddress
 from .paypal_client import create_paypal_order, capture_paypal_order
+from django.utils.translation import gettext as _
 
 from .models import Store
 from .api import get_active_store
@@ -25,8 +26,51 @@ def get_or_create_cart(request):
 # ── Page views ────────────────────────────────────────────────────
 
 def home(request):           return render(request, 'home.html')
-def products(request):       return render(request, 'products.html')
-def product_detail(request, slug): return render(request, 'product-detail.html', {'slug': slug})
+def products(request):
+    i18n_data = {
+        "products_add_to_bag": _("products_add_to_bag"),
+        "products_all": _("products_all"),
+        "products_no_results": _("products_no_results"),
+        "js_out_of_stock": _("js_out_of_stock"),
+        "products_loading": _("products_loading"),
+        "products_filter_category": _("products_filter_category"),
+        "products_filter_color": _("products_filter_color"),
+        "products_filter_size": _("products_filter_size"),
+        "products_filter_none": _("products_filter_none"),
+        "products_count": _("products_count"),
+    }
+
+    return render(
+        request,
+        "products.html",
+        {
+            "i18n_data": i18n_data,
+        }
+    )
+
+def product_detail(request, slug):
+    i18n_data = {
+        "products_breadcrumb_home": _("products_breadcrumb_home"),
+        "products_breadcrumb_products": _("products_breadcrumb_products"),
+        "js_filter_flavor": _("js_filter_flavor"),
+        "js_filter_size": _("js_filter_size"),
+        "js_in_stock": _("js_in_stock"),
+        "js_out_of_stock": _("js_out_of_stock"),
+        "js_quantity_label": _("js_quantity_label"),
+        "js_add_to_bag": _("js_add_to_bag"),
+        "js_toast_added": _("js_toast_added"),
+        "js_related": _("js_related"),
+        "js_no_products": _("js_no_products"),
+    }
+
+    return render(
+        request,
+        'product-detail.html',
+        {
+            'slug': slug,
+            'i18n_data': i18n_data,
+        }
+    )
 def cart(request):           return render(request, 'cart.html')
 def blog(request):           return render(request, 'blogs.html')
 def blog_detail(request, slug): return render(request, 'blog_detail.html', {'slug': slug})

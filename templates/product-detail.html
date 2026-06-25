@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -551,9 +552,296 @@
 </style>
 {% endblock %}
 {% block content %}
+{{ i18n_data|json_script:"i18n-data" }}
 <div id="productDetailRoot" data-slug="{{ slug }}">
     <div style="padding:80px;text-align:center;color:#6c757d;">Loading...</div>
 </div>
 {%endblock%}
 {% block js %}
+<script>
+(function () {
+  const root   = document.getElementById('productDetailRoot');
+  const slug   = root.dataset.slug;
+const TRANS_EL = document.getElementById('i18n-data');
+
+const TRANS = TRANS_EL
+    ? JSON.parse(TRANS_EL.textContent)
+    : {};
+  let product  = null;
+  let selected = { variantId: null, qty: 1 };
+
+  /* ── Helpers ────────────────────────────────── */
+  function fmt(n) { return parseFloat(n).toFixed(2); }
+  function img(url, alt, cls) {
+    return url
+      ? `<img src="${url}" alt="${alt}" class="${cls}" onerror="this.src='/static/img/placeholder.png'">`
+      : `<div class="${cls}" style="background:#f5f5f5;display:flex;align-items:center;justify-content:center;border-radius:12px"><span style="font-size:3rem">🌿</span></div>`;
+  }
+
+  /* ── Variant helpers ─────────────────────────── */
+  function activeVariant() {
+    if (!selected.variantId || !product.variants.length) return null;
+    return product.variants.find(v => v.id === selected.variantId) || null;
+  }
+
+  function currentPrice() {
+    const v = activeVariant();
+    return v ? parseFloat(v.final_price) : parseFloat(product.final_price);
+  }
+
+  function currentOldPrice() {
+    const v = activeVariant();
+    if (v && v.price_override) return null; // variant has own price, no "old"
+    return product.discount_price ? parseFloat(product.price) : null;
+  }
+
+  function currentStock() {
+    const v = activeVariant();
+    return v ? v.stock : product.stock;
+  }
+
+  function currentImage() {
+    const v = activeVariant();
+    return (v && v.image) ? v.image : product.image;
+  }
+
+  /* ── Swatch / size renderers ─────────────────── */
+  function renderSwatches() {
+    if (!product.variants.length) return '';
+
+    // API qaytarır: variant.color = {id,name,hex,image}, variant.size = {id,name}
+    const flavors = product.variants.filter(v => v.color);
+    const sizes   = product.variants.filter(v => v.size);
+    let html = '';
+
+    if (flavors.length) {
+      const seenColor = new Set();
+      const av = activeVariant();
+      html += `<div class="mb-3">
+        <p class="selection-label">
+          ${av && av.color ? `<span style="font-weight:400;color:#777"></span>` : ''}
+        </p>
+        <div class="size-options" style="flex-wrap:wrap">`;
+      flavors.forEach(v => {
+        if (seenColor.has(v.color.id)) return;
+        seenColor.add(v.color.id);
+        const isActive = selected.variantId === v.id || (av && av.color && av.color.id === v.color.id);
+        const title    = [v.color.name, v.size && v.size.name].filter(Boolean).join(' / ');
+        if (v.color.hex) {
+          html += `<button onclick="selectVariant(${v.id})" title="${title}"
+            style="width:34px;height:34px;border-radius:50%;padding:0;border:${isActive ? '3px solid #2d5f5d' : '2px solid #d1d5db'};
+                   background:${v.color.hex};cursor:pointer;transition:all .3s ease;
+                   box-shadow:${isActive ? '0 0 0 2px #fff,0 0 0 4px #2d5f5d' : 'none'}"></button>`;
+        } else {
+          html += `<button class="size-option${isActive ? ' active' : ''}" onclick="selectVariant(${v.id})">${v.color.name}</button>`;
+        }
+      });
+      html += `</div></div>`;
+    }
+
+    if (sizes.length) {
+      const seen = new Set();
+      const av = activeVariant();
+      html += `<div class="mb-3">
+        
+        <div class="size-options">`;
+      product.variants.forEach(v => {
+        if (!v.size || seen.has(v.size.id)) return;
+        seen.add(v.size.id);
+        const isActive = selected.variantId === v.id || (av && av.size && av.size.id === v.size.id);
+        html += `<button class="size-option${isActive ? ' active' : ''}" onclick="selectVariant(${v.id})">${v.size.name}</button>`;
+      });
+      html += `</div></div>`;
+    }
+
+    return html;
+  }
+
+  /* ── Main render ────────────────────────────── */
+  function render() {
+    if (!product) { root.innerHTML = '<div style="padding:80px;text-align:center">Yüklənir...</div>'; return; }
+
+    const v         = activeVariant();
+    const price     = currentPrice();
+    const oldPrice  = currentOldPrice();
+    const stock     = currentStock();
+    const mainImg   = currentImage();
+    const inStock   = stock > 0 && product.is_addable;
+    const discount  = oldPrice ? Math.round((1 - price / oldPrice) * 100) : 0;
+    const currency  = product.store ? (product.store.currency === 'AZN' ? '₼' : product.store.currency === 'USD' ? '$' : '$') : '₼';
+
+    root.innerHTML = `
+<section class="product-section">
+  <div class="container">
+    <nav style="margin-bottom:20px;font-size:13px;color:#6c757d">
+      <a href="/" style="color:#6c757d;text-decoration:none">${TRANS.products_breadcrumb_home||'Ana səhifə'}</a> /
+      <a href="/products/" style="color:#6c757d;text-decoration:none">${TRANS.products_breadcrumb_products||'Məhsullar'}</a> /
+      <span style="color:#2d5f5d">${product.name}</span>
+    </nav>
+    <div class="row g-5">
+      <!-- Gallery -->
+      <div class="col-lg-6">
+        <div class="product-gallery">
+          <div class="main-image-container" id="mainImgWrap">
+            <div class="product-badges">
+              ${product.badge ? `<span class="badge-new">${product.badge}</span>` : ''}
+              ${discount ? `<span class="badge-new" style="background:#e65c00">-${discount}%</span>` : ''}
+            </div>
+            ${img(mainImg, product.name, 'main-image')}
+          </div>
+          ${product.variants.filter(v=>v.image).length > 1 ? `
+          <div class="thumbnail-gallery">
+            ${product.variants.filter(v=>v.image).map(v=>`
+              <div class="thumbnail${selected.variantId===v.id?' active':''}" onclick="selectVariant(${v.id})">
+                <img src="${v.image}" alt="${(v.color && v.color.name) || (v.size && v.size.name) || ''}">
+              </div>`).join('')}
+            ${product.image ? `<div class="thumbnail${!selected.variantId?' active':''}" onclick="clearVariant()">
+                <img src="${product.image}" alt="${product.name}">
+              </div>` : ''}
+          </div>` : ''}
+        </div>
+      </div>
+      <!-- Info -->
+      <div class="col-lg-6">
+        <div class="product-info">
+          ${product.category ? `<span style="font-size:12px;font-weight:600;color:#2d5f5d;text-transform:uppercase;letter-spacing:1px">${product.category.name}</span>` : ''}
+          <h1 class="product-title">${product.name}</h1>
+
+          <!-- Price -->
+          <div class="product-price">
+             ${currency}${fmt(price)}
+            ${oldPrice ? `<span class="original-price">${currency}${fmt(oldPrice)}</span>` : ''}
+            ${product.price_note ? `<span style="font-size:0.85rem;color:#6c757d;margin-left:8px;font-weight:400">${product.price_note}</span>` : ''}
+          </div>
+          <div class="sku-number">
+            ${stock > 0
+              ? `<span style="color:#2d5f5d">✓ ${TRANS.js_in_stock||'Stokda var'} (${stock})</span>`
+              : `<span style="color:#e74c3c">✗ ${TRANS.js_out_of_stock||'Stokda yoxdur'}</span>`}
+          </div>
+
+          <!-- Variants -->
+          <div id="variantSelectors">${renderSwatches()}</div>
+
+          <!-- Quantity + Add to cart -->
+          ${inStock ? `
+          <div class="quantity-label">${TRANS.js_quantity_label || 'Miqdar'}</div>
+          <div class="quantity-selector">
+            <button class="quantity-btn" onclick="changeQty(-1)"><i class="fas fa-minus"></i></button>
+            <span class="quantity-value" id="qtyDisplay">${selected.qty}</span>
+            <button class="quantity-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
+          </div>
+          <button id="addBtn" class="add-to-bag-btn" onclick="addToCart()">
+            <i class="fas fa-shopping-bag"></i> ${TRANS.js_add_to_bag||'Səbətə əlavə et'}
+          </button>` : `
+          <button class="add-to-bag-btn" disabled style="background:#ddd;color:#999;cursor:not-allowed">
+            ${TRANS.js_out_of_stock||'Stokda yoxdur'}
+          </button>`}
+
+          <!-- Description -->
+          ${product.description ? `<p class="product-subtitle" style="margin-top:24px;margin-bottom:0">${product.description}</p>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- Related -->
+    ${product.related && product.related.length ? `
+    <div style="margin-top:60px">
+      <h3 style="margin-bottom:24px;font-weight:300;color:#2d5f5d">${TRANS.js_related||'Əlaqəli məhsullar'}</h3>
+      <div class="row g-4">
+        ${product.related.map(r=>`
+        <div class="col-6 col-md-3">
+          <a href="/products/${r.slug}/" style="text-decoration:none;color:inherit">
+            <div style="background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow='none'">
+              <div style="height:160px;display:flex;align-items:center;justify-content:center;background:#fafafa;padding:16px">
+                ${r.image ? `<img src="${r.image}" style="max-height:130px;object-fit:contain">` : '<span style="font-size:2.5rem">🌿</span>'}
+              </div>
+              <div style="padding:12px">
+                <div style="font-size:13px;font-weight:600;color:#333">${r.name}</div>
+                <div style="font-size:14px;color:#2d5f5d;margin-top:4px;font-weight:600">${currency}${fmt(r.final_price)}</div>
+              </div>
+            </div>
+          </a>
+        </div>`).join('')}
+      </div>
+    </div>` : ''}
+  </div>
+</section>`;
+  }
+
+  /* ── Actions ─────────────────────────────────── */
+  window.selectVariant = function(id) {
+    selected.variantId = id;
+    render();
+    // Update main image smoothly
+    const wrap = document.getElementById('mainImgWrap');
+    if (wrap) wrap.style.opacity = '0.6';
+    setTimeout(() => { render(); if(wrap) wrap.style.opacity='1'; }, 100);
+  };
+
+  window.clearVariant = function() {
+    selected.variantId = null;
+    render();
+  };
+
+  window.changeQty = function(delta) {
+    const max = currentStock();
+    selected.qty = Math.max(1, Math.min(selected.qty + delta, max));
+    const el = document.getElementById('qtyDisplay');
+    if (el) el.textContent = selected.qty;
+  };
+
+  window.addToCart = async function() {
+    const btn = document.getElementById('addBtn');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    const body = {
+      product_id: product.id,
+      quantity:   selected.qty,
+    };
+    if (selected.variantId) body.variant_id = selected.variantId;
+
+    try {
+      const res  = await fetch('/api/cart/add/', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+      const data = await res.json();
+      if (res.ok) {
+        // Update cart badge
+        const badge = document.querySelector('.cart-count, #cartCount, [data-cart-count]');
+        if (badge) badge.textContent = data.total_items;
+        btn.textContent = '✓ ' + (TRANS.js_toast_added || 'Əlavə edildi');
+        btn.style.background = '#1a3f3e';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = TRANS.js_add_to_bag || 'Səbətə əlavə et';
+          btn.style.background = '#2d5f5d';
+        }, 1500);
+      } else {
+        btn.textContent = data.error || 'Xəta';
+        setTimeout(() => { btn.disabled=false; btn.textContent = TRANS.js_add_to_bag||'Səbətə əlavə et'; }, 2000);
+      }
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = TRANS.js_add_to_bag || 'Səbətə əlavə et';
+    }
+  };
+
+  /* ── Init ────────────────────────────────────── */
+  async function init() {
+    try {
+      const res  = await fetch(`/api/products/${slug}/`);
+      product    = await res.json();
+      // Auto-select first active variant if any
+      if (product.variants && product.variants.length) {
+        selected.variantId = product.variants[0].id;
+      }
+      render();
+    } catch(e) {
+      root.innerHTML = '<div style="padding:80px;text-align:center;color:#e74c3c">Məhsul yüklənmədi.</div>';
+    }
+  }
+
+  init();
+})();
+</script>
 {% endblock %}

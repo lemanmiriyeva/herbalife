@@ -19,12 +19,13 @@ def get_or_create_cart(request):
 
 def cart_to_dict(cart, request=None):
     items = []
-    for item in cart.items.select_related('product__category').all():
+    for item in cart.items.select_related('product__category', 'variant').all():
         items.append({
             'id':       item.pk,
             'quantity': item.quantity,
             'subtotal': str(item.subtotal),
             'product':  product_to_dict(item.product, request),
+            'variant':  variant_to_dict(item.variant, request) if item.variant else None,
         })
     return {
         'id':          cart.pk,
@@ -52,6 +53,45 @@ def get_active_store(request):
     return Store.objects.filter(is_active=True).first()
  
  
+# Badge mətnləri — hər iki dildə
+BADGE_LABELS = {
+    'az': {'new': 'Yeni', 'bestseller': 'Çox Satılan'},
+    'en': {'new': 'New',  'bestseller': 'Best Seller'},
+}
+
+def _badge(key, request):
+    if not key:
+        return ''
+    lang = getattr(request, 'LANGUAGE_CODE', 'az') if request else 'az'
+    lang = lang[:2]
+    return BADGE_LABELS.get(lang, BADGE_LABELS['az']).get(key, key)
+
+def _img_url(img_field, request):
+    if not img_field:
+        return None
+    return request.build_absolute_uri(img_field.url) if request else img_field.url
+
+def variant_to_dict(v, request=None):
+    eff = v.effective_image
+    return {
+        'id':    v.pk,
+        'color': {
+            'id':    v.color.pk,
+            'name':  v.color.name,   # modeltranslation aktiv dili qaytarır
+            'hex':   v.color.hex_code,
+            'image': _img_url(v.color.image, request),
+        } if v.color else None,
+        'size': {
+            'id':   v.size.pk,
+            'name': v.size.name,
+        } if v.size else None,
+        'final_price': str(v.final_price),
+        'stock':       v.stock,
+        'is_active':   v.is_active,
+        'image':       _img_url(eff, request),
+    }
+
+
 def product_to_dict(p, request=None, store=None):
     """store_price-i store-a görə götür"""
     if store is None and request is not None:
@@ -75,26 +115,45 @@ def product_to_dict(p, request=None, store=None):
         'id':            p.pk,
         'name':          p.name,
         'slug':          p.slug,
-        'size':          p.size,
-        'flavor_name':   p.flavor_name,
-        'flavor_color':  p.flavor_color,
-        'badge':         p.badge,
+        'badge':         _badge(p.badge, request),
+        'badge_key':     p.badge,
         'description':   p.description,
         'price':         price,
         'discount_price': discount_price,
         'final_price':   final_price,
         'price_note':    p.price_note,
         'is_addable':    p.is_addable,
-        'image':         request.build_absolute_uri(p.image.url) if (p.image and request) else (p.image.url if p.image else None),
+        'image':         _img_url(p.image, request),
         'stock':         in_stock,
         'is_featured':   p.is_featured,
         'category':      {'id': p.category.pk, 'name': p.category.name, 'slug': p.category.slug} if p.category else None,
         'created_at':    p.created_at.isoformat(),
-        # Store info
         'store': {
             'code':     store.code     if store else 'AZ',
             'currency': store.currency if store else 'AZN',
         } if store else None,
+        'colors': [
+            {
+                'id':    c.pk,
+                'name':  c.name,          # modeltranslation aktiv dil qaytarır
+                'hex':   c.hex_code,
+                'image': _img_url(c.image, request),
+            }
+            for c in p.colors.filter(is_active=True).order_by('sort_order', 'pk')
+        ],
+        'sizes': [
+            {
+                'id':             s.pk,
+                'name':           s.name,
+                'price_override': str(s.price_override) if s.price_override else None,
+                'stock':          s.stock,
+            }
+            for s in p.sizes.filter(is_active=True).order_by('sort_order', 'pk')
+        ],
+        'variants': [
+            variant_to_dict(v, request)
+            for v in p.variants.filter(is_active=True).select_related('color', 'size').order_by('color__sort_order', 'size__sort_order', 'pk')
+        ],
     }
  
  
@@ -209,7 +268,7 @@ def cart_get(request):
 
 @csrf_exempt
 def cart_add(request):
-    """POST /api/cart/add/   body: {product_id, quantity}"""
+    """POST /api/cart/add/   body: {product_id, quantity, variant_id?}"""
     if request.method != 'POST':
         return JsonResponse({'error': 'POST required'}, status=405)
     try:
@@ -218,20 +277,31 @@ def cart_add(request):
         body = {}
 
     product_id = body.get('product_id') or request.POST.get('product_id')
+    variant_id = body.get('variant_id') or request.POST.get('variant_id') or None
     quantity   = int(body.get('quantity', 1) or request.POST.get('quantity', 1))
 
+    from .models import ProductVariant
     product = get_object_or_404(Product, pk=product_id, is_active=True)
-    if product.stock == 0:
+
+    variant = None
+    if variant_id:
+        try:
+            variant = ProductVariant.objects.get(pk=variant_id, product=product, is_active=True)
+        except ProductVariant.DoesNotExist:
+            return JsonResponse({'error': 'Variant not found'}, status=404)
+
+    stock = variant.stock if variant else product.stock
+    if stock == 0:
         return JsonResponse({'error': 'Out of stock'}, status=400)
 
-    quantity = min(max(1, quantity), product.stock)
+    quantity = min(max(1, quantity), stock)
     cart     = get_or_create_cart(request)
 
     item, created = CartItem.objects.get_or_create(
-        cart=cart, product=product, defaults={'quantity': quantity}
+        cart=cart, product=product, variant=variant, defaults={'quantity': quantity}
     )
     if not created:
-        item.quantity = min(item.quantity + quantity, product.stock)
+        item.quantity = min(item.quantity + quantity, stock)
         item.save()
 
     return JsonResponse(cart_to_dict(cart, request))

@@ -791,6 +791,12 @@ msgstr "Stokda yoxdur"
 msgid "js_related"
 msgstr "Əlaqəli məhsullar"
 
+msgid "js_in_stock"
+msgstr "Stokda var"
+
+msgid "js_quantity_label"
+msgstr "Miqdar"
+
 msgid "js_all_products"
 msgstr "Hamısı"
 
@@ -851,3 +857,147 @@ msgstr "Ünvanlarım"
 
 msgid "profile_add_address"
 msgstr "Yeni ünvan əlavə et"
+# ── Direct literal strings in templates ───────────────
+msgid "Type to search..."
+msgstr "Axtarmaq üçün yazın..."
+
+msgid "Your email"
+msgstr "E-poçtunuz"
+
+msgid "All Articles"
+msgstr "Bütün Məqalələr"
+
+msgid "Already have an account?"
+msgstr "Artıq hesabınız var?"
+
+msgid "Article not found"
+msgstr "Məqalə tapılmadı"
+
+msgid "Back to Blog"
+msgstr "Bloga qayıt"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Confirm password"
+msgstr "Şifrəni təsdiq edin"
+
+msgid "Contents"
+msgstr "Məzmun"
+
+msgid "Create Account"
+msgstr "Hesab yarat"
+
+msgid "Don't have an account?"
+msgstr "Hesabınız yoxdur?"
+
+msgid "First name"
+msgstr "Ad"
+
+msgid "Get the latest wellness tips delivered to your inbox every week."
+msgstr "Hər həftə ən son sağlamlıq məsləhətlərini e-poçtunuza alın."
+
+msgid "Herbalife Nutrition Expert"
+msgstr "Herbalife Qidalanma Eksperti"
+
+msgid "Home"
+msgstr "Ana səhifə"
+
+msgid "Last name"
+msgstr "Soyad"
+
+msgid "Loading..."
+msgstr "Yüklənir..."
+
+msgid "Order Confirmed!"
+msgstr "Sifariş Təsdiqləndi!"
+
+msgid "Order Confirmed"
+msgstr "Sifariş Təsdiqləndi"
+
+msgid "Order summary"
+msgstr "Sifariş xülasəsi"
+
+msgid "Order"
+msgstr "Sifariş"
+
+msgid "Our team of nutrition and wellness experts is dedicated to helping you live a healthier, more active life."
+msgstr "Qidalanma və sağlamlıq üzrə ekspertlərimiz sizi daha sağlam və aktiv həyat sürmənizə kömək etmək üçün çalışır."
+
+msgid "Password"
+msgstr "Şifrə"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Read Article"
+msgstr "Məqaləni oxu"
+
+msgid "Register"
+msgstr "Qeydiyyat"
+
+msgid "Related Articles"
+msgstr "Əlaqəli Məqalələr"
+
+msgid "Return to home"
+msgstr "Ana səhifəyə qayıt"
+
+msgid "Search products..."
+msgstr "Məhsul axtar..."
+
+msgid "Select your region"
+msgstr "Bölgənizi seçin"
+
+msgid "Send from my number"
+msgstr "Öz nömrəmdən göndər"
+
+msgid "Send to store (Admin)"
+msgstr "Mağazaya göndər (Admin)"
+
+msgid "Send your order via WhatsApp to complete the purchase."
+msgstr "Sifarişi tamamlamaq üçün WhatsApp vasitəsilə göndərin."
+
+msgid "Share:"
+msgstr "Paylaş:"
+
+msgid "Sign In"
+msgstr "Daxil ol"
+
+msgid "Sign Out"
+msgstr "Çıxış et"
+
+msgid "Stay Updated"
+msgstr "Xəbərdar olun"
+
+msgid "Subscribe"
+msgstr "Abunə ol"
+
+msgid "Subscribed!"
+msgstr "Abunə oldunuz!"
+
+msgid "Tags:"
+msgstr "Etiketlər:"
+
+msgid "This article could not be loaded."
+msgstr "Bu məqalə yüklənə bilmədi."
+
+msgid "Total"
+msgstr "Cəmi"
+
+msgid "Wellness"
+msgstr "Sağlamlıq"
+
+msgid "You Might Also Like"
+msgstr "Bunları da bəyənə bilərsiniz"
+
+msgid "min read"
+msgstr "dəq oxuma"
+
+msgid "products_filter_category"
+msgstr "Kateqoriya"
+
+msgid "products_filter_color"
+msgstr "Rəng"
+
+msgid "products_count"
+msgstr "Məhsul"

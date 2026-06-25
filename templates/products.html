@@ -60,6 +60,7 @@
 </style>
 {% endblock %}
 {% block content %}
+{{ i18n_data|json_script:"i18n-data" }}
 <div class="breadcrumb-section">
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -134,5 +135,274 @@
 </div>
 {% endblock %}
 {% block js %}
+<script>
+(function(){
+const T = JSON.parse(
+    document.getElementById('i18n-data').textContent
+);
+const SYM = { AZN:'₼', USD:'$', CAD:'$' };
 
+let all      = [];
+let filtered = [];
+let activeCats   = new Set();   // multi-select
+let activeColors = new Set();
+let activeSizes  = new Set();
+let currency = '₼';
+
+// ── fetch ──────────────────────────────────────────
+async function get(url){ const r=await fetch(url); if(!r.ok) throw r; return r.json(); }
+
+// ── badge ──────────────────────────────────────────
+function badge(b){
+  if(!b) return '';
+  const bg = (b==='Çox Satılan'||b==='Best Seller') ? '#e65c00' : '#2d5f5d';
+  return `<span class="product-badge" style="background:${bg}">${b}</span>`;
+}
+
+// ── color swatches on card ─────────────────────────
+function swatches(colors){
+  if(!colors||!colors.length) return '';
+  return `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;align-items:center">
+    ${colors.slice(0,6).map(c=>
+      c.hex
+        ? `<span title="${c.name}" style="width:13px;height:13px;border-radius:50%;background:${c.hex};border:1.5px solid #ccc;flex-shrink:0;display:inline-block"></span>`
+        : `<span style="font-size:10px;color:#777;padding:1px 5px;border:1px solid #ddd;border-radius:8px;white-space:nowrap">${c.name}</span>`
+    ).join('')}
+    ${colors.length>6 ? `<span style="font-size:10px;color:#aaa">+${colors.length-6}</span>` : ''}
+  </div>`;
+}
+
+// ── product card ───────────────────────────────────
+function card(p){
+  const price    = parseFloat(p.final_price).toFixed(2);
+  const oldPrice = p.discount_price ? parseFloat(p.price).toFixed(2) : null;
+  const inStock  = p.stock>0 && p.is_addable;
+  const imgHtml  = p.image
+    ? `<img class="product-image" src="${p.image}" alt="${p.name}" loading="lazy">`
+    : `<div class="product-image" style="display:flex;align-items:center;justify-content:center"><span style="font-size:3.5rem">🌿</span></div>`;
+  const sizes = p.sizes&&p.sizes.length
+    ? `<div class="product-size">${p.sizes.map(s=>s.name).join(' · ')}</div>` : '';
+
+  return `
+<div class="product-card" data-pid="${p.id}" onclick="location.href='/products/${p.slug}/'" style="cursor:pointer">
+  <div style="position:relative">
+    ${badge(p.badge)}
+    ${imgHtml}
+  </div>
+  <div class="product-info">
+    ${swatches(p.colors)}
+    ${sizes}
+    <div class="product-name">${p.name}</div>
+    <div class="product-footer">
+      <div>
+        <span class="product-price">${currency}${price}</span>
+        ${oldPrice?`<span style="font-size:12px;color:#bbb;text-decoration:line-through;margin-left:6px">${currency}${oldPrice}</span>`:''}
+      </div>
+      ${inStock
+        ? `<button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id},this)">${T.products_add_to_bag||'Səbətə əlavə et'}</button>`
+        : `<button class="add-btn" disabled style="opacity:.45;cursor:default">${T.js_out_of_stock||'Stokda yoxdur'}</button>`
+      }
+    </div>
+  </div>
+</div>`;
+}
+
+// ── render grid — orijinal .product-grid class-ı işlət ────────
+function renderGrid(list){
+  const grid  = document.getElementById('productGrid');
+  const count = document.getElementById('productCount');
+  if(!list.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;padding:60px;text-align:center;color:#aaa">${T.products_no_results || 'Nəticə tapılmadı'}</div>`;
+   if(count) count.textContent=`0 ${T.products_count || 'məhsul'}`;
+    return;
+  }
+  grid.innerHTML = list.map(card).join('');
+ if(count) count.textContent=`${list.length} ${T.products_count || 'məhsul'}`;
+}
+
+// ── apply filters ──────────────────────────────────
+function applyFilters(){
+  let list = all;
+  if(activeCats.size)   list=list.filter(p=>p.category&&activeCats.has(p.category.slug));
+  if(activeColors.size) list=list.filter(p=>(p.colors||[]).some(c=>activeColors.has(c.id)));
+  if(activeSizes.size)  list=list.filter(p=>(p.sizes||[]).some(s=>activeSizes.has(s.id)));
+  const sort=(document.getElementById('sortSelect')||{}).value||'';
+  if(sort==='price_asc')  list=[...list].sort((a,b)=>parseFloat(a.final_price)-parseFloat(b.final_price));
+  if(sort==='price_desc') list=[...list].sort((a,b)=>parseFloat(b.final_price)-parseFloat(a.final_price));
+  if(sort==='name_asc')   list=[...list].sort((a,b)=>a.name.localeCompare(b.name));
+  if(sort==='name_desc')  list=[...list].sort((a,b)=>b.name.localeCompare(a.name));
+  filtered=list;
+  renderGrid(list);
+}
+window.applyFilters=applyFilters;
+
+// ── toggle helpers ─────────────────────────────────
+function toggle(set,val){ set.has(val)?set.delete(val):set.add(val); }
+
+// ── render sidebar filters ─────────────────────────
+function renderFilters(cats, allProds, targetId){
+  // Unique colors & sizes
+  const colorMap=new Map(), sizeMap=new Map();
+  allProds.forEach(p=>{
+    (p.colors||[]).forEach(c=>colorMap.set(c.id,c));
+    (p.sizes||[]).forEach(s=>sizeMap.set(s.id,s));
+  });
+
+  // Kateqoriya — checkbox (multi-select)
+  const catHtml = cats.length ? `
+    <div class="filter-section">
+      <div class="filter-title">${T.products_filter_category || 'Kateqoriya'}</div>
+      ${cats.map(c=>`
+      <div class="filter-option">
+        <input type="checkbox" id="cat_${c.slug}" value="${c.slug}"
+          ${activeCats.has(c.slug)?'checked':''}
+          onchange="activeCats[this.checked?'add':'delete'](this.value);applyFilters();syncFilters()">
+        <label for="cat_${c.slug}">${c.name}</label>
+      </div>`).join('')}
+    </div>` : '';
+
+  // Rəng — visual checkbox
+  const colorHtml = colorMap.size ? `
+    <div class="filter-section">
+      <div class="filter-title">${T.products_filter_color || 'Rəng'}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${[...colorMap.values()].map(c=>`
+        <label title="${c.name}" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px">
+          <input type="checkbox" style="display:none" value="${c.id}"
+            ${activeColors.has(c.id)?'checked':''}
+            onchange="toggle(activeColors,${c.id});applyFilters();syncFilters()">
+          ${c.hex
+            ? `<span style="width:26px;height:26px;border-radius:50%;background:${c.hex};
+                border:${activeColors.has(c.id)?'3px solid #2d5f5d':'2px solid #ddd'};display:block;
+                box-shadow:${activeColors.has(c.id)?'0 0 0 1px #fff inset':'none'}"></span>`
+            : `<span style="padding:3px 10px;border-radius:12px;font-size:12px;
+                background:${activeColors.has(c.id)?'#2d5f5d':'#f0f0f0'};
+                color:${activeColors.has(c.id)?'#fff':'#333'}">${c.name}</span>`
+          }
+          <span style="font-size:10px;color:#888;max-width:40px;text-align:center;line-height:1.2">${c.name}</span>
+        </label>`).join('')}
+      </div>
+    </div>` : '';
+
+  // Ölçü — checkbox pill
+  const sizeHtml = sizeMap.size ? `
+    <div class="filter-section">
+      <div class="filter-title">${T.products_filter_size || 'Ölçü'}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${[...sizeMap.values()].map(s=>`
+        <label style="cursor:pointer">
+          <input type="checkbox" style="display:none" value="${s.id}"
+            ${activeSizes.has(s.id)?'checked':''}
+            onchange="toggle(activeSizes,${s.id});applyFilters();syncFilters()">
+          <span style="display:block;padding:5px 14px;border-radius:8px;font-size:13px;
+            border:${activeSizes.has(s.id)?'2px solid #2d5f5d':'1.5px solid #ddd'};
+            background:${activeSizes.has(s.id)?'#f0f9f4':'#fff'};
+            color:${activeSizes.has(s.id)?'#2d5f5d':'#333'};font-weight:${activeSizes.has(s.id)?'600':'400'}">${s.name}</span>
+        </label>`).join('')}
+      </div>
+    </div>` : '';
+
+  const el=document.getElementById(targetId);
+  if(el){
+    el.innerHTML = (catHtml + colorHtml + sizeHtml) ||
+        `<p style="color:#aaa;font-size:13px;padding:12px 0">
+            ${T.products_filter_none || 'Filter yoxdur'}
+        </p>`;
+}
+}
+
+// Hər iki sidebar-ı sinxronlaşdır
+function syncFilters(){
+  if(window._cats&&window._allProds){
+    renderFilters(window._cats,window._allProds,'desktopFilterContent');
+    renderFilters(window._cats,window._allProds,'mobileFilterContent');
+  }
+}
+window.toggle=toggle;
+window.syncFilters=syncFilters;
+
+// ── cart ───────────────────────────────────────────
+window.addToCart=async function(pid,btn){
+  const orig=btn.textContent;
+  btn.disabled=true; btn.textContent=T.products_loading_short || '...';
+  try{
+    const res=await fetch('/api/cart/add/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product_id:pid,quantity:1})});
+    const data=await res.json();
+    if(res.ok){
+      const b=document.querySelector('.cart-count,[data-cart-count],#cartCount');
+      if(b) b.textContent=data.total_items;
+      btn.textContent='✓';
+      setTimeout(()=>{btn.disabled=false;btn.textContent=orig;},1500);
+    } else {
+     btn.textContent=data.error || T.products_error || 'Xəta';
+      setTimeout(()=>{btn.disabled=false;btn.textContent=orig;},2000);
+    }
+  }catch(e){btn.disabled=false;btn.textContent=orig;}
+};
+
+// ── category slider ────────────────────────────────
+function renderCategorySlider(cats){
+  const el=document.getElementById('categorySliderInner');
+  if(!el) return;
+  el.innerHTML=`
+    <div class="category-item active" onclick="activeCats.clear();applyFilters();syncFilters();document.querySelectorAll('.category-item').forEach(x=>x.classList.remove('active'));this.classList.add('active')">
+      <span>${T.products_all||'Hamısı'}</span>
+    </div>
+    ${cats.map(c=>`
+    <div class="category-item" onclick="activeCats.clear();activeCats.add('${c.slug}');applyFilters();syncFilters();document.querySelectorAll('.category-item').forEach(x=>x.classList.remove('active'));this.classList.add('active')">
+      <span>${c.name}</span>
+    </div>`).join('')}`;
+}
+
+// ── clear & apply buttons ──────────────────────────
+document.querySelector('.clear-filters')?.addEventListener('click',()=>{
+  activeCats.clear(); activeColors.clear(); activeSizes.clear();
+  applyFilters(); syncFilters();
+});
+document.getElementById('applyFilters')?.addEventListener('click',()=>{
+  document.getElementById('mobileFilterSidebar')?.classList.remove('active');
+  document.getElementById('filterOverlay')?.classList.remove('active');
+});
+document.getElementById('openFilter')?.addEventListener('click',()=>{
+  document.getElementById('mobileFilterSidebar')?.classList.add('active');
+  document.getElementById('filterOverlay')?.classList.add('active');
+});
+document.getElementById('closeFilter')?.addEventListener('click',()=>{
+  document.getElementById('mobileFilterSidebar')?.classList.remove('active');
+  document.getElementById('filterOverlay')?.classList.remove('active');
+});
+document.getElementById('filterOverlay')?.addEventListener('click',()=>{
+  document.getElementById('mobileFilterSidebar')?.classList.remove('active');
+  document.getElementById('filterOverlay')?.classList.remove('active');
+});
+document.getElementById('sortSelect')?.addEventListener('change', applyFilters);
+
+// ── init ───────────────────────────────────────────
+async function init(){
+  // main.js-dən gələn köhnə filter content-i təmizlə
+  ['desktopFilterContent','mobileFilterContent'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML='<div style="padding:12px;color:#aaa;font-size:13px">${T.products_loading || "Yüklənir..."}</div>';
+  });
+  try{
+    const [prods, cats, storeInfo] = await Promise.all([
+      get('/api/products/'),
+      get('/api/categories/'),
+      get('/api/store/'),
+    ]);
+    all = prods;
+    window._cats=cats; window._allProds=prods;
+    if(storeInfo&&storeInfo.active) currency=SYM[storeInfo.active.currency]||storeInfo.active.currency;
+    renderGrid(all);
+    renderFilters(cats, all, 'desktopFilterContent');
+    renderFilters(cats, all, 'mobileFilterContent');
+    renderCategorySlider(cats);
+  } catch(e){
+    document.getElementById('productGrid').innerHTML=
+      `<div style="grid-column:1/-1;padding:60px;text-align:center;color:#e74c3c">Məhsullar yüklənmədi: ${e.message||e.status}</div>`;
+  }
+}
+init();
+})();
+</script>
 {% endblock %}

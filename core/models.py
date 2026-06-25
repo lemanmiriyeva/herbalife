@@ -26,16 +26,13 @@ class Category(models.Model):
 class Product(models.Model):
     BADGE_CHOICES = [
         ('',            _('—')),
-        ('New',         _('New')),
-        ('Best Seller', _('Best Seller')),
+        ('new',         _('Yeni')),
+        ('bestseller',  _('Çox Satılan')),
     ]
 
-    category       = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='products', verbose_name=_('Category'))
+    category       = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True, related_name='products', verbose_name=_('Category'))
     name           = models.CharField(max_length=300, verbose_name=_('Name'))
     slug           = models.SlugField(max_length=300, unique=True, blank=True)
-    size           = models.CharField(max_length=100, blank=True, verbose_name=_('Size'))
-    flavor_name    = models.CharField(max_length=100, blank=True, verbose_name=_('Flavor'))
-    flavor_color   = models.CharField(max_length=20,  blank=True, verbose_name=_('Flavor color'))
     badge          = models.CharField(max_length=20, choices=BADGE_CHOICES, blank=True, verbose_name=_('Badge'))
     description    = models.TextField(blank=True, verbose_name=_('Description'))
     price          = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Price'))
@@ -48,6 +45,11 @@ class Product(models.Model):
     is_featured    = models.BooleanField(default=False, verbose_name=_('Featured'))
     created_at     = models.DateTimeField(auto_now_add=True)
     updated_at     = models.DateTimeField(auto_now=True)
+
+    # Köhnə sahələr — silinmədi, data itkisi olmasın
+    size         = models.CharField(max_length=100, blank=True, verbose_name=_('Size (legacy)'))
+    flavor_name  = models.CharField(max_length=100, blank=True, verbose_name=_('Flavor (legacy)'))
+    flavor_color = models.CharField(max_length=20,  blank=True, verbose_name=_('Flavor color (legacy)'))
 
     class Meta:
         verbose_name        = _('Product')
@@ -70,6 +72,95 @@ class Product(models.Model):
     def final_price(self):
         return float(self.discount_price) if self.discount_price else float(self.price)
 
+    def get_badge_label(self):
+        """Aktiv dildə badge mətnini qaytarır"""
+        mapping = {
+            'new':        str(_('Yeni')),
+            'bestseller': str(_('Çox Satılan')),
+        }
+        return mapping.get(self.badge, '')
+
+
+class ProductColor(models.Model):
+    """Məhsulun rəng variantı"""
+    product    = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors', verbose_name=_('Product'))
+    name       = models.CharField(max_length=100, verbose_name=_('Color name'))
+    hex_code   = models.CharField(max_length=20, blank=True, verbose_name=_('Hex code'), help_text='Məs: #FF5733')
+    image      = models.ImageField(upload_to='products/colors/', blank=True, null=True, verbose_name=_('Image'))
+    sort_order = models.PositiveSmallIntegerField(default=0, verbose_name=_('Sort order'))
+    is_active  = models.BooleanField(default=True, verbose_name=_('Active'))
+
+    class Meta:
+        verbose_name        = _('Product Color')
+        verbose_name_plural = _('Product Colors')
+        ordering = ['sort_order', 'pk']
+
+    def __str__(self):
+        return f'{self.product.name} — {self.name}'
+
+
+class ProductSize(models.Model):
+    """Məhsulun ölçü variantı"""
+    product        = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sizes', verbose_name=_('Product'))
+    name           = models.CharField(max_length=100, verbose_name=_('Size name'), help_text='Məs: 550q, 1kq, S, M, L')
+    price_override = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                         verbose_name=_('Price override'),
+                                         help_text=_('Leave empty to use base product price'))
+    stock          = models.PositiveIntegerField(default=100, verbose_name=_('Stock'))
+    sort_order     = models.PositiveSmallIntegerField(default=0, verbose_name=_('Sort order'))
+    is_active      = models.BooleanField(default=True, verbose_name=_('Active'))
+
+    class Meta:
+        verbose_name        = _('Product Size')
+        verbose_name_plural = _('Product Sizes')
+        ordering = ['sort_order', 'pk']
+
+    def __str__(self):
+        return f'{self.product.name} — {self.name}'
+
+
+class ProductVariant(models.Model):
+    """
+    Rəng + Ölçü kombinasiyası.
+    Admin əlavə edir: məs. Çikolad/550q, Vanil/1kq
+    """
+    product        = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants', verbose_name=_('Product'))
+    color          = models.ForeignKey(ProductColor, on_delete=models.SET_NULL, null=True, blank=True,
+                                       related_name='variants', verbose_name=_('Color'))
+    size           = models.ForeignKey(ProductSize, on_delete=models.SET_NULL, null=True, blank=True,
+                                       related_name='variants', verbose_name=_('Size'))
+    price_override = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+                                         verbose_name=_('Price override'),
+                                         help_text=_('Leave empty to inherit from size or product'))
+    stock          = models.PositiveIntegerField(default=100, verbose_name=_('Stock'))
+    is_active      = models.BooleanField(default=True, verbose_name=_('Active'))
+
+    class Meta:
+        verbose_name        = _('Product Variant')
+        verbose_name_plural = _('Product Variants')
+        ordering = ['color__sort_order', 'size__sort_order', 'pk']
+
+    def __str__(self):
+        parts = [p for p in [
+            self.color.name if self.color else None,
+            self.size.name  if self.size  else None,
+        ] if p]
+        return f"{self.product.name} — {' / '.join(parts)}" if parts else f"{self.product.name} (default)"
+
+    @property
+    def final_price(self):
+        if self.price_override:
+            return float(self.price_override)
+        if self.size and self.size.price_override:
+            return float(self.size.price_override)
+        return self.product.final_price
+
+    @property
+    def effective_image(self):
+        if self.color and self.color.image:
+            return self.color.image
+        return self.product.image
+
 
 class Cart(models.Model):
     session_key = models.CharField(max_length=40, db_index=True)
@@ -81,7 +172,7 @@ class Cart(models.Model):
 
     @property
     def total_price(self):
-        return sum(i.subtotal for i in self.items.select_related('product').all())
+        return sum(i.subtotal for i in self.items.select_related('product', 'variant').all())
 
     @property
     def total_items(self):
@@ -91,23 +182,25 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart     = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product  = models.ForeignKey(Product, on_delete=models.CASCADE)
+    variant  = models.ForeignKey('ProductVariant', on_delete=models.SET_NULL, null=True, blank=True,
+                                  related_name='cart_items', verbose_name=_('Variant'))
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['cart', 'product']
+        unique_together = ['cart', 'product', 'variant']
 
     def __str__(self):
         return f'{self.product.name} x{self.quantity}'
 
     @property
     def subtotal(self):
-        return self.product.final_price * self.quantity
+        unit = self.variant.final_price if self.variant else self.product.final_price
+        return unit * self.quantity
 
 
 class User(AbstractUser):
     phone       = models.CharField(max_length=20, unique=True, blank=True, verbose_name=_('Phone'))
-    # ── Ünvan məlumatları ──
     address     = models.CharField(max_length=255, blank=True, verbose_name=_('Address'))
     city        = models.CharField(max_length=100, blank=True, verbose_name=_('City'))
     postal_code = models.CharField(max_length=20,  blank=True, verbose_name=_('Postal code'))
@@ -134,18 +227,15 @@ class Order(models.Model):
     status          = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name=_('Status'))
     total_price     = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name=_('Total'))
     note            = models.TextField(blank=True, verbose_name=_('Note'))
-    # ── Ünvan (snapshot) ──
     address         = models.CharField(max_length=255, blank=True, verbose_name=_('Address'))
     city            = models.CharField(max_length=100, blank=True, verbose_name=_('City'))
     postal_code     = models.CharField(max_length=20,  blank=True, verbose_name=_('Postal code'))
     country         = models.CharField(max_length=10,  blank=True, verbose_name=_('Country'))
-    # ── Ödəniş ──
     payment_method  = models.CharField(max_length=20, default='paypal', verbose_name=_('Payment method'))
     paypal_order_id = models.CharField(max_length=100, blank=True, verbose_name=_('PayPal Order ID'))
     is_paid         = models.BooleanField(default=False, verbose_name=_('Paid'))
     paid_at         = models.DateTimeField(null=True, blank=True, verbose_name=_('Paid at'))
     created_at      = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         verbose_name        = _('Order')
@@ -292,7 +382,8 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f'{self.user.username} → {self.product.name}'
-    
+
+
 class UserAddress(models.Model):
     user        = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses', verbose_name=_('User'))
     title       = models.CharField(max_length=100, verbose_name=_('Title'), help_text='Ev, İş, Digər')

@@ -304,8 +304,7 @@
         <h1 class="auth-form-title">{% trans "register_form_title" %}</h1>
         <p class="auth-form-sub">
           {% trans "register_have_account" %}
-          <a href="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans
-            "register_signin_link" %}</a>
+          <a href="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "register_signin_link" %}</a>
         </p>
         <form method="post"
           action="{% url 'register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" novalidate>
@@ -360,8 +359,7 @@
             {% if errors.password2 %}<span class="hl-err">{{ errors.password2 }}</span>{% endif %}
           </div>
           <button type="submit" class="btn-hl-orange">{% trans "register_submit_btn" %}</button>
-          <p class="terms-note">{% trans "register_terms_text" %} <a href="#">{% trans "register_terms_link" %}</a> {%
-            trans "register_terms_agree" %}</p>
+          <p class="terms-note">{% trans "register_terms_text" %} <a href="#">{% trans "register_terms_link" %}</a> {% trans "register_terms_agree" %}</p>
         </form>
       </div>
     </div>

@@ -791,6 +791,12 @@ msgstr "Out of Stock"
 msgid "js_related"
 msgstr "Related Products"
 
+msgid "js_in_stock"
+msgstr "In Stock"
+
+msgid "js_quantity_label"
+msgstr "Quantity"
+
 msgid "js_all_products"
 msgstr "All"
 
@@ -851,3 +857,147 @@ msgstr "My Addresses"
 
 msgid "profile_add_address"
 msgstr "Add New Address"
+# ── Direct literal strings in templates ───────────────
+msgid "Type to search..."
+msgstr "Type to search..."
+
+msgid "Your email"
+msgstr "Your email"
+
+msgid "All Articles"
+msgstr "All Articles"
+
+msgid "Already have an account?"
+msgstr "Already have an account?"
+
+msgid "Article not found"
+msgstr "Article not found"
+
+msgid "Back to Blog"
+msgstr "Back to Blog"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Confirm password"
+msgstr "Confirm password"
+
+msgid "Contents"
+msgstr "Contents"
+
+msgid "Create Account"
+msgstr "Create Account"
+
+msgid "Don't have an account?"
+msgstr "Don't have an account?"
+
+msgid "First name"
+msgstr "First name"
+
+msgid "Get the latest wellness tips delivered to your inbox every week."
+msgstr "Get the latest wellness tips delivered to your inbox every week."
+
+msgid "Herbalife Nutrition Expert"
+msgstr "Herbalife Nutrition Expert"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Last name"
+msgstr "Last name"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "Order Confirmed!"
+msgstr "Order Confirmed!"
+
+msgid "Order Confirmed"
+msgstr "Order Confirmed"
+
+msgid "Order summary"
+msgstr "Order summary"
+
+msgid "Order"
+msgstr "Order"
+
+msgid "Our team of nutrition and wellness experts is dedicated to helping you live a healthier, more active life."
+msgstr "Our team of nutrition and wellness experts is dedicated to helping you live a healthier, more active life."
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Phone"
+msgstr "Phone"
+
+msgid "Read Article"
+msgstr "Read Article"
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Related Articles"
+msgstr "Related Articles"
+
+msgid "Return to home"
+msgstr "Return to home"
+
+msgid "Search products..."
+msgstr "Search products..."
+
+msgid "Select your region"
+msgstr "Select your region"
+
+msgid "Send from my number"
+msgstr "Send from my number"
+
+msgid "Send to store (Admin)"
+msgstr "Send to store (Admin)"
+
+msgid "Send your order via WhatsApp to complete the purchase."
+msgstr "Send your order via WhatsApp to complete the purchase."
+
+msgid "Share:"
+msgstr "Share:"
+
+msgid "Sign In"
+msgstr "Sign In"
+
+msgid "Sign Out"
+msgstr "Sign Out"
+
+msgid "Stay Updated"
+msgstr "Stay Updated"
+
+msgid "Subscribe"
+msgstr "Subscribe"
+
+msgid "Subscribed!"
+msgstr "Subscribed!"
+
+msgid "Tags:"
+msgstr "Tags:"
+
+msgid "This article could not be loaded."
+msgstr "This article could not be loaded."
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Wellness"
+msgstr "Wellness"
+
+msgid "You Might Also Like"
+msgstr "You Might Also Like"
+
+msgid "min read"
+msgstr "min read"
+
+msgid "products_filter_category"
+msgstr "Category"
+
+msgid "products_filter_color"
+msgstr "Color"
+
+msgid "products_count"
+msgstr "Products"

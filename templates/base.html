@@ -41,6 +41,47 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script>
+window.DJANGO_TRANS = window.i18n = {
+    loading:"{% trans 'products_loading' %}",
+    no_products:"{% trans 'products_not_found' %}",
+    add_btn:"{% trans 'products_add_btn' %}",
+    toast_added:"{% trans 'products_added_toast' %}",
+    add_to_bag:"{% trans 'products_add_to_bag' %}",
+    out_of_stock:"{% trans 'products_out_of_stock' %}",
+    in_stock:"{% trans 'js_in_stock' %}",
+    quantity_label:"{% trans 'js_quantity_label' %}",
+    related:"{% trans 'products_related' %}",
+    all_products:"{% trans 'products_all_label' %}",
+    products_count:"{% trans 'products_count_label' %}",
+    filter_flavor:"{% trans 'products_filter_flavor' %}",
+    filter_size:"{% trans 'products_filter_size' %}",
+    filter_price:"{% trans 'products_filter_price' %}",
+    see_all:"{% trans 'products_see_all' %}",
+    breadcrumb_home:"{% trans 'products_breadcrumb_home' %}",
+    breadcrumb_products:"{% trans 'products_breadcrumb_products' %}",
+    cart_empty:"{% trans 'cart_empty_text' %}",
+    cart_continue:"{% trans 'cart_continue_shopping' %}",
+    cart_title:"{% trans 'cart_title_label' %}",
+    cart_price:"{% trans 'cart_price_label' %}",
+    cart_flavor:"{% trans 'cart_flavor_label' %}",
+    cart_subtotal:"{% trans 'cart_subtotal_label' %}",
+    cart_remove:"{% trans 'cart_remove_btn' %}",
+    js_add_to_bag:          "{% trans 'Səbətə əlavə et' %}",
+    js_in_stock:            "{% trans 'Stokda var' %}",
+    js_out_of_stock:        "{% trans 'Stokda yoxdur' %}",
+    js_quantity_label:      "{% trans 'Miqdar' %}",
+    js_related:             "{% trans 'Əlaqəli məhsullar' %}",
+    js_filter_flavor:       "{% trans 'Rəng' %}",
+    js_filter_size:         "{% trans 'Ölçü' %}",
+    js_toast_added:         "{% trans 'Əlavə edildi' %}",
+    products_breadcrumb_home:     "{% trans 'Ana səhifə' %}",
+    products_breadcrumb_products: "{% trans 'Məhsullar' %}",
+    products_add_to_bag:    "{% trans 'Səbətə əlavə et' %}",
+    products_no_results:    "{% trans 'Nəticə tapılmadı' %}",
+    products_all:           "{% trans 'Hamısı' %}",
+};
+</script>
     {% block js %}
     {% endblock %}
     <script>
@@ -49,30 +90,6 @@
             storeSwitch: "{% url 'api_store_switch' %}"
         };
     </script>
-<script>
-window.i18n={
-    loading:"{% trans 'products_loading' %}",
-    no_products:"{% trans 'products_not_found' %}",
-    add_btn:"{% trans 'products_add_btn' %}",
-    toast_added:"{% trans 'products_added_toast' %}",
-    add_to_bag:"{% trans 'products_add_to_bag' %}",
-    out_of_stock:"{% trans 'products_out_of_stock' %}",
-    related:"{% trans 'products_related' %}",
-    all_products:"{% trans 'products_all_label' %}",
-    products_count:"{% trans 'products_count_label' %}",
-    filter_flavor:"{% trans 'products_filter_flavor' %}",
-    filter_size:"{% trans 'products_filter_size' %}",
-    filter_price:"{% trans 'products_filter_price' %}",
-    see_all:"{% trans 'products_see_all' %}",
-    cart_empty:"{% trans 'cart_empty_text' %}",
-    cart_continue:"{% trans 'cart_continue_shopping' %}",
-    cart_title:"{% trans 'cart_title_label' %}",
-    cart_price:"{% trans 'cart_price_label' %}",
-    cart_flavor:"{% trans 'cart_flavor_label' %}",
-    cart_subtotal:"{% trans 'cart_subtotal_label' %}",
-    cart_remove:"{% trans 'cart_remove_btn' %}",
-};
-</script>
     <script src="{% static 'js/main.js' %}"></script>
 
 </body>
